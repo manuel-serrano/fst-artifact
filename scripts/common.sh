@@ -1,16 +1,16 @@
 #!/bin/sh
 #*=====================================================================*/
-#*    serrano/diffusion/article/flt/artifact/scripts/common.sh         */
+#*    serrano/diffusion/article/flt/fst-artifact/scripts/common.sh     */
 #*    -------------------------------------------------------------    */
 #*    Author      :  Manuel Serrano                                    */
 #*    Creation    :  Thu Oct  3 08:39:01 2024                          */
-#*    Last change :  Wed Nov 27 11:36:20 2024 (serrano)                */
-#*    Copyright   :  2024 Manuel Serrano                               */
+#*    Last change :  Mon Jun 23 08:53:07 2025 (serrano)                */
+#*    Copyright   :  2024-25 Manuel Serrano                            */
 #*    -------------------------------------------------------------    */
 #*    Common utility functions                                         */
 #*=====================================================================*/
 
-ROOT=${ROOT:-/misc/serrano/flt-artifact}
+. ./env.sh
 
 downloaddir=${DOWNLOADDIR:-$ROOT/download/${package}}
 installdir=${INSTALLDIR:-$ROOT/install/${package}}
