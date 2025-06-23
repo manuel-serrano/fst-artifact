@@ -1,0 +1,34 @@
+#!/bin/sh
+#*=====================================================================*/
+#*    serrano/diffusion/article/flt/artifact/scripts/hop_fltnan.sh     */
+#*    -------------------------------------------------------------    */
+#*    Author      :  Manuel Serrano                                    */
+#*    Creation    :  Thu Oct  3 08:33:46 2024                          */
+#*    Last change :  Wed Nov  6 18:15:28 2024 (serrano)                */
+#*    Copyright   :  2024 Manuel Serrano                               */
+#*    -------------------------------------------------------------    */
+#*    Hop download and installation                                    */
+#*=====================================================================*/
+package=hop_nan
+color=39
+
+. `dirname $0`/versions.sh
+. `dirname $0`/common.sh
+
+# download
+if [ "$action " = "download " -o "$action " = "all " ]; then
+  download_git || exit 1
+fi
+
+# software package install
+if [ "$action " = "install " -o "$action " = "all " ]; then
+  check_dir
+
+  if [ ! -f $installdir/bin/hop ]; then
+    if [ ! -f ${downloaddir}/config.status ]; then
+      configure --prefix=${installdir} --bigloo=${ROOT}/install/bigloo_nan/bin/bigloo || exit 1
+    fi
+    make_compile || exit 1
+    make_install
+  fi
+fi
