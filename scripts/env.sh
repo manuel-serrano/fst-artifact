@@ -4,15 +4,17 @@
 #*    -------------------------------------------------------------    */
 #*    Author      :  Manuel Serrano                                    */
 #*    Creation    :  Sun Mar 23 08:00:28 2025                          */
-#*    Last change :  Mon Jun 23 09:00:51 2025 (serrano)                */
+#*    Last change :  Mon Jun 23 09:01:28 2025 (serrano)                */
 #*    Copyright   :  2025 Manuel Serrano                               */
 #*    -------------------------------------------------------------    */
 #*    Artifcat environment variables                                   */
 #*=====================================================================*/
 
+path=`realpath $0`
+dir=`dirname $path`
+
 REPETITION=5
 ROOT=${ROOT:-/home/artifact/fst-artifact}
-dir=`dirname $path`
 
 host=$FLTHOST
 
