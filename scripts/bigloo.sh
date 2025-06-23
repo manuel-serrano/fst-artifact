@@ -1,10 +1,10 @@
 #!/bin/sh
 #*=====================================================================*/
-#*    serrano/diffusion/article/flt/artifact/scripts/bigloo.sh         */
+#*    serrano/diffusion/article/flt/fst-artifact/scripts/bigloo.sh     */
 #*    -------------------------------------------------------------    */
 #*    Author      :  Manuel Serrano                                    */
 #*    Creation    :  Thu Oct  3 08:33:46 2024                          */
-#*    Last change :  Sat Mar 15 07:19:40 2025 (serrano)                */
+#*    Last change :  Mon Jun 23 08:57:53 2025 (serrano)                */
 #*    Copyright   :  2024-25 Manuel Serrano                            */
 #*    -------------------------------------------------------------    */
 #*    Bigloo download and installation                                 */
@@ -12,8 +12,13 @@
 package=bigloo
 color=33
 
+echo "0=[$0]"
+
 . `dirname $0`/versions.sh
+echo "02=[$0]"
 . `dirname $0`/common.sh
+
+echo "03=[$0]"
 
 # download
 if [ "$action " = "download " -o "$action " = "all " ]; then
