@@ -4,13 +4,13 @@
 #*    -------------------------------------------------------------    */
 #*    Author      :  Manuel Serrano                                    */
 #*    Creation    :  Thu Oct  3 08:39:01 2024                          */
-#*    Last change :  Mon Jun 23 08:53:07 2025 (serrano)                */
+#*    Last change :  Mon Jun 23 08:54:02 2025 (serrano)                */
 #*    Copyright   :  2024-25 Manuel Serrano                            */
 #*    -------------------------------------------------------------    */
 #*    Common utility functions                                         */
 #*=====================================================================*/
 
-. ./env.sh
+. `dirname $0`/env.sh
 
 downloaddir=${DOWNLOADDIR:-$ROOT/download/${package}}
 installdir=${INSTALLDIR:-$ROOT/install/${package}}
