@@ -1,23 +1,15 @@
-OOPSLA 2025 Artifact
-==================
-![branch workflow](https://github.com/manuel-serrano/oopsla-2025-flt/actions/workflows/oopsla-2025-flt.yml/badge.svg)
+# Float Self Tagging Artifact
 
-Name: Float Self Tagging
+Name: Float Self-Tagging
 
-  * DOI: XXXXXX10.5281/zenodo.11481893
-  * URL: XXXXXXhttps://zenodo.org/records/11481893
-
-
-```bibtex
-@article{oopsla-2025
-}
-```
+  * URL: https://zenodo.org/records/XXX
+  * GITHUB: git@github.com:omelancon/fst-artifact
 
 ## Artifact Instructions
 
 This artifact can be installed and ran either:
 
-  1. using the VM available at XXXXhttps://zenodo.org/records/11481893;
+  1. using the VM available at https://zenodo.org/records/XXXX
   2. using the a native installation. 
   
 The VM provides a complete Linux image where a native version
@@ -27,60 +19,50 @@ of the artifact has been pre-installed.
 
 To execute the artifact via the VM distribution, install QEMU and run
 the virtual machine as instructed in Section [QEMU Instructions] (see
-below). Once connected to the VM go into the `oopsla-2025`
+below). Once connected to the VM go into the `sft-artifact`
 directory. It contains a pre-installed native version of
-the artifact (as documented in Section [Native arifact]). To execute it:
+the artifact (as documented in Section [Native Artifact]). To execute it:
 
 ```shell
-ROOT=$HOME/flt ./script/run.sh
+./script/run.sh
 ```
+
+This generates PDF figures located into the directory XXXX
 
 ### Alternative 2: Native artifact
 
-In order to install the version of the OOPSLA artifact the following
-packages are required:
 
-  - `git`
-  - `gnuplot`
-  - `automake`
-  - `autoconf`
-  - `gcc`
-  - `libtool`
-  - `gmp`
-  - `libunistring`
-  - `make`
+In order to install the version of the FST artifact a full development
+kit is required. It must contain:
 
-Then, to install the artifact from a Linux platform:
+  - a full-fledged C compiler
+  - a full-fledged make tool
+  - a posix shell
+
+Under Linux Debian or Ubuntu the requirements can be installed with:
 
 ```
-git clone https://github.com/manuel-serrano/oopsla-2025-flt.git
-cd oopsla-2025-flt
+apt update
+sudo apt dist-upgrade
+sudo apt install -y libgmp-dev libgmp10 autoconf automake libtool libunistring-dev gnuplot
 ```
 
-To run it
 
-```shell
-ROOT=$HOME/flt ./script/install.sh
+## Artifact Instructions
+
+```
+(qemu) ROOT=$HOME/flt ./scripts/run.sh
 ```
 
-## The Artifact
 
-Blabla, the figures in artifact/plot.XXX
-  
-  
+
 ## QEMU Instructions
 
-The OOPSLA 2025 Artifact Evaluation Process is using a Debian QEMU image as a
-base for artifacts. The Artifact Evaluation Committee (AEC) will verify that
-this image works on their own machines before distributing it to authors.
-Authors are encouraged to extend the provided image instead of creating their
-own. If it is not practical for authors to use the provided image then please
-contact the AEC co-chairs before submission.
-
-QEMU is a hosted virtual machine monitor that can emulate a host processor
-via dynamic binary translation. On common host platforms QEMU can also use
-a host provided virtualization layer, which is faster than dynamic binary
-translation.
+The Float Self-Tagging is using a Debian QEMU image as a base for
+artifacts. QEMU is a hosted virtual machine monitor that can emulate a
+host processor via dynamic binary translation. On common host
+platforms QEMU can also use a host provided virtualization layer,
+which is faster than dynamic binary translation.
 
 QEMU homepage: https://www.qemu.org/
 
@@ -150,6 +132,21 @@ $ scp -P 5555 artifact@localhost:somefile .
 To shutdown the guest system cleanly, login to it via ssh and use
 
 ```
-$ sudo shutdown now
+(qemu) sudo shutdown now
 ```
+
+### Artifact Preparation
+
+This section described how a bare Debian VM should be prepared before
+running the experiment.
+
+Inside the bare Debian VM run the following commands:
+
+```
+(qemu) sudo apt update
+(qemu) sudo apt dist-upgrade
+(qemu) sudo apt install -y libgmp-dev libgmp10 autoconf automake libtool libunistring-dev gnuplot
+(qemu) ROOT=$HOME/flt ./scripts/install.sh
+```
+
 

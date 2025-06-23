@@ -1,17 +1,17 @@
 #!/bin/sh
 #*=====================================================================*/
-#*    serrano/diffusion/article/flt/artifact/scripts/env.sh            */
+#*    serrano/diffusion/article/flt/fst-artifact/scripts/env.sh        */
 #*    -------------------------------------------------------------    */
 #*    Author      :  Manuel Serrano                                    */
 #*    Creation    :  Sun Mar 23 08:00:28 2025                          */
-#*    Last change :  Wed May 14 10:11:05 2025 (serrano)                */
+#*    Last change :  Mon Jun 23 08:51:07 2025 (serrano)                */
 #*    Copyright   :  2025 Manuel Serrano                               */
 #*    -------------------------------------------------------------    */
 #*    Artifcat environment variables                                   */
 #*=====================================================================*/
 
 REPETITION=5
-ROOT=${ROOT:-/misc/serrano/flt-artifact}
+ROOT=${ROOT:-/home/artifact/fst-artifact}
 
 host=$FLTHOST
 
