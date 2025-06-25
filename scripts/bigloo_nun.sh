@@ -4,7 +4,7 @@
 #*    -------------------------------------------------------------    */
 #*    Author      :  Manuel Serrano                                    */
 #*    Creation    :  Thu Oct  3 08:33:46 2024                          */
-#*    Last change :  Mon Mar 10 10:03:13 2025 (serrano)                */
+#*    Last change :  Tue Jun 24 15:44:29 2025 (serrano)                */
 #*    Copyright   :  2024-25 Manuel Serrano                            */
 #*    -------------------------------------------------------------    */
 #*    Bigloo download and installation                                 */
@@ -26,7 +26,7 @@ if [ "$action " = "install " -o "$action " = "all " ]; then
 
   if [ ! -f $installdir/bin/bigloo ]; then
     if [ ! -f ${downloaddir}/Makefile.config ]; then
-      configure --prefix=${installdir} --nun-tagging || exit 1
+      configure $bigloo_configure_opts --prefix=${installdir} --nun-tagging || exit 1
     fi
     make_compile || exit 1
     make_install

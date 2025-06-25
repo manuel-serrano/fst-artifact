@@ -1,16 +1,16 @@
 #!/bin/sh
 #*=====================================================================*/
-#*    serrano/diffusion/article/flt/fst-artifact/scripts/common.sh     */
+#*    serrano/diffusion/article/flt/artifact/scripts/common.sh         */
 #*    -------------------------------------------------------------    */
 #*    Author      :  Manuel Serrano                                    */
 #*    Creation    :  Thu Oct  3 08:39:01 2024                          */
-#*    Last change :  Mon Jun 23 08:54:02 2025 (serrano)                */
+#*    Last change :  Tue Jun 24 17:58:50 2025 (serrano)                */
 #*    Copyright   :  2024-25 Manuel Serrano                            */
 #*    -------------------------------------------------------------    */
 #*    Common utility functions                                         */
 #*=====================================================================*/
 
-. `dirname $0`/env.sh
+ROOT=${ROOT:-/misc/serrano/flt-artifact}
 
 downloaddir=${DOWNLOADDIR:-$ROOT/download/${package}}
 installdir=${INSTALLDIR:-$ROOT/install/${package}}
@@ -132,19 +132,31 @@ download_git() {
 }
 
 configure() {
-  print "   \e[1;${color}mconfigure\e[0m $*"
-  (cd $downloaddir && ./configure $* >> $log 2>&1) || (tail -n 10 $log; exit 4)
+  print "   \e[1;${color}mconfigure\e[0m $@"
+  (cd $downloaddir && ./configure "$@" >> $log 2>&1) || (tail -n 10 $log; exit 4)
 }
 
 make_compile() {
-  print "   \e[1;${color}mmake\e[0m $*"
-  (cd $downloaddir && make ${makeopts} $* >> $log 2>&1) || (tail -n 10 $log; exit 5)
+  print "   \e[1;${color}mmake\e[0m $@"
+  (cd $downloaddir && make ${makeopts} $@ >> $log 2>&1) || (tail -n 10 $log; exit 5)
 }
 
 make_install() {
-  print "   \e[1;${color}mmake install\e[0m $*"
+  print "   \e[1;${color}mmake install\e[0m $@"
   (cd $downloaddir && make install >> $log 2>&1) || (tail -n 10 $log; exit 6)
 }
+
+find_best_c_compiler() {
+    for CC in gcc-14 gcc-13 gcc-12 gcc-11 gcc-10 gcc-9 gcc-8 gcc clang ; do
+      if which $CC > /dev/null 2>&1 ; then
+        return 0
+      fi
+    done
+
+    return 1
+}
+
+find_best_c_compiler
 
 # top level expressions
 parse_cmdline $*

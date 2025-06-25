@@ -27,7 +27,9 @@ the artifact (as documented in Section [Native Artifact]). To execute it:
 ./script/run.sh
 ```
 
-This generates PDF figures located into the directory XXXX
+This generates the PDF figures in the YYY directory comparing the
+performance of "float self tagging" to other float implementation
+techniques.
 
 ### Alternative 2: Native artifact
 
@@ -41,19 +43,31 @@ kit is required. It must contain:
 
 Under Linux Debian or Ubuntu the requirements can be installed with:
 
-```
+```shell
 apt update
 sudo apt dist-upgrade
 sudo apt install -y libgmp-dev libgmp10 autoconf automake libtool libunistring-dev gnuplot
 ```
 
+Then, clone the [GITHUB] (see above) repository and to install all the
+compilers and benchmarks needed to produce the figures:
 
-## Artifact Instructions
-
+```shell
+ROOT=<YOUR-DIR> ./script/install.sh
 ```
-(qemu) ROOT=$HOME/flt ./scripts/run.sh
+
+This will create two directories:
+
+  - `download`:
+  - `install`:
+  
+To run the artifact, proceed as for the VM-base implementation:
+
+```shell
+ROOT=<YOUR-DIR> ./script/run.sh
 ```
 
+It will create all figures in the YYYY directory.
 
 
 ## QEMU Instructions
@@ -107,11 +121,12 @@ See Debugging.md for Windows 8 install instructions.
 
 ### Startup
 
-The base artifact provides a `start.sh` script to start the VM on unix-like
-systems and `start.bat` for Windows. Running this script will open a graphical
-console on the host machine, and create a virtualized network interface.
-On Linux you may need to run with `sudo` to start the VM. If the VM does not
-start then check `Debugging.md`
+The base artifact provides a `qemu/start.sh` script to start the VM on
+unix-like systems and `qemu/start.bat` for Windows. Running this script
+will open a graphical console on the host machine, and create a
+virtualized network interface.  On Linux you may need to run with
+`sudo` to start the VM. If the VM does not start then check
+`qemu/Debugging.md`
 
 Once the VM has started you can login to the guest system from the host.
 Whenever you are asked for a password, the answer is `password`. The default
@@ -146,7 +161,7 @@ Inside the bare Debian VM run the following commands:
 (qemu) sudo apt update
 (qemu) sudo apt dist-upgrade
 (qemu) sudo apt install -y libgmp-dev libgmp10 autoconf automake libtool libunistring-dev gnuplot
-(qemu) ROOT=$HOME/flt ./scripts/install.sh
+(qemu) git clone [GITHUB] # see above the definition of GITHUB
 ```
 
 

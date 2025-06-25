@@ -4,7 +4,7 @@
 #*    -------------------------------------------------------------    */
 #*    Author      :  Manuel Serrano                                    */
 #*    Creation    :  Mon Mar 24 14:11:49 2025                          */
-#*    Last change :  Fri Jun 20 09:09:14 2025 (serrano)                */
+#*    Last change :  Wed Jun 25 13:48:07 2025 (serrano)                */
 #*    Copyright   :  2025 Manuel Serrano                               */
 #*    -------------------------------------------------------------    */
 #*    Generate the plots, invoked automatically by run.sh              */
@@ -50,7 +50,7 @@ plot() {
   stats=$*
 
   if [ ! -f $pdf ] || [ $pdf -ot $plot.plot ]; then
-    $ROOT/download/bglstone/bin/gnuplothistogram -o $plotdir/$plot --size $size --relative-sans-left $stats --benchmarks "$SCM_BENCHMARKS" --logscale --separator 12 --rename "Bigloo.fltlb" "self-tagging (2-tag, mantissa low-bits)" --rename "Bigloo.fltnz" "self-tagging (2-tag)" --rename "Bigloo.flt" "self-tagging (3-tag)" --rename "Bigloo.flt1" "self-tagging (1-tag)" --rename "Bigloo.nan" "NaN-boxing" --rename "Bigloo.nun" "NuN-boxing" --rename "Bigloo.bigloo" "orig" --rename "Bigloo" "orig" --values --colors "$colors" --bmargin $bmargin --key "$key" --title "$title" --v-fontsize 4 \
+    $ROOT/download/bglstone/bin/gnuplothistogram -o $plotdir/$plot --size $size --relative-sans-left $stats --benchmarks "$SCM_BENCHMARKS" --logscale --separator 12 --rename "Bigloo.fltlb" "self-tagging (2-tag, mantissa low-bits)" --rename "Bigloo.fltnz" "self-tagging (2-tag)" --rename "Bigloo.flt" "self-tagging (3-tag)" --rename "Bigloo.flt1" "self-tagging (1-tag)" --rename "Bigloo.nan" "NaN-boxing" --rename "Bigloo.nun" "NuN-boxing" --rename "Bigloo.bigloo" "alloc" --rename "Bigloo" "alloc" --rename "Gambit" "NuN-boxing" --rename "Gambit_0" "alloc" --rename "Gambit_1" "self-tagging (1-tag)" --rename "Gambit_2" "self-tagging (2-tag)" --rename "Gambit_3" "self-tagging (3-tag)" --rename "Gambit_4" "self-tagging (4-tag)" --values --colors "$colors" --bmargin $bmargin --key "$key" --title "$title" --v-fontsize 4 --errorbars \
       && (cd $plotdir; unprefix $plot.csv) \
       && (cd $plotdir; gnuplot $plot.plot) 
   fi
@@ -66,10 +66,31 @@ plot $PLOTDIR/bigloo_vs_fltlb.pdf "$COLORLB" "6,2" "3" "off" "" $STATS/bigloo.st
 plot $PLOTDIR/bigloo_vs_flt1.pdf "$COLORLB" "6,2" "3" "off" "" $STATS/bigloo.stat $STATS/bigloo_flt1.stat
 
 # figure 9
-plot $PLOTDIR/bigloo_vs_flt.pdf "$COLORFLT,$COLORFLTNZ,$COLORFLTONE" "6,3" "5" "under nobox" "Relative time (@PROCESSOR@)" $STATS/bigloo_nun.stat $STATS/bigloo_flt1.stat $STATS/bigloo_flt.stat $STATS/bigloo_fltnz.stat $STATS/bigloo_flt.stat $STATS/bigloo_nan.stat
+plot $PLOTDIR/bigloo_vs_flt.pdf "$COLORFLT,$COLORFLTNZ,$COLORFLTONE" "6,3" "5" "under nobox" "Relative time (@PROCESSOR@)" $STATS/bigloo_nun.stat $STATS/bigloo_flt1.stat $STATS/bigloo_flt.stat $STATS/bigloo_fltnz.stat $STATS/bigloo_nan.stat
+
+plot $PLOTDIR/gambit_vs_flt.pdf "$COLORFLT,$COLORFLTNZ,$COLORFLTONE" "6,3" "5" "under nobox" "Relative time (@PROCESSOR@)" $STATS/gambit_nun.stat $STATS/gambit_1.stat $STATS/gambit_2.stat $STATS/gambit_3.stat $STATS/gambit_4.stat
 
 # figure 11
-plot $PLOTDIR/bigloo_vs_nan.pdf "$COLORNAN,$COLORNUN,$COLORFLTONE" "6,3" "5" "under nobox" "Relative time (@PROCESSOR@)" $STATS/bigloo.stat $STATS/bigloo_nan.stat $STATS/bigloo_nun.stat $STATS/bigloo_flt1.stat 
+plot $PLOTDIR/bigloo_vs_nan.pdf "$COLORNAN,$COLORNUN,$COLORFLTONE" "6,3" "5" "under nobox" "Relative time (@PROCESSOR@)" $STATS/bigloo.stat $STATS/bigloo_nan.stat $STATS/bigloo_nun.stat $STATS/bigloo_flt1.stat
+
+# figure 8
+# gc figure
+mkdir -p $PLOTDIR/gc
+
+# The line below is used to generate the legend
+#gnuplot -e "legend_only=1" \
+#        -e "output='$PLOTDIR/gc/legend.pdf'" \
+#        $dir/plot_gc.gp
+
+for benchmark in $SCM_FLOAT_BENCHMARKS; do
+  gnuplot -e "benchmark='$benchmark'" \
+          -e "bigloo_orig='$HEAPS/$benchmark/bigloo.heap'" \
+          -e "bigloo_fst='$HEAPS/$benchmark/bigloo_flt1.heap'" \
+          -e "gambit_orig='$HEAPS/$benchmark/gambit_0.heap'" \
+          -e "gambit_fst='$HEAPS/$benchmark/gambit_1.heap'" \
+          -e "output='$PLOTDIR/gc/$benchmark.pdf'" \
+          $dir/plot_gc.gp
+done
 
 #*---------------------------------------------------------------------*/
 #*    Hop performance                                                  */
@@ -104,7 +125,7 @@ plot $PLOTDIR/bigloo_vs_nan.pdf "$COLORNAN,$COLORNUN,$COLORFLTONE" "6,3" "5" "un
 #*    Branch prediction                                                */
 #*---------------------------------------------------------------------*/
 # figure 5.c
-(cd $BRANCHS; $ROOT/install/bigloo/bin/bigloo -i $dir/branch2csv.scm bigloo_vs_fltlb_branch $SCM_BENCHMARKS --key "off" --separator 12 --colors "#000,$COLORLB" -:- bigloo bigloo_fltlb 2> ../$PLOTDIR/bigloo_vs_fltlb_branch.plot | sed -e 's/r7rs-//'  > ../$PLOTDIR/bigloo_vs_fltlb_branch.csv) && (cd $PLOTDIR; gnuplot bigloo_vs_fltlb_branch.plot)
-
-(cd $BRANCHS; $ROOT/install/bigloo/bin/bigloo -i $dir/branch2csv.scm bigloo_vs_flt_branch $SCM_BENCHMARKS --key "off" --separator 12 --colors "#000,$COLORLB" -:- bigloo bigloo_flt bigloo_fltnz 2> ../$PLOTDIR/bigloo_vs_flt_branch.plot | sed -e 's/r7rs-//'  > ../$PLOTDIR/bigloo_vs_flt_branch.csv) && (cd $PLOTDIR; gnuplot bigloo_vs_flt_branch.plot)
+#* (cd $BRANCHS; $ROOT/install/bigloo/bin/bigloo -i $dir/branch2csv.scm bigloo_vs_fltlb_branch $SCM_BENCHMARKS --key "off" --separator 12 --colors "#000,$COLORLB" -:- bigloo bigloo_fltlb 2> ../$PLOTDIR/bigloo_vs_fltlb_branch.plot | sed -e 's/r7rs-//'  > ../$PLOTDIR/bigloo_vs_fltlb_branch.csv) && (cd $PLOTDIR; gnuplot bigloo_vs_fltlb_branch.plot) */
+#*                                                                     */
+#* (cd $BRANCHS; $ROOT/install/bigloo/bin/bigloo -i $dir/branch2csv.scm bigloo_vs_flt_branch $SCM_BENCHMARKS --key "off" --separator 12 --colors "#000,$COLORLB" -:- bigloo bigloo_flt bigloo_fltnz 2> ../$PLOTDIR/bigloo_vs_flt_branch.plot | sed -e 's/r7rs-//'  > ../$PLOTDIR/bigloo_vs_flt_branch.csv) && (cd $PLOTDIR; gnuplot bigloo_vs_flt_branch.plot) */
 

@@ -4,7 +4,7 @@
 #*    -------------------------------------------------------------    */
 #*    Author      :  Manuel Serrano                                    */
 #*    Creation    :  Thu Oct  3 09:44:21 2024                          */
-#*    Last change :  Fri Jun 20 10:28:46 2025 (serrano)                */
+#*    Last change :  Wed Jun 25 13:46:03 2025 (serrano)                */
 #*    Copyright   :  2024-25 Manuel Serrano                            */
 #*    -------------------------------------------------------------    */
 #*    Run all the FLT benchmarks                                       */
@@ -23,6 +23,7 @@ dir=`dirname $path`
 mkdir -p $STATS
 mkdir -p $BMEMS
 mkdir -p $BRANCHS
+mkdir -p $HEAPS
 mkdir -p $LOGS
 
 #*---------------------------------------------------------------------*/
@@ -48,6 +49,67 @@ for bigloo in $BIGLOOS; do
    fi
 done
 
+for gambit in $GAMBITS; do
+  echo "\e[1;30m=== bglstone ($gambit)\e[0m"
+  conf=`echo $gambit | sed -e 's/gambit//'`
+  bglstone="bglstone_gambit$conf"
+
+  if [ "$conf " = "gambit " ]; then
+    confname=""
+  else
+    confname=".`echo $gambit | sed -e 's/gambit_//'`"
+  fi
+
+  if [ ! -f $STATS/$gambit.stat ]; then
+    (cd $ROOT/download/$bglstone \
+       && make run TARGETS="gambit" BENCH=$BENCH REPETITION="-r $REPETITION") \
+      && cat $ROOT/download/$bglstone/src/gambit.stat \
+	| sed -e "s/Gambit/Gambit${confname}/" \
+	      -e "s/gambit/Gambit${confname}/" > $STATS/$gambit.stat
+   fi
+done
+
+# performance with data on heap
+for bigloo in bigloo bigloo_flt1; do
+  echo "\e[1;31m=== heap ($bigloo)\e[0m"
+  conf=`echo $bigloo | sed -e 's/bigloo//'`
+  bglstone="bglstone$conf"
+  for benchmark in $SCM_FLOAT_BENCHMARKS; do
+    if [ ! -f $HEAPS/$benchmark/$bigloo.heap ]; then
+      mkdir -p $HEAPS/$benchmark
+      echo "size,time" > $HEAPS/$benchmark/$bigloo.heap.tmp
+      for size in $SCM_BENCHMARKS_VECTOR_SIZES; do
+        echo "  $benchmark $size"
+        printf "$((size * 8))," >> $HEAPS/$benchmark/$bigloo.heap.tmp
+        (cd $ROOT/download/$bglstone/src/$benchmark/bigloo \
+        && BGLSTONE_FILLER="(make-vector $size)" bash -c "time ./bigloo.exe") 2>&1 \
+        | fgrep real | sed -e 's/[^0-9]*//' -e 's/m/*60+/' -e 's/s//' | bc >> $HEAPS/$benchmark/$bigloo.heap.tmp
+      done
+      mv $HEAPS/$benchmark/$bigloo.heap.tmp $HEAPS/$benchmark/$bigloo.heap
+    fi
+  done
+done
+
+for gambit in gambit_0 gambit_1; do
+  echo "\e[1;31m=== heap ($gambit)\e[0m"
+  conf=`echo $gambit | sed -e 's/gambit//'`
+  bglstone="bglstone$conf"
+  for benchmark in $SCM_FLOAT_BENCHMARKS; do
+    if [ ! -f $HEAPS/$benchmark/$gambit.heap ]; then
+      mkdir -p $HEAPS/$benchmark
+      echo "size,time" > $HEAPS/$benchmark/$gambit.heap.tmp
+      for size in $SCM_BENCHMARKS_VECTOR_SIZES; do
+        echo "  $benchmark $size"
+        printf "$((size * 8))," >> $HEAPS/$benchmark/$gambit.heap.tmp
+        (cd $ROOT/download/$bglstone/src/$benchmark/gambit \
+        && BGLSTONE_FILLER="(make-vector $size)" bash -c "time ./gambit.exe") 2>&1 \
+        | fgrep real | sed -e 's/[^0-9]*//' -e 's/m/*60+/' -e 's/s//' | bc >> $HEAPS/$benchmark/$gambit.heap.tmp
+      done
+      mv $HEAPS/$benchmark/$gambit.heap.tmp $HEAPS/$benchmark/$gambit.heap
+    fi
+  done
+done
+
 # memory
 for bigloo in $BIGLOOS; do
   echo "\e[1;31m=== bmem ($bigloo)\e[0m"
@@ -66,22 +128,22 @@ for bigloo in $BIGLOOS; do
   done
 done
 
-# branch prediction
-for bigloo in $BIGLOOS; do
-  echo "\e[1;32m=== branch ($bigloo)\e[0m"
-  conf=`echo $bigloo | sed -e 's/bigloo//'`
-  bglstone="bglstone$conf"
-
-  for benchmark in $SCM_BENCHMARKS; do
-    echo "  $benchmark"
-    if [ ! -f $BRANCHS/$benchmark/$bigloo.branch ]; then
-      mkdir -p $BRANCHS/$benchmark
-      (cd $ROOT/download/$bglstone/src/$benchmark/bigloo \
-	 && perf stat -x , -e branch-misses ./bigloo.exe 2>&1 > /dev/null | awk -F, '{print $1}' > a.branch) \
-	&& mv $ROOT/download/$bglstone/src/$benchmark/bigloo/a.branch $BRANCHS/$benchmark/$bigloo.branch
-    fi
-  done
-done
+#* # branch prediction                                                 */
+#* for bigloo in $BIGLOOS; do                                          */
+#*   echo "\e[1;32m=== branch ($bigloo)\e[0m"                          */
+#*   conf=`echo $bigloo | sed -e 's/bigloo//'`                         */
+#*   bglstone="bglstone$conf"                                          */
+#*                                                                     */
+#*   for benchmark in $SCM_BENCHMARKS; do                              */
+#*     echo "  $benchmark"                                             */
+#*     if [ ! -f $BRANCHS/$benchmark/$bigloo.branch ]; then            */
+#*       mkdir -p $BRANCHS/$benchmark                                  */
+#*       (cd $ROOT/download/$bglstone/src/$benchmark/bigloo \          */
+#* 	 && perf stat -x , -e branch-misses ./bigloo.exe 2>&1 > /dev/null | awk -F, '{print $1}' > a.branch) \ */
+#* 	&& mv $ROOT/download/$bglstone/src/$benchmark/bigloo/a.branch $BRANCHS/$benchmark/$bigloo.branch */
+#*     fi                                                              */
+#*   done                                                              */
+#* done                                                                */
 
 # hop
 # echo "\e[1;33m=== jsbench\e[0m"

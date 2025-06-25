@@ -4,7 +4,7 @@
 #*    -------------------------------------------------------------    */
 #*    Author      :  Manuel Serrano                                    */
 #*    Creation    :  Thu Oct  3 09:53:13 2024                          */
-#*    Last change :  Fri Jun 20 10:27:57 2025 (serrano)                */
+#*    Last change :  Wed Jun 25 07:55:56 2025 (serrano)                */
 #*    Copyright   :  2024-25 Manuel Serrano                            */
 #*    -------------------------------------------------------------    */
 #*    Package versions                                                 */
@@ -12,8 +12,9 @@
 
 # bigloo
 bigloo_giturl=https://github.com/manuel-serrano/bigloo
-bigloo_commit=0f154fcc3fbd6be8f64cf031347aceb5efeb8069
+bigloo_commit=4571954e4f400e55a41b3074da69e34f893f86fe
 bigloo_branch=master
+bigloo_configure_opts="--disable-gmp --disable-libunistring --disable-pcre2 --disable-pcre --disable-libuv"
 
 bigloo_flt_giturl=$bigloo_giturl
 bigloo_flt_commit=$bigloo_commit
@@ -86,7 +87,7 @@ hop_nun_branch=$hop_branch
 
 # bglstone
 bglstone_giturl=https://github.com/manuel-serrano/bglstone
-bglstone_commit=b0537fe5a7b40343547814d4c3f94b83ae6b7f07
+bglstone_commit=912d48263a67c4ae014b9a9a5063193170591b23
 bglstone_branch=master
 
 bglstone_bflags="-O6 -freturn -freturn-goto -copt -O3 -static-all-bigloo"
@@ -127,6 +128,60 @@ bglstone_nun_branch=$bglstone_branch
 jsbench_giturl=https://github.com/manuel-serrano/jsbench
 jsbench_commit=7c8fc4e58d2a5c7980c207d302b1d1cb18308a5c
 jsbench_branch=master
+
+# gambit
+gambit_giturl=https://github.com/gambit/gambit
+gambit_commit=f251835e2a1226b1ed70d6f343d41beb8cff2e0b
+gambit_branch=master
+
+gambit_0_giturl=$gambit_giturl
+gambit_0_commit=$gambit_commit
+gambit_0_branch=$gambit_branch
+
+gambit_1_giturl=$gambit_giturl
+gambit_1_commit=$gambit_commit
+gambit_1_branch=$gambit_branch
+
+gambit_2_giturl=$gambit_giturl
+gambit_2_commit=$gambit_commit
+gambit_2_branch=$gambit_branch
+
+gambit_3_giturl=$gambit_giturl
+gambit_3_commit=$gambit_commit
+gambit_3_branch=$gambit_branch
+
+gambit_4_giturl=$gambit_giturl
+gambit_4_commit=$gambit_commit
+gambit_4_branch=$gambit_branch
+
+gambit_nun_giturl=$gambit_giturl
+gambit_nun_commit=$gambit_commit
+gambit_nun_branch=$gambit_branch
+
+# bglstone_gambit
+bglstone_gambit_0_giturl=$bglstone_giturl
+bglstone_gambit_0_commit=$bglstone_commit
+bglstone_gambit_0_branch=$bglstone_branch
+
+bglstone_gambit_1_giturl=$bglstone_giturl
+bglstone_gambit_1_commit=$bglstone_commit
+bglstone_gambit_1_branch=$bglstone_branch
+
+bglstone_gambit_2_giturl=$bglstone_giturl
+bglstone_gambit_2_commit=$bglstone_commit
+bglstone_gambit_2_branch=$bglstone_branch
+
+bglstone_gambit_3_giturl=$bglstone_giturl
+bglstone_gambit_3_commit=$bglstone_commit
+bglstone_gambit_3_branch=$bglstone_branch
+
+bglstone_gambit_4_giturl=$bglstone_giturl
+bglstone_gambit_4_commit=$bglstone_commit
+bglstone_gambit_4_branch=$bglstone_branch
+
+bglstone_gambit_nun_giturl=$bglstone_giturl
+bglstone_gambit_nun_commit=$bglstone_commit
+bglstone_gambit_nun_branch=$bglstone_branch
 
 # current package
 tarballurl=$(eval echo "\$${package}_tarballurl")
