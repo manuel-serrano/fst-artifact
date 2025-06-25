@@ -58,7 +58,7 @@ needed to produce the figures using the following command (which maybe
 last around 2 hours):
 
 ```shell
-ROOT=<YOUR-DIR> ./script/install.sh
+ROOT=$HOME ./script/install.sh
 ```
 
 This creates two directories:
@@ -70,7 +70,7 @@ This creates two directories:
 To run the artifact, proceed as for the VM-base implementation, that is:
 
 ```shell
-ROOT=<YOUR-DIR> ./script/run.sh
+ROOT=$HOME ./script/run.sh
 ```
 
 This creates all figures in the YYYY directory. On a fast machine, this
