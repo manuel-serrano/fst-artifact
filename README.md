@@ -1,9 +1,10 @@
 # Float Self Tagging Artifact
 
-Name: Float Self-Tagging
+Name: Float Self-Tagging (FST)
 
   * URL: https://zenodo.org/records/XXX
   * GITHUB: git@github.com:omelancon/fst-artifact
+
 
 ## Artifact Instructions
 
@@ -11,15 +12,16 @@ This artifact can be installed and ran either:
 
   1. using the VM available at https://zenodo.org/records/XXXX
   2. using the a native installation. 
-  
-The VM provides a complete Linux image where a native version
-of the artifact has been pre-installed. 
+
 
 ### Alternative 1: VM-base artifact
 
+The VM provides a complete Linux image where a native version
+of the artifact has been pre-installed. 
+
 To execute the artifact via the VM distribution, install QEMU and run
 the virtual machine as instructed in Section [QEMU Instructions] (see
-below). Once connected to the VM go into the `sft-artifact`
+below). Once connected to the VM go into the `fst-artifact`
 directory. It contains a pre-installed native version of
 the artifact (as documented in Section [Native Artifact]). To execute it:
 
@@ -31,15 +33,16 @@ This generates the PDF figures in the YYY directory comparing the
 performance of "float self tagging" to other float implementation
 techniques.
 
+
 ### Alternative 2: Native artifact
 
-
-In order to install the version of the FST artifact a full development
-kit is required. It must contain:
+In order to install the version of the FST artifact, a full development
+tool kit is required. It must at least contain:
 
   - a full-fledged C compiler
-  - a full-fledged make tool
+  - a full-fledged "make" tool
   - a posix shell
+  - gnuplot for generating the barcharts
 
 Under Linux Debian or Ubuntu the requirements can be installed with:
 
@@ -49,25 +52,29 @@ sudo apt dist-upgrade
 sudo apt install -y libgmp-dev libgmp10 autoconf automake libtool libunistring-dev gnuplot
 ```
 
-Then, clone the [GITHUB] (see above) repository and to install all the
-compilers and benchmarks needed to produce the figures:
+One the requirements are installed and operational, clone the [GITHUB]
+(see above) repository and install all the compilers and benchmarks
+needed to produce the figures using the following command (which maybe
+last around 2 hours):
 
 ```shell
 ROOT=<YOUR-DIR> ./script/install.sh
 ```
 
-This will create two directories:
+This creates two directories:
 
-  - `download`:
-  - `install`:
+  - `download`: all the sources or all the compilers and benchmarks
+  - `install`: all the compilers binary files.
   
-To run the artifact, proceed as for the VM-base implementation:
+  
+To run the artifact, proceed as for the VM-base implementation, that is:
 
 ```shell
 ROOT=<YOUR-DIR> ./script/run.sh
 ```
 
-It will create all figures in the YYYY directory.
+This creates all figures in the YYYY directory. On a fast machine, this
+command lasts about 4 hours.
 
 
 ## QEMU Instructions
@@ -83,19 +90,27 @@ QEMU homepage: https://www.qemu.org/
 ### Installation
 
 #### OSX
-``brew install qemu``
+
+```shell
+brew install qemu
+```
 
 #### Debian and Ubuntu Linux
-``apt-get install qemu-kvm``
 
-On x86 laptops and server machines you may need to enable the
-"Intel Virtualization Technology" setting in your BIOS, as some manufacturers
+```shell
+apt-get install qemu-kvm
+```
+
+On x86 laptops and server machines you may need to enable the "Intel
+Virtualization Technology" setting in your BIOS, as some manufacturers
 leave this disabled by default. See Debugging.md for details.
 
 
 #### Arch Linux
 
-``pacman -Sy qemu``
+```shell
+pacman -Sy qemu
+```
 
 See the [Arch wiki](https://wiki.archlinux.org/title/QEMU) for more info.
 
@@ -121,16 +136,22 @@ See Debugging.md for Windows 8 install instructions.
 
 ### Startup
 
-The base artifact provides a `qemu/start.sh` script to start the VM on
-unix-like systems and `qemu/start.bat` for Windows. Running this script
-will open a graphical console on the host machine, and create a
-virtualized network interface.  On Linux you may need to run with
-`sudo` to start the VM. If the VM does not start then check
+The base artifact provides a script to start the VM on unix-like systems:
+
+  `qemu/start.sh` 
+  
+On Window, use the script:
+
+  `qemu/start.bat` 
+  
+Running this script will open a graphical console on the host machine,
+and create a virtualized network interface.  On Linux you may need to
+run with `sudo` to start the VM. If the VM does not start then check
 `qemu/Debugging.md`
 
-Once the VM has started you can login to the guest system from the host.
-Whenever you are asked for a password, the answer is `password`. The default
-username is `artifact`.
+Once the VM has started you can login to the guest system from the
+host.  Whenever you are asked for a password, the answer is
+`password`. The default username is `artifact`.
 
 ```
 $ ssh -p 5555 artifact@localhost

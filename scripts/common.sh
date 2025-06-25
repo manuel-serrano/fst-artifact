@@ -4,7 +4,7 @@
 #*    -------------------------------------------------------------    */
 #*    Author      :  Manuel Serrano                                    */
 #*    Creation    :  Thu Oct  3 08:39:01 2024                          */
-#*    Last change :  Tue Jun 24 17:58:50 2025 (serrano)                */
+#*    Last change :  Wed Jun 25 15:58:13 2025 (serrano)                */
 #*    Copyright   :  2024-25 Manuel Serrano                            */
 #*    -------------------------------------------------------------    */
 #*    Common utility functions                                         */
@@ -18,7 +18,8 @@ installdir=${INSTALLDIR:-$ROOT/install/${package}}
 action=all
 force=false
 verbose=1
-log=`pwd`/${package}.log
+log=`pwd`/log/${package}.log
+mkdir -p `pwd`/log
 
 makeopts="-j -l4"
 
