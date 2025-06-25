@@ -1,10 +1,10 @@
 #!/bin/bash
 #*=====================================================================*/
-#*    serrano/diffusion/article/flt/artifact/scripts/versions.sh       */
+#*    .../diffusion/article/flt/fst-artifact/scripts/versions.sh       */
 #*    -------------------------------------------------------------    */
 #*    Author      :  Manuel Serrano                                    */
 #*    Creation    :  Thu Oct  3 09:53:13 2024                          */
-#*    Last change :  Wed Jun 25 07:55:56 2025 (serrano)                */
+#*    Last change :  Wed Jun 25 16:46:55 2025 (serrano)                */
 #*    Copyright   :  2024-25 Manuel Serrano                            */
 #*    -------------------------------------------------------------    */
 #*    Package versions                                                 */
@@ -12,7 +12,7 @@
 
 # bigloo
 bigloo_giturl=https://github.com/manuel-serrano/bigloo
-bigloo_commit=4571954e4f400e55a41b3074da69e34f893f86fe
+bigloo_commit=e3fa8b121b4f58fb34887aa2660a42542b5d2bde
 bigloo_branch=master
 bigloo_configure_opts="--disable-gmp --disable-libunistring --disable-pcre2 --disable-pcre --disable-libuv"
 
