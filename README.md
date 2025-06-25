@@ -87,7 +87,8 @@ which is faster than dynamic binary translation.
 
 QEMU homepage: https://www.qemu.org/
 
-### Installation
+
+### QEMU Installation
 
 #### OSX
 
@@ -134,7 +135,16 @@ Restart your computer.
 
 See Debugging.md for Windows 8 install instructions.
 
-### Startup
+
+### QEMU Installation Creation
+
+The file `qemu/ImageCreation.md` contains a complete manual on how
+to install Linux on a bare QEMU. You only need to follow this steps
+if you decide not to use the pre-installed image which is shipped
+with this artifact.
+
+
+### QEMU Startup
 
 The base artifact provides a script to start the VM on unix-like systems:
 
@@ -145,7 +155,7 @@ On Window, use the script:
   `qemu/start.bat` 
   
 Running this script will open a graphical console on the host machine,
-and create a virtualized network interface.  On Linux you may need to
+and create a virtualized network interface. On Linux you may need to
 run with `sudo` to start the VM. If the VM does not start then check
 `qemu/Debugging.md`
 
