@@ -27,7 +27,7 @@ of the artifact (as documented in Section [Native Artifact]). To
 execute it:
 
 ```shell
-ROOT=$HOME ./script/run.sh
+ROOT=$HOME ./scripts/run.sh
 ```
 
 This generates the PDF figures in the YYY directory comparing the
@@ -59,7 +59,7 @@ needed to produce the figures using the following command (which maybe
 last around 2 hours):
 
 ```shell
-ROOT=$HOME ./script/install.sh
+ROOT=$HOME ./scripts/install.sh
 ```
 
 This creates two directories:
@@ -71,7 +71,7 @@ This creates two directories:
 To run the artifact, proceed as for the VM-base implementation, that is:
 
 ```shell
-ROOT=$HOME ./script/run.sh
+ROOT=$HOME ./scripts/run.sh
 ```
 
 This creates all figures in the YYYY directory. On a fast machine, this
