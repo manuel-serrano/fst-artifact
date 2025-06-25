@@ -20,13 +20,14 @@ The VM provides a complete Linux image where a native version
 of the artifact has been pre-installed. 
 
 To execute the artifact via the VM distribution, install QEMU and run
-the virtual machine as instructed in Section [QEMU Instructions] (see
-below). Once connected to the VM go into the `fst-artifact`
-directory. It contains a pre-installed native version of
-the artifact (as documented in Section [Native Artifact]). To execute it:
+the virtual machine as instructed in Section [QEMU Instructions/QEMU
+Startup] (see below). Once connected to the VM go into the
+`fst-artifact` directory. It contains a pre-installed native version
+of the artifact (as documented in Section [Native Artifact]). To
+execute it:
 
 ```shell
-./script/run.sh
+ROOT=$HOME ./script/run.sh
 ```
 
 This generates the PDF figures in the YYY directory comparing the
