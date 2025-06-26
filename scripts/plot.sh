@@ -1,10 +1,10 @@
 #!/bin/sh
 #*=====================================================================*/
-#*    serrano/diffusion/article/flt/artifact/scripts/plot.sh           */
+#*    serrano/diffusion/article/flt/fst-artifact/scripts/plot.sh       */
 #*    -------------------------------------------------------------    */
 #*    Author      :  Manuel Serrano                                    */
 #*    Creation    :  Mon Mar 24 14:11:49 2025                          */
-#*    Last change :  Wed Jun 25 13:48:07 2025 (serrano)                */
+#*    Last change :  Thu Jun 26 08:54:24 2025 (serrano)                */
 #*    Copyright   :  2025 Manuel Serrano                               */
 #*    -------------------------------------------------------------    */
 #*    Generate the plots, invoked automatically by run.sh              */
@@ -47,10 +47,12 @@ plot() {
   shift
   title=$1
   shift
+  range=$1
+  shift
   stats=$*
 
   if [ ! -f $pdf ] || [ $pdf -ot $plot.plot ]; then
-    $ROOT/download/bglstone/bin/gnuplothistogram -o $plotdir/$plot --size $size --relative-sans-left $stats --benchmarks "$SCM_BENCHMARKS" --logscale --separator 12 --rename "Bigloo.fltlb" "self-tagging (2-tag, mantissa low-bits)" --rename "Bigloo.fltnz" "self-tagging (2-tag)" --rename "Bigloo.flt" "self-tagging (3-tag)" --rename "Bigloo.flt1" "self-tagging (1-tag)" --rename "Bigloo.nan" "NaN-boxing" --rename "Bigloo.nun" "NuN-boxing" --rename "Bigloo.bigloo" "alloc" --rename "Bigloo" "alloc" --rename "Gambit" "NuN-boxing" --rename "Gambit_0" "alloc" --rename "Gambit_1" "self-tagging (1-tag)" --rename "Gambit_2" "self-tagging (2-tag)" --rename "Gambit_3" "self-tagging (3-tag)" --rename "Gambit_4" "self-tagging (4-tag)" --values --colors "$colors" --bmargin $bmargin --key "$key" --title "$title" --v-fontsize 4 --errorbars \
+    $downloaddir/bglstone/bin/gnuplothistogram -o $plotdir/$plot --size $size --relative-sans-left $stats --benchmarks "$SCM_BENCHMARKS" --logscale --separator 12 --rename "Bigloo.fltlb" "self-tagging (2-tag, mantissa low-bits)" --rename "Bigloo.fltnz" "self-tagging (2-tag)" --rename "Bigloo.flt" "self-tagging (3-tag)" --rename "Bigloo.flt1" "self-tagging (1-tag)" --rename "Bigloo.nan" "NaN-boxing" --rename "Bigloo.nun" "NuN-boxing" --rename "Bigloo.bigloo" "alloc" --rename "Bigloo" "alloc" --rename "Gambit" "NuN-boxing" --rename "Gambit_0" "alloc" --rename "Gambit_1" "self-tagging (1-tag)" --rename "Gambit_2" "self-tagging (2-tag)" --rename "Gambit_3" "self-tagging (3-tag)" --rename "Gambit_4" "self-tagging (4-tag)" --values --colors "$colors" --bmargin $bmargin --key "$key" --title "$title" --v-fontsize 4 --range $range --errorbars \
       && (cd $plotdir; unprefix $plot.csv) \
       && (cd $plotdir; gnuplot $plot.plot) 
   fi
@@ -60,21 +62,20 @@ plot() {
 #*    Scheme performance                                               */
 #*---------------------------------------------------------------------*/
 # figure 5.b
-plot $PLOTDIR/bigloo_vs_fltlb.pdf "$COLORLB" "6,2" "3" "off" "" $STATS/bigloo.stat $STATS/bigloo_fltlb.stat
+plot $PLOTDIR/bigloo_vs_fltlb.pdf "$COLORLB" "6,2" "3" "off" "" "[0:*]" $STATS/bigloo.stat $STATS/bigloo_fltlb.stat
 
 # figure 7
-plot $PLOTDIR/bigloo_vs_flt1.pdf "$COLORLB" "6,2" "3" "off" "" $STATS/bigloo.stat $STATS/bigloo_flt1.stat
+plot $PLOTDIR/bigloo_vs_flt1.pdf "$COLORLB" "6,2" "3" "off" ""  "[0:*]" $STATS/bigloo.stat $STATS/bigloo_flt1.stat
 
 # figure 9
-plot $PLOTDIR/bigloo_vs_flt.pdf "$COLORFLT,$COLORFLTNZ,$COLORFLTONE" "6,3" "5" "under nobox" "Relative time (@PROCESSOR@)" $STATS/bigloo_nun.stat $STATS/bigloo_flt1.stat $STATS/bigloo_flt.stat $STATS/bigloo_fltnz.stat $STATS/bigloo_nan.stat
+plot $PLOTDIR/bigloo_vs_flt.pdf "$COLORFLTONE,$COLORFLTNZ,$COLORFLT,$COLORNAN" "6,3" "5" "under nobox" "Relative time (@PROCESSOR@)" "[0.5:2]" $STATS/bigloo_nun.stat $STATS/bigloo_flt1.stat $STATS/bigloo_fltnz.stat $STATS/bigloo_flt.stat $STATS/bigloo_nan.stat
 
-plot $PLOTDIR/gambit_vs_flt.pdf "$COLORFLT,$COLORFLTNZ,$COLORFLTONE" "6,3" "5" "under nobox" "Relative time (@PROCESSOR@)" $STATS/gambit_nun.stat $STATS/gambit_1.stat $STATS/gambit_2.stat $STATS/gambit_3.stat $STATS/gambit_4.stat
+plot $PLOTDIR/gambit_vs_flt.pdf "$COLORFLTONE,$COLORFLTNZ,$COLORFLT,$COLORFLTFOUR" "6,3" "5" "under nobox" "Relative time (@PROCESSOR@)" "[0.5:2]" $STATS/gambit_nun.stat $STATS/gambit_1.stat $STATS/gambit_2.stat $STATS/gambit_3.stat $STATS/gambit_4.stat
 
 # figure 11
-plot $PLOTDIR/bigloo_vs_nan.pdf "$COLORNAN,$COLORNUN,$COLORFLTONE" "6,3" "5" "under nobox" "Relative time (@PROCESSOR@)" $STATS/bigloo.stat $STATS/bigloo_nan.stat $STATS/bigloo_nun.stat $STATS/bigloo_flt1.stat
+plot $PLOTDIR/bigloo_vs_nan.pdf "$COLORNAN,$COLORNUN,$COLORFLTONE" "6,3" "5" "under nobox" "Relative time (@PROCESSOR@)" "[0:*]" $STATS/bigloo.stat $STATS/bigloo_nan.stat $STATS/bigloo_nun.stat $STATS/bigloo_flt1.stat
 
-# figure 8
-# gc figure
+# figure 8 (gc)
 mkdir -p $PLOTDIR/gc
 
 # The line below is used to generate the legend
@@ -93,6 +94,25 @@ for benchmark in $SCM_FLOAT_BENCHMARKS; do
 done
 
 #*---------------------------------------------------------------------*/
+#*    Memory                                                           */
+#*---------------------------------------------------------------------*/
+# figure 5.a
+(cd $BMEMS; $installdir/bigloo/bin/bigloo -i $dir/bmem2csv.scm bigloo_vs_fltlb_bmem $SCM_BENCHMARKS --key "off" --separator 12 --colors "#000,$COLORLB" -:- bigloo bigloo_fltlb 2> ../$PLOTDIR/bigloo_vs_fltlb_bmem.plot | sed -e 's/r7rs-//' > ../$PLOTDIR/bigloo_vs_fltlb_bmem.csv) && (cd $PLOTDIR; gnuplot bigloo_vs_fltlb_bmem.plot)
+
+# figure 8
+(cd $BMEMS; $installdir/bigloo/bin/bigloo -i $dir/bmem2csv.scm bigloo_vs_flt_bmem $SCM_BENCHMARKS --key "off" --separator 12 --colors "#000,$COLORFLT,$COLORFLTNZ,$COLORFLTONE" -:- bigloo bigloo_flt bigloo_fltnz bigloo_flt1 2> ../$PLOTDIR/bigloo_vs_flt_bmem.plot | sed -e 's/r7rs-//'  > ../$PLOTDIR/bigloo_vs_flt_bmem.csv) && (cd $PLOTDIR; gnuplot bigloo_vs_flt_bmem.plot)
+
+#*---------------------------------------------------------------------*/
+#*    Branch prediction (generated only if branch profile files exist) */
+#*---------------------------------------------------------------------*/
+# figure 5.c
+if [ -f $BRANCHS/r7rs-compiler/bigloo.branch ]; then
+  (cd $BRANCHS; $installdir/bigloo/bin/bigloo -i $dir/branch2csv.scm bigloo_vs_fltlb_branch $SCM_BENCHMARKS --key "off" --separator 12 --colors "#000,$COLORLB" -:- bigloo bigloo_fltlb 2> ../$PLOTDIR/bigloo_vs_fltlb_branch.plot | sed -e 's/r7rs-//'  > ../$PLOTDIR/bigloo_vs_fltlb_branch.csv) && (cd $PLOTDIR; gnuplot bigloo_vs_fltlb_branch.plot)
+
+  (cd $BRANCHS; $installdir/bigloo/bin/bigloo -i $dir/branch2csv.scm bigloo_vs_flt_branch $SCM_BENCHMARKS --key "off" --separator 12 --colors "#000,$COLORLB" -:- bigloo bigloo_flt bigloo_fltnz 2> ../$PLOTDIR/bigloo_vs_flt_branch.plot | sed -e 's/r7rs-//'  > ../$PLOTDIR/bigloo_vs_flt_branch.csv) && (cd $PLOTDIR; gnuplot bigloo_vs_flt_branch.plot)
+fi
+
+#*---------------------------------------------------------------------*/
 #*    Hop performance                                                  */
 #*---------------------------------------------------------------------*/
 # conf=`echo $hop | sed -e 's/hop//'`
@@ -104,28 +124,11 @@ done
 #   logs="$logs $LOGS/$b.log.json"
 # done
 #
-# $ROOT/install/hop/bin/hop --no-server -- $ROOT/download/$jsbench/tools/logbench.js gnuplothistogram.js --nosort --relativesans  --logscale y --engine=$ROOT/download/$jsbench/tools/engines -e hop -e hop_nan -e hop_nun -e hop_flt1 --xtics=rotater --target=hop.pdf --format=pdf --size "6,3" --alias "hop.nan=JavaScript NaN-boxing" --alias "hop.nun=JavaScript NuN-boxing" --alias "hop.flt1=JavaScript self-tagging (1-tag)" --alias "hop=orig" --yrange "[0:*]" --colors "red,$COLORNAN,$COLORNUN,$COLORFLTONE" --values --separator 28 --bmargin 6 $logs
+# $installdir/hop/bin/hop --no-server -- $downloaddir/$jsbench/tools/logbench.js gnuplothistogram.js --nosort --relativesans  --logscale y --engine=$downloaddir/$jsbench/tools/engines -e hop -e hop_nan -e hop_nun -e hop_flt1 --xtics=rotater --target=hop.pdf --format=pdf --size "6,3" --alias "hop.nan=JavaScript NaN-boxing" --alias "hop.nun=JavaScript NuN-boxing" --alias "hop.flt1=JavaScript self-tagging (1-tag)" --alias "hop=orig" --yrange "[0:*]" --colors "red,$COLORNAN,$COLORNUN,$COLORFLTONE" --values --separator 28 --bmargin 6 $logs
 # 
 # mv hop.plot $PLOTDIR/hop.plot
 # mv hop.csv $PLOTDIR/hop.csv
 # 
 # figure 12
 # (cd $PLOTDIR; gnuplot hop.plot)
-
-#*---------------------------------------------------------------------*/
-#*    Memory                                                           */
-#*---------------------------------------------------------------------*/
-# figure 5.a
-(cd $BMEMS; $ROOT/install/bigloo/bin/bigloo -i $dir/bmem2csv.scm bigloo_vs_fltlb_bmem $SCM_BENCHMARKS --key "off" --separator 12 --colors "#000,$COLORLB" -:- bigloo bigloo_fltlb 2> ../$PLOTDIR/bigloo_vs_fltlb_bmem.plot | sed -e 's/r7rs-//' > ../$PLOTDIR/bigloo_vs_fltlb_bmem.csv) && (cd $PLOTDIR; gnuplot bigloo_vs_fltlb_bmem.plot)
-
-# figure 8
-(cd $BMEMS; $ROOT/install/bigloo/bin/bigloo -i $dir/bmem2csv.scm bigloo_vs_flt_bmem $SCM_BENCHMARKS --key "off" --separator 12 --colors "#000,$COLORFLT,$COLORFLTNZ,$COLORFLTONE" -:- bigloo bigloo_flt bigloo_fltnz bigloo_flt1 2> ../$PLOTDIR/bigloo_vs_flt_bmem.plot | sed -e 's/r7rs-//'  > ../$PLOTDIR/bigloo_vs_flt_bmem.csv) && (cd $PLOTDIR; gnuplot bigloo_vs_flt_bmem.plot)
-
-#*---------------------------------------------------------------------*/
-#*    Branch prediction                                                */
-#*---------------------------------------------------------------------*/
-# figure 5.c
-#* (cd $BRANCHS; $ROOT/install/bigloo/bin/bigloo -i $dir/branch2csv.scm bigloo_vs_fltlb_branch $SCM_BENCHMARKS --key "off" --separator 12 --colors "#000,$COLORLB" -:- bigloo bigloo_fltlb 2> ../$PLOTDIR/bigloo_vs_fltlb_branch.plot | sed -e 's/r7rs-//'  > ../$PLOTDIR/bigloo_vs_fltlb_branch.csv) && (cd $PLOTDIR; gnuplot bigloo_vs_fltlb_branch.plot) */
-#*                                                                     */
-#* (cd $BRANCHS; $ROOT/install/bigloo/bin/bigloo -i $dir/branch2csv.scm bigloo_vs_flt_branch $SCM_BENCHMARKS --key "off" --separator 12 --colors "#000,$COLORLB" -:- bigloo bigloo_flt bigloo_fltnz 2> ../$PLOTDIR/bigloo_vs_flt_branch.plot | sed -e 's/r7rs-//'  > ../$PLOTDIR/bigloo_vs_flt_branch.csv) && (cd $PLOTDIR; gnuplot bigloo_vs_flt_branch.plot) */
 

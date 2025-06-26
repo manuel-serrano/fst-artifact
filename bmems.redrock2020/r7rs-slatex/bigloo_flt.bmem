@@ -1,0 +1,25 @@
+(monitor (info (exec "./a.out") (version "0.0.4") (sizeof-word 1))
+  (gc
+    (number: 0 alloc: #l146235 heap: #l4259840 live: #l187024 lastfun: "unknown" time: #l1750432924393747000)
+   )
+  (alloc 
+    (kbsize 142)
+    (gc-count 1)
+    (files
+      (file: "lib/init.c"
+       lines: ((line: 574 kbsize: 47 %: 0 count: 64 types: #("vector" "keyword" "input-port" "output-port" "string" "mutex"))))
+      (file: "/misc/serrano/flt-artifact/download/bglstone_flt/src/r7rs-slatex/bigloo/r7rs-slatex.c"
+       lines: ((line: 993 kbsize: 45 %: 0 count: 1132 types: #("string" "mutex" "?" "pair" "class" "vector" "keyword" "symbol"))          (line: 1072 kbsize: 39 %: 0 count: 794 types: #("string" "pair" "?"))))
+       )
+   )
+  (types
+    (count 2253)
+    (types
+      (vector (kbsize: 53 %: 37.649 cnt: 272))
+      (string (kbsize: 38 %: 26.9265 cnt: 971))
+      (? (kbsize: 28 %: 19.6854 cnt: 503))
+      (symbol (kbsize: 8 %: 6.05601 cnt: 369))
+      (class (kbsize: 6 %: 4.78682 cnt: 37))
+      (keyword (kbsize: 1 %: 1.01754 cnt: 62))
+   ))
+)

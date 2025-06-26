@@ -1,19 +1,24 @@
 #!/bin/sh
 #*=====================================================================*/
-#*    serrano/diffusion/article/flt/artifact/scripts/env.sh            */
+#*    serrano/diffusion/article/flt/fst-artifact/scripts/env.sh        */
 #*    -------------------------------------------------------------    */
 #*    Author      :  Manuel Serrano                                    */
 #*    Creation    :  Sun Mar 23 08:00:28 2025                          */
-#*    Last change :  Tue Jun 24 15:44:27 2025 (serrano)                */
+#*    Last change :  Thu Jun 26 08:51:17 2025 (serrano)                */
 #*    Copyright   :  2025 Manuel Serrano                               */
 #*    -------------------------------------------------------------    */
 #*    Artifcat environment variables                                   */
 #*=====================================================================*/
 
 REPETITION=5
-ROOT=${ROOT:-/home/artifact/fst-artifact}
+FST_ARTIFACT_ROOT=${FST_ARTIFACT_ROOT:-$PWD}
 
-host=$FLTHOST
+downloaddir=${DOWNLOADDIR:-$FST_ARTIFACT_ROOT/download/${package}}
+installdir=${INSTALLDIR:-$FST_ARTIFACT_ROOT/install/${package}}
+logdir=${LOGDIR:-$FST_ARTIFACT_ROOT/log}
+
+
+host=$FST_HOST
 
 if [ "$host " = " " ]; then
   host=`hostname`
@@ -41,12 +46,14 @@ HEAPS=`dirname $dir`/heaps.$host
 LOGS=`dirname $dir`/logs.$host
 
 # artifact colors
-COLORLB="#54dae5"
-COLORFLT="#fa9600"
+COLORFLTONE="#fa9600"
+COLORFLT="#159a2b"
 COLORFLTNZ="#3264c8"
-COLORFLTONE="#d83812"
+COLORFLTFOUR="#e30074"
+COLORLB="#d83812"
 COLORNUN="#109318"
 COLORNAN="#edd20b"
+COLORALLOC="#a705d9"
 
 # benchmarks
 BENCH=r7rs

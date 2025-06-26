@@ -1,0 +1,21 @@
+(monitor (info (exec "./a.out") (version "0.0.4") (sizeof-word 1))
+  (gc
+    (number: 0 alloc: #l3349274 heap: #l4259840 live: #l141936 lastfun: "unknown" time: #l1750434692524562000)
+    (number: 1 alloc: #l1747132 heap: #l4259840 live: #l133296 lastfun: "unknown" time: #l1750434692648987000)
+   )
+  (alloc 
+    (kbsize 4976)
+    (gc-count 2)
+    (files
+      (file: "lib/init.c"
+       lines: ((line: 574 kbsize: 47 %: 0 count: 64 types: #("vector" "keyword" "input-port" "output-port" "string" "mutex"))))
+      (file: "/misc/serrano/flt-artifact/download/bglstone_nun/src/r7rs-ray/bigloo/r7rs-ray.c"
+       lines: ((line: 1533 kbsize: 3651 %: 0 count: 116861 types: #("vector"))          (line: 3051 kbsize: 1171 %: 0 count: 50000 types: #("vector"))          (line: 327 kbsize: 43 %: 0 count: 1132 types: #("string" "mutex" "?" "pair" "class" "vector" "keyword" "symbol"))          (line: 2324 kbsize: 41 %: 0 count: 20 types: #("string" "procedure" "mutex" "output-port"))))
+       )
+   )
+  (types
+    (count 168662)
+    (types
+      (vector (kbsize: 4880 %: 98.0641 cnt: 167296))
+   ))
+)

@@ -4,22 +4,23 @@
 #*    -------------------------------------------------------------    */
 #*    Author      :  Manuel Serrano                                    */
 #*    Creation    :  Thu Oct  3 08:39:01 2024                          */
-#*    Last change :  Thu Jun 26 08:08:18 2025 (serrano)                */
+#*    Last change :  Thu Jun 26 08:51:52 2025 (serrano)                */
 #*    Copyright   :  2024-25 Manuel Serrano                            */
 #*    -------------------------------------------------------------    */
 #*    Common utility functions                                         */
 #*=====================================================================*/
 
-FST_ARTIFACT_ROOT=${FST_ARTIFACT_ROOT:-$PWD}
+path=`realpath $0`
+dir=`dirname $path`
 
-downloaddir=${DOWNLOADDIR:-$FST_ARTIFACT_ROOT/download/${package}}
-installdir=${INSTALLDIR:-$FST_ARTIFACT_ROOT/install/${package}}
+. $dir/env.sh
 
 action=all
 force=false
 verbose=1
-log=`pwd`/log/${package}.log
-mkdir -p `pwd`/log
+
+mkdir -p $logdir
+log=$logdir/${package}.log
 
 makeopts="-j -l4"
 

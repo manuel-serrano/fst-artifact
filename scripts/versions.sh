@@ -4,7 +4,7 @@
 #*    -------------------------------------------------------------    */
 #*    Author      :  Manuel Serrano                                    */
 #*    Creation    :  Thu Oct  3 09:53:13 2024                          */
-#*    Last change :  Wed Jun 25 17:49:53 2025 (serrano)                */
+#*    Last change :  Thu Jun 26 09:17:55 2025 (serrano)                */
 #*    Copyright   :  2024-25 Manuel Serrano                            */
 #*    -------------------------------------------------------------    */
 #*    Package versions                                                 */
@@ -87,7 +87,7 @@ hop_nun_branch=$hop_branch
 
 # bglstone
 bglstone_giturl=https://github.com/manuel-serrano/bglstone
-bglstone_commit=912d48263a67c4ae014b9a9a5063193170591b23
+bglstone_commit=e58419c7faf1bef8c1ee9c92d8faa7026cddc7ed
 bglstone_branch=master
 
 bglstone_bflags="-O6 -freturn -freturn-goto -copt -O3 -static-all-bigloo"
