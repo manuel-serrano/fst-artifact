@@ -4,7 +4,7 @@
 #*    -------------------------------------------------------------    */
 #*    Author      :  Manuel Serrano                                    */
 #*    Creation    :  Mon Mar 24 14:11:49 2025                          */
-#*    Last change :  Thu Jun 26 08:54:24 2025 (serrano)                */
+#*    Last change :  Thu Jun 26 17:16:56 2025 (serrano)                */
 #*    Copyright   :  2025 Manuel Serrano                               */
 #*    -------------------------------------------------------------    */
 #*    Generate the plots, invoked automatically by run.sh              */
@@ -90,6 +90,7 @@ for benchmark in $SCM_FLOAT_BENCHMARKS; do
           -e "gambit_orig='$HEAPS/$benchmark/gambit_0.heap'" \
           -e "gambit_fst='$HEAPS/$benchmark/gambit_1.heap'" \
           -e "output='$PLOTDIR/gc/$benchmark.pdf'" \
+	  -e "smallest_non_zero_vector='$SCM_SMALLEST_NON_ZERO_SIZE'" \
           $dir/plot_gc.gp
 done
 

@@ -74,8 +74,7 @@ unset mxtics
 # Rotate xtic labels if they are long (optional)
 set xtics rotate by 55 right
 
-stats gambit_orig using 1:2 every ::2::2 nooutput
-xzero=STATS_mean_x / 80
+xzero=smallest_non_zero_vector / 10
 set xtics add ("" (xzero + 0.01))
 set xrange [xzero:*]
 

@@ -4,7 +4,7 @@
 #*    -------------------------------------------------------------    */
 #*    Author      :  Manuel Serrano                                    */
 #*    Creation    :  Sun Mar 23 08:00:28 2025                          */
-#*    Last change :  Thu Jun 26 08:51:17 2025 (serrano)                */
+#*    Last change :  Thu Jun 26 17:16:01 2025 (serrano)                */
 #*    Copyright   :  2025 Manuel Serrano                               */
 #*    -------------------------------------------------------------    */
 #*    Artifcat environment variables                                   */
@@ -64,6 +64,7 @@ JS_BENCHMARKS="bague base64 basic-es2015 boyer boyer-scm crypto  crypto-aes cryp
 
 # vector size for heap benchmarks
 SCM_BENCHMARKS_VECTOR_SIZES="0 10000 100000 1000000 10000000 100000000"
+SCM_SMALLEST_NON_ZERO_SIZE=10000
 
 # compilers
 BIGLOOS="bigloo bigloo_flt bigloo_fltv bigloo_fltlb bigloo_fltnz bigloo_flt1 bigloo_nan bigloo_nun"
