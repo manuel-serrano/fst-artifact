@@ -22,7 +22,7 @@ set -u
 QEMU_CPU=max
 
 # Give the guest 4GB of RAM.
-QEMU_MEM_MB=4096
+QEMU_MEM_MB=16384
 
 # Decide what virtualization method to use based on the host system.
 case $(uname -m) in
