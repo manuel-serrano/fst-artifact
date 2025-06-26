@@ -4,7 +4,7 @@
 #*    -------------------------------------------------------------    */
 #*    Author      :  Manuel Serrano                                    */
 #*    Creation    :  Thu Oct  3 08:39:01 2024                          */
-#*    Last change :  Thu Jun 26 08:51:52 2025 (serrano)                */
+#*    Last change :  Thu Jun 26 10:47:06 2025 (serrano)                */
 #*    Copyright   :  2024-25 Manuel Serrano                            */
 #*    -------------------------------------------------------------    */
 #*    Common utility functions                                         */
@@ -151,6 +151,7 @@ make_install() {
 find_best_c_compiler() {
     for CC in gcc-14 gcc-13 gcc-12 gcc-11 gcc-10 gcc-9 gcc-8 gcc clang ; do
       if which $CC > /dev/null 2>&1 ; then
+	export CC
         return 0
       fi
     done
