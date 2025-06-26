@@ -24,6 +24,9 @@ QEMU_CPU=max
 # Give the guest 16GB of RAM.
 QEMU_MEM_MB=16384
 
+# Number of cpus available to Qemu
+QEMU_NB_CPU=4
+
 # Decide what virtualization method to use based on the host system.
 case $(uname -m) in
  'x86_64')
@@ -61,6 +64,7 @@ qemu-system-x86_64 \
         -accel  ${QEMU_ACCEL} \
         -cpu    ${QEMU_CPU} \
         -m      ${QEMU_MEM_MB} \
+	-smp    ${QEMU_NB_CPU} \
         -device e1000,netdev=net0 \
         -netdev user,id=net0,hostfwd=tcp::5555-:22 \
         -hda    disk.qcow \
