@@ -21,7 +21,7 @@ set -u
 # Expose all features present in the host cpu to the guest.
 QEMU_CPU=max
 
-# Give the guest 4GB of RAM.
+# Give the guest 16GB of RAM.
 QEMU_MEM_MB=16384
 
 # Decide what virtualization method to use based on the host system.
