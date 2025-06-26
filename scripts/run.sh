@@ -1,10 +1,10 @@
 #!/bin/sh
 #*=====================================================================*/
-#*    serrano/diffusion/article/flt/artifact/scripts/run.sh            */
+#*    serrano/diffusion/article/flt/fst-artifact/scripts/run.sh        */
 #*    -------------------------------------------------------------    */
 #*    Author      :  Manuel Serrano                                    */
 #*    Creation    :  Thu Oct  3 09:44:21 2024                          */
-#*    Last change :  Thu Jun 26 07:56:34 2025 (serrano)                */
+#*    Last change :  Thu Jun 26 13:50:48 2025 (serrano)                */
 #*    Copyright   :  2024-25 Manuel Serrano                            */
 #*    -------------------------------------------------------------    */
 #*    Run all the FLT benchmarks                                       */
@@ -42,9 +42,9 @@ for bigloo in $BIGLOOS; do
   fi
 
   if [ ! -f $STATS/$bigloo.stat ]; then
-    (cd $ROOT/download/$bglstone \
+    (cd $downloaddir/$bglstone \
        && make run TARGETS="bigloo" BENCH=$BENCH REPETITION="-r $REPETITION") \
-      && cat $ROOT/download/$bglstone/src/bigloo.stat \
+      && cat $downloaddir/$bglstone/src/bigloo.stat \
 	| sed -e "s/Bigloo/Bigloo${confname}/" > $STATS/$bigloo.stat
    fi
 done
@@ -61,9 +61,9 @@ for gambit in $GAMBITS; do
   fi
 
   if [ ! -f $STATS/$gambit.stat ]; then
-    (cd $ROOT/download/$bglstone \
+    (cd $downloaddir/$bglstone \
        && make run TARGETS="gambit" BENCH=$BENCH REPETITION="-r $REPETITION") \
-      && cat $ROOT/download/$bglstone/src/gambit.stat \
+      && cat $downloaddir/$bglstone/src/gambit.stat \
 	| sed -e "s/Gambit/Gambit${confname}/" \
 	      -e "s/gambit/Gambit${confname}/" > $STATS/$gambit.stat
    fi
@@ -81,7 +81,7 @@ for bigloo in bigloo bigloo_flt1; do
       for size in $SCM_BENCHMARKS_VECTOR_SIZES; do
         echo "  $benchmark $size"
         printf "$((size * 8))," >> $HEAPS/$benchmark/$bigloo.heap.tmp
-        (cd $ROOT/download/$bglstone/src/$benchmark/bigloo \
+        (cd $downloaddir/$bglstone/src/$benchmark/bigloo \
         && BGLSTONE_FILLER="(make-vector $size)" bash -c "time ./bigloo.exe") 2>&1 \
         | fgrep real | sed -e 's/[^0-9]*//' -e 's/m/*60+/' -e 's/s//' | bc >> $HEAPS/$benchmark/$bigloo.heap.tmp
       done
@@ -101,7 +101,7 @@ for gambit in gambit_0 gambit_1; do
       for size in $SCM_BENCHMARKS_VECTOR_SIZES; do
         echo "  $benchmark $size"
         printf "$((size * 8))," >> $HEAPS/$benchmark/$gambit.heap.tmp
-        (cd $ROOT/download/$bglstone/src/$benchmark/gambit \
+        (cd $downloaddir/$bglstone/src/$benchmark/gambit \
         && BGLSTONE_FILLER="(make-vector $size)" bash -c "time ./gambit.exe") 2>&1 \
         | fgrep real | sed -e 's/[^0-9]*//' -e 's/m/*60+/' -e 's/s//' | bc >> $HEAPS/$benchmark/$gambit.heap.tmp
       done
@@ -120,10 +120,10 @@ for bigloo in $BIGLOOS; do
     echo "  $benchmark"
     if [ ! -f $BMEMS/$benchmark/$bigloo.bmem ]; then
       mkdir -p $BMEMS/$benchmark
-      (cd $ROOT/download/$bglstone/src/$benchmark/bigloo \
-	 && $ROOT/install/$bigloo/bin/bigloo ${benchmark}.scm -O3 -unsafe -pmem \
-	 && BMEMVERBOSE=0 BMEMFORMAT=sexp $ROOT/install/$bigloo/bin/bglmemrun ./a.out pmem) \
-	&& mv $ROOT/download/$bglstone/src/$benchmark/bigloo/a.bmem $BMEMS/$benchmark/$bigloo.bmem
+      (cd $downloaddir/$bglstone/src/$benchmark/bigloo \
+	 && $installdir/$bigloo/bin/bigloo ${benchmark}.scm -O3 -unsafe -pmem \
+	 && BMEMVERBOSE=0 BMEMFORMAT=sexp $installdir/$bigloo/bin/bglmemrun ./a.out pmem) \
+	&& mv $downloaddir/$bglstone/src/$benchmark/bigloo/a.bmem $BMEMS/$benchmark/$bigloo.bmem
     fi
   done
 done
@@ -156,9 +156,9 @@ if [ $test_branch_prediction ]; then
       echo "  $benchmark"
       if [ ! -f $BRANCHS/$benchmark/$bigloo.branch ]; then
         mkdir -p $BRANCHS/$benchmark
-        (cd $ROOT/download/$bglstone/src/$benchmark/bigloo \
+        (cd $downloaddir/$bglstone/src/$benchmark/bigloo \
   	 && perf stat -x , -e branch-misses ./bigloo.exe 2>&1 > /dev/null | awk -F, '{print $1}' > a.branch) \
-  	&& mv $ROOT/download/$bglstone/src/$benchmark/bigloo/a.branch $BRANCHS/$benchmark/$bigloo.branch
+  	&& mv $downloaddir/$bglstone/src/$benchmark/bigloo/a.branch $BRANCHS/$benchmark/$bigloo.branch
       fi
     done
   done
@@ -176,8 +176,8 @@ fi
 # done
 # 
 # if [ ! -f $LOGS/SUMMARY.txt ]; then
-#   (cd $ROOT/download/$jsbench \
-#      && ./hopstone.sh --hopc=$ROOT/install/hop/bin/hopc --hop=$ROOT/install/hop/bin/hop --dir=$LOGS -e hop -e hop_flt -e hop_nan -e hop_nun -e hop_fltlb -e hop_fltnz -e hop_flt1 octane jetstream sunspider bglstone)
+#   (cd $downloaddir/$jsbench \
+#      && ./hopstone.sh --hopc=$installdir/hop/bin/hopc --hop=$installdir/hop/bin/hop --dir=$LOGS -e hop -e hop_flt -e hop_nan -e hop_nun -e hop_fltlb -e hop_fltnz -e hop_flt1 octane jetstream sunspider bglstone)
 # fi
   
 #*---------------------------------------------------------------------*/
