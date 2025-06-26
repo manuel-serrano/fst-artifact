@@ -2,7 +2,8 @@
 
 Name: Float Self-Tagging (FST)
 
-  * URL: https://zenodo.org/records/XXX
+  * DOI: 10.5281/zenodo.15741204
+  * URL: https://zenodo.org/records/15741204
   * GITHUB: git@github.com:omelancon/fst-artifact
 
 
@@ -27,12 +28,30 @@ of the artifact (as documented in Section [Native Artifact]). To
 execute it:
 
 ```shell
-ROOT=$HOME ./scripts/run.sh
+./scripts/run.sh
 ```
 
-This generates the PDF figures in the YYY directory comparing the
-performance of "float self tagging" to other float implementation
-techniques.
+This executes all the benchmarks and stores the results in the
+following directories:
+
+  - `stats.arfifact`: the speed evaluation;
+  - `branchs.arfifact`: the branch prediction statistic (*);
+  - `bmems.arfifact`: the memory profiling;
+  - `heaps.arfifact`: the garbage collection impact.
+
+
+(*): The branch predictions statistics can only be collected on native
+Linux platform when the `perf` tool is granted full access to the cpu
+sensors.
+
+
+```shell
+./scripts/plot.sh
+```
+
+This generates the PDF figures in the `plot.artifact` directory
+comparing the performance of "float self tagging" to other float
+implementation techniques.
 
 
 ### Alternative 2: Native artifact
@@ -59,7 +78,7 @@ needed to produce the figures using the following command (which maybe
 last around 2 hours):
 
 ```shell
-ROOT=$HOME ./scripts/install.sh
+./scripts/install.sh
 ```
 
 This creates two directories:
@@ -67,15 +86,20 @@ This creates two directories:
   - `download`: all the sources or all the compilers and benchmarks
   - `install`: all the compilers binary files.
   
-  
 To run the artifact, proceed as for the VM-base implementation, that is:
 
 ```shell
-ROOT=$HOME ./scripts/run.sh
+./scripts/run.sh
 ```
 
 This creates all figures in the YYYY directory. On a fast machine, this
 command lasts about 4 hours.
+
+
+The shell environment variable `FST_ARTIFACT_ROOT` constrols, if defined, 
+where the `download` and `install` directories are created. By default
+they are created in the current directory, i.e., the directory from 
+which the scripts are invoked.
 
 
 ## QEMU Instructions

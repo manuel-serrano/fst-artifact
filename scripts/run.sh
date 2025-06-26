@@ -4,7 +4,7 @@
 #*    -------------------------------------------------------------    */
 #*    Author      :  Manuel Serrano                                    */
 #*    Creation    :  Thu Oct  3 09:44:21 2024                          */
-#*    Last change :  Wed Jun 25 13:46:03 2025 (serrano)                */
+#*    Last change :  Thu Jun 26 07:56:34 2025 (serrano)                */
 #*    Copyright   :  2024-25 Manuel Serrano                            */
 #*    -------------------------------------------------------------    */
 #*    Run all the FLT benchmarks                                       */
@@ -128,22 +128,41 @@ for bigloo in $BIGLOOS; do
   done
 done
 
-#* # branch prediction                                                 */
-#* for bigloo in $BIGLOOS; do                                          */
-#*   echo "\e[1;32m=== branch ($bigloo)\e[0m"                          */
-#*   conf=`echo $bigloo | sed -e 's/bigloo//'`                         */
-#*   bglstone="bglstone$conf"                                          */
-#*                                                                     */
-#*   for benchmark in $SCM_BENCHMARKS; do                              */
-#*     echo "  $benchmark"                                             */
-#*     if [ ! -f $BRANCHS/$benchmark/$bigloo.branch ]; then            */
-#*       mkdir -p $BRANCHS/$benchmark                                  */
-#*       (cd $ROOT/download/$bglstone/src/$benchmark/bigloo \          */
-#* 	 && perf stat -x , -e branch-misses ./bigloo.exe 2>&1 > /dev/null | awk -F, '{print $1}' > a.branch) \ */
-#* 	&& mv $ROOT/download/$bglstone/src/$benchmark/bigloo/a.branch $BRANCHS/$benchmark/$bigloo.branch */
-#*     fi                                                              */
-#*   done                                                              */
-#* done                                                                */
+# branch prediction
+test_branch_prediction=0;
+
+if [ -f /etc/sysctl.conf ]; then
+  paranoid=`cat /etc/sysctl.conf | grep kernel.perf_event_paranoid | awk -F= '{print $2}'`
+  if [ $paranoid = "-1"]; then
+    test_branch_prediction=1;
+  elif [ $test_branch_prediction = "0" ]; then
+    if [ -f /proc/sys/kernel/perf_event_paranoid ]; then
+      paranoid=`cat /proc/sys/kernel/perf_event_paranoid`
+      
+      if [ $paranoid = "-1"]; then
+	test_branch_prediction=1;
+      fi
+    fi
+  fi
+fi
+
+if [ $test_branch_prediction ]; then
+  for bigloo in $BIGLOOS; do
+    echo "\e[1;32m=== branch ($bigloo)\e[0m"
+    conf=`echo $bigloo | sed -e 's/bigloo//'`
+    bglstone="bglstone$conf"
+  
+    for benchmark in $SCM_BENCHMARKS; do
+      echo "  $benchmark"
+      if [ ! -f $BRANCHS/$benchmark/$bigloo.branch ]; then
+        mkdir -p $BRANCHS/$benchmark
+        (cd $ROOT/download/$bglstone/src/$benchmark/bigloo \
+  	 && perf stat -x , -e branch-misses ./bigloo.exe 2>&1 > /dev/null | awk -F, '{print $1}' > a.branch) \
+  	&& mv $ROOT/download/$bglstone/src/$benchmark/bigloo/a.branch $BRANCHS/$benchmark/$bigloo.branch
+      fi
+    done
+  done
+fi
 
 # hop
 # echo "\e[1;33m=== jsbench\e[0m"
@@ -161,11 +180,6 @@ done
 #      && ./hopstone.sh --hopc=$ROOT/install/hop/bin/hopc --hop=$ROOT/install/hop/bin/hop --dir=$LOGS -e hop -e hop_flt -e hop_nan -e hop_nun -e hop_fltlb -e hop_fltnz -e hop_flt1 octane jetstream sunspider bglstone)
 # fi
   
-#*---------------------------------------------------------------------*/
-#*    PDF barcharts                                                    */
-#*---------------------------------------------------------------------*/
-sh $dir/plot.sh
-
 #*---------------------------------------------------------------------*/
 #*    last message                                                     */
 #*---------------------------------------------------------------------*/
