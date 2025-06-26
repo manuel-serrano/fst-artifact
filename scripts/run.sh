@@ -4,7 +4,7 @@
 #*    -------------------------------------------------------------    */
 #*    Author      :  Manuel Serrano                                    */
 #*    Creation    :  Thu Oct  3 09:44:21 2024                          */
-#*    Last change :  Thu Jun 26 13:51:46 2025 (serrano)                */
+#*    Last change :  Thu Jun 26 18:52:24 2025 (serrano)                */
 #*    Copyright   :  2024-25 Manuel Serrano                            */
 #*    -------------------------------------------------------------    */
 #*    Run all the FLT benchmarks                                       */
@@ -121,8 +121,8 @@ for bigloo in $BIGLOOS; do
     if [ ! -f $BMEMS/$benchmark/$bigloo.bmem ]; then
       mkdir -p $BMEMS/$benchmark
       (cd $downloaddir/$bglstone/src/$benchmark/bigloo \
-	 && $installdir/$bigloo/bin/bigloo ${benchmark}.scm -O3 -unsafe -pmem \
-	 && BMEMVERBOSE=0 BMEMFORMAT=sexp $installdir/$bigloo/bin/bglmemrun ./a.out pmem) \
+	 && $FST_ARTIFACT_ROOT/install/$bigloo/bin/bigloo ${benchmark}.scm -O3 -unsafe -pmem \
+	 && BMEMVERBOSE=0 BMEMFORMAT=sexp $FST_ARTIFACT_ROOT/install/$bigloo/bin/bglmemrun ./a.out pmem) \
 	&& mv $downloaddir/$bglstone/src/$benchmark/bigloo/a.bmem $BMEMS/$benchmark/$bigloo.bmem
     fi
   done
@@ -177,7 +177,7 @@ fi
 # 
 # if [ ! -f $LOGS/SUMMARY.txt ]; then
 #   (cd $downloaddir/$jsbench \
-#      && ./hopstone.sh --hopc=$installdir/hop/bin/hopc --hop=$installdir/hop/bin/hop --dir=$LOGS -e hop -e hop_flt -e hop_nan -e hop_nun -e hop_fltlb -e hop_fltnz -e hop_flt1 octane jetstream sunspider bglstone)
+#      && ./hopstone.sh --hopc=$FST_ARTIFACT_ROOT/install/hop/bin/hopc --hop=$FST_ARTIFACT_ROOT/install/hop/bin/hop --dir=$LOGS -e hop -e hop_flt -e hop_nan -e hop_nun -e hop_fltlb -e hop_fltnz -e hop_flt1 octane jetstream sunspider bglstone)
 # fi
   
 #*---------------------------------------------------------------------*/
