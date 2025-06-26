@@ -1,63 +1,221 @@
 # Float Self Tagging Artifact
 
-Name: Float Self-Tagging (FST)
+Name: Float Self-Tagging
 
   * DOI: 10.5281/zenodo.15741204
   * URL: https://zenodo.org/records/15741204
   * GITHUB: git@github.com:omelancon/fst-artifact
 
-
-## Artifact Instructions
-
 This artifact can be installed and ran either:
 
-  1. using the VM available at https://zenodo.org/records/XXXX
-  2. using the a native installation. 
+  1. using the VM available at https://zenodo.org/records/15741204
+  2. using the a native installation from git@github.com:omelancon/fst-artifact
+
+## Introduction
+
+This artifact evaluates the performance of float self-tagging for implementing
+double-precision floats as tagged values instead of tagged pointers.
+
+Performance is evaluated by implementing the following variants of self-tagging
+to the Bigloo and Gambit Scheme compilers:
+
+- 1-tag
+- 2-tag
+- 3-tag
+
+Performance of self-tagging is compared to that of other encodings for
+double-precision floats, namely:
+
+- NaN-boxing (unsupported by Gambit)
+- NuN-boxing
+- tagged pointers
+
+Performance are evaluated by executing benchmarks from the R7RS Scheme benchmark
+suite with each encoding, on each compiler. Execution time and memory
+allocations are measured.
+
+This artifact then generates figures for the profiled execution time, memory
+allocations, branch misprediction, and impact on garbage collection.
+
+The most straightforward way to execute this artifact is using the provided VM,
+which contains a Debian QEMU image. QEMU is a hosted virtual machine monitor
+that can emulate a host processor via dynamic binary translation. On common host
+platforms QEMU can also use a host provided virtualization layer, which is
+faster than dynamic binary translation.
+
+QEMU homepage: https://www.qemu.org/
+
+### Claims
+
+All figures showing results from benchmark execution in the paper are generated
+from this artifact.
+
+## Hardware Dependencies
+
+This artifact has been tested on Linux. It has no notable hardware dependency
+and should run on any modern personal computer.
+
+## Getting Started Guide
+
+This artifact provides a VM with a complete Linux image where the native version
+of the artifact has been pre-installed (as installation of all compiler variants
+takes several hours).
+
+The artifact can be either executed via the provided VM, or by executing the
+native version that installs all compilers. Both alternative are described hereafter.
+
+## Alternative 1: VM-based artifact
+
+To execute the artifact via the VM distribution, follow these steps.
 
 
-### Alternative 1: VM-base artifact
+### Install QEMU
 
-The VM provides a complete Linux image where a native version
-of the artifact has been pre-installed. 
+#### on OSX
 
-To execute the artifact via the VM distribution, install QEMU and run
-the virtual machine as instructed in Section [QEMU Instructions/QEMU
-Startup] (see below). Once connected to the VM go into the
-`fst-artifact` directory. It contains a pre-installed native version
-of the artifact (as documented in Section [Native Artifact]). To
-execute it:
+```shell
+brew install qemu
+```
+
+Restart your computer.
+
+#### on Debian and Ubuntu Linux
+
+```shell
+apt-get install qemu-kvm
+```
+
+On x86 laptops and server machines you may need to enable the "Intel
+Virtualization Technology" setting in your BIOS, as some manufacturers
+leave this disabled by default. See `qemu/Debugging.md` for details.
+
+Restart your computer.
+
+
+#### on Arch Linux
+
+```shell
+pacman -Sy qemu
+```
+
+See the [Arch wiki](https://wiki.archlinux.org/title/QEMU) for more info.
+
+See Debugging.md if you have problems logging into the artifact via SSH.
+
+Restart your computer.
+
+
+#### on Windows 10
+
+Download and install QEMU via the links at
+
+https://www.qemu.org/download/#windows.
+
+Ensure that `qemu-system-x86_64.exe` is in your path.
+
+Start Bar -> Search -> "Windows Features"
+          -> enable "Hyper-V" and "Windows Hypervisor Platform".
+
+Restart your computer.
+
+#### Windows 8
+
+See `qemu/Debugging.md` for Windows 8 install instructions.
+
+### Start the QEMU VM
+
+The base artifact provides a script to start the VM on unix-like systems:
+
+  ```shell
+  qemu/start.sh
+  ```
+  
+On Window, use the script:
+
+  ```shell
+  qemu/start.bat
+  ```
+  
+Running this script will open a graphical console on the host machine, and
+create a virtualized network interface. On Linux you may need to run with `sudo`
+to start the VM. If the VM does not start then check `qemu/Debugging.md`
+
+### Login to the VM
+
+Once the VM has started you can login to the guest system from the host.
+Whenever you are asked for a password, the answer is `password`. The default
+username is `artifact`.
+
+```
+$ ssh -p 5555 artifact@localhost
+```
+
+### Run benchmarks
+
+Run all benchmarks (takes about 4 hours):
 
 ```shell
 ./scripts/run.sh
 ```
 
-This executes all the benchmarks and stores the results in the
-following directories:
+This executes all the benchmarks and stores the results in the following
+directories:
 
-  - `stats.arfifact`: the speed evaluation;
-  - `branchs.arfifact`: the branch prediction statistic (*);
-  - `bmems.arfifact`: the memory profiling;
-  - `heaps.arfifact`: the garbage collection impact.
+  - `stats.arfifact`: execution times;
+  - `branchs.arfifact`: branch prediction statistics (*);
+  - `bmems.arfifact`: memory profiling;
+  - `heaps.artifact`: garbage collection impact.
 
 
-(*): The branch predictions statistics can only be collected on native
-Linux platform when the `perf` tool is granted full access to the cpu
-sensors.
+(*): The branch predictions statistics can only be collected on native Linux
+platform when the `perf` tool is granted full access to the cpu sensors.
+Otherwise, this benchmark is skipped.
 
+Benchmark execution can be interrupted. When restarting (with
+`./scripts/run.sh`), it will restart from the benchmark that was interrupted.
+
+### Plot Results
 
 ```shell
 ./scripts/plot.sh
 ```
 
-This generates the PDF figures in the `plot.artifact` directory
-comparing the performance of "float self tagging" to other float
-implementation techniques.
+This generates the PDF figures in the `plot.artifact` directory comparing the
+performance of float self-tagging to other float implementation techniques.
 
+You can copy files to and from the host using scp to extract all figures.
 
-### Alternative 2: Native artifact
+```shell
+$ scp -P 5555 artifact@localhost:somefile .
+```
 
-In order to install the version of the FST artifact, a full development
-tool kit is required. It must at least contain:
+### Shutdown
+
+To shutdown the guest system cleanly, login to it via ssh and use
+
+```
+(qemu) sudo shutdown now
+```
+
+### QEMU Installation Creation (Optional)
+
+If you decide not to use the pre-installed image shipped with this artifact, the
+file `qemu/ImageCreation.md` contains a complete manual on how to install Linux
+on a bare QEMU.
+
+Inside the bare Debian VM run the following commands:
+
+```
+(qemu) sudo apt update
+(qemu) sudo apt dist-upgrade
+(qemu) sudo apt install -y libgmp-dev libgmp10 autoconf automake libtool libunistring-dev gnuplot
+(qemu) git clone https://github.com:omelancon/fst-artifact
+```
+
+## Alternative 2: Native artifact
+
+To run the native artifact outside of the VM, a full development tool kit is
+required. It must at least contain:
 
   - a full-fledged C compiler
   - a full-fledged "make" tool
@@ -72,10 +230,9 @@ sudo apt dist-upgrade
 sudo apt install -y libgmp-dev libgmp10 autoconf automake libtool libunistring-dev gnuplot
 ```
 
-One the requirements are installed and operational, clone the [GITHUB]
-(see above) repository and install all the compilers and benchmarks
-needed to produce the figures using the following command (which maybe
-last around 2 hours):
+One the requirements are installed and operational, clone the [GITHUB] (see
+above) repository and install all the compilers and benchmarks needed to produce
+the figures using the following command (which takes around 4-6 hours):
 
 ```shell
 ./scripts/install.sh
@@ -92,132 +249,47 @@ To run the artifact, proceed as for the VM-base implementation, that is:
 ./scripts/run.sh
 ```
 
-This creates all figures in the YYYY directory. On a fast machine, this
-command lasts about 4 hours.
+This creates all figures in the  `plot.XXXX` directory, where `XXXX` is the
+machine name. On a fast machine, this command lasts about 4 hours.
 
+The shell environment variable `FST_ARTIFACT_ROOT` controls, if defined, where
+the `download` and `install` directories are created. By default they are
+created in the current directory, i.e., the directory from which the scripts are
+invoked.
 
-The shell environment variable `FST_ARTIFACT_ROOT` constrols, if defined, 
-where the `download` and `install` directories are created. By default
-they are created in the current directory, i.e., the directory from 
-which the scripts are invoked.
+## In-Depth Instructions
 
-
-## QEMU Instructions
-
-The Float Self-Tagging is using a Debian QEMU image as a base for
-artifacts. QEMU is a hosted virtual machine monitor that can emulate a
-host processor via dynamic binary translation. On common host
-platforms QEMU can also use a host provided virtualization layer,
-which is faster than dynamic binary translation.
-
-QEMU homepage: https://www.qemu.org/
-
-
-### QEMU Installation
-
-#### OSX
-
-```shell
-brew install qemu
-```
-
-#### Debian and Ubuntu Linux
-
-```shell
-apt-get install qemu-kvm
-```
-
-On x86 laptops and server machines you may need to enable the "Intel
-Virtualization Technology" setting in your BIOS, as some manufacturers
-leave this disabled by default. See Debugging.md for details.
-
-
-#### Arch Linux
-
-```shell
-pacman -Sy qemu
-```
-
-See the [Arch wiki](https://wiki.archlinux.org/title/QEMU) for more info.
-
-See Debugging.md if you have problems logging into the artifact via SSH.
-
-
-#### Windows 10
-
-Download and install QEMU via the links at
-
-https://www.qemu.org/download/#windows.
-
-Ensure that `qemu-system-x86_64.exe` is in your path.
-
-Start Bar -> Search -> "Windows Features"
-          -> enable "Hyper-V" and "Windows Hypervisor Platform".
-
-Restart your computer.
-
-#### Windows 8
-
-See Debugging.md for Windows 8 install instructions.
-
-
-### QEMU Installation Creation
-
-The file `qemu/ImageCreation.md` contains a complete manual on how
-to install Linux on a bare QEMU. You only need to follow this steps
-if you decide not to use the pre-installed image which is shipped
-with this artifact.
-
-
-### QEMU Startup
-
-The base artifact provides a script to start the VM on unix-like systems:
-
-  `qemu/start.sh` 
-  
-On Window, use the script:
-
-  `qemu/start.bat` 
-  
-Running this script will open a graphical console on the host machine,
-and create a virtualized network interface. On Linux you may need to
-run with `sudo` to start the VM. If the VM does not start then check
-`qemu/Debugging.md`
-
-Once the VM has started you can login to the guest system from the
-host.  Whenever you are asked for a password, the answer is
-`password`. The default username is `artifact`.
+TODO:
 
 ```
-$ ssh -p 5555 artifact@localhost
+In the Step by Step Instructions, explain how to reproduce any experiments or other activities that support the conclusions in your paper. Write this for readers who have a deep interest in your work and are studying it to improve it or compare against it. If your artifact runs for more than a few minutes, point this out, note how long it is expected to run (roughly) and explain how to run it on smaller inputs. Reviewers may choose to run on smaller inputs or larger inputs depending on available resources.
+
+Be sure to explain the expected outputs produced by the Step by Step Instructions. State where to find the outputs and how to interpret them relative to the paper. If there are any expected warnings or error messages, explain those as well. Ideally, artifacts should include sample outputs and logs for comparison.
 ```
 
-You can also copy files to and from the host using scp.
+## Reusability Guide
+
+TODO:
 
 ```
-$ scp -P 5555 artifact@localhost:somefile .
+In the Reusability Guide, explain which parts of your artifact constitute the core pieces which should be evaluated for reusability. Explain how to adapt the artifact to new inputs or new use cases. Provide instructions for how to find/generate/read documentation about the core artifact. Articulate any limitations to the artifact’s reusability.
 ```
 
-### Shutdown
 
-To shutdown the guest system cleanly, login to it via ssh and use
 
-```
-(qemu) sudo shutdown now
-```
 
-### Artifact Preparation
 
-This section described how a bare Debian VM should be prepared before
-running the experiment.
 
-Inside the bare Debian VM run the following commands:
 
-```
-(qemu) sudo apt update
-(qemu) sudo apt dist-upgrade
-(qemu) sudo apt install -y libgmp-dev libgmp10 autoconf automake libtool libunistring-dev gnuplot
-(qemu) git clone [GITHUB] # see above the definition of GITHUB
-```
+
+
+
+
+
+
+
+
+
+
 
 
