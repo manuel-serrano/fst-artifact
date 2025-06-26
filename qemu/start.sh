@@ -57,7 +57,7 @@ case $(uname -m) in
 esac
 
 qemu-system-x86_64 \
-        -name   "ICFP 2024 Artifact" \
+        -name   "OOPSLA 2025 Artifact" \
         -accel  ${QEMU_ACCEL} \
         -cpu    ${QEMU_CPU} \
         -m      ${QEMU_MEM_MB} \
