@@ -4,7 +4,7 @@
 #*    -------------------------------------------------------------    */
 #*    Author      :  Manuel Serrano                                    */
 #*    Creation    :  Sun Mar 23 08:00:28 2025                          */
-#*    Last change :  Thu Jun 26 17:16:01 2025 (serrano)                */
+#*    Last change :  Thu Jun 26 18:14:08 2025 (serrano)                */
 #*    Copyright   :  2025 Manuel Serrano                               */
 #*    -------------------------------------------------------------    */
 #*    Artifcat environment variables                                   */
@@ -36,7 +36,7 @@ fi
 
 PLOTDIR=plot.$host
 
-PATH=$PATH:$ROOT/install/bigloo/bin
+PATH=$PATH:$installdir/bigloo/bin
 export PATH
 
 STATS=`dirname $dir`/stats.$host
