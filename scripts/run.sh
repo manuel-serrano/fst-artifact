@@ -4,7 +4,7 @@
 #*    -------------------------------------------------------------    */
 #*    Author      :  Manuel Serrano                                    */
 #*    Creation    :  Thu Oct  3 09:44:21 2024                          */
-#*    Last change :  Thu Jun 26 13:51:19 2025 (serrano)                */
+#*    Last change :  Thu Jun 26 13:51:46 2025 (serrano)                */
 #*    Copyright   :  2024-25 Manuel Serrano                            */
 #*    -------------------------------------------------------------    */
 #*    Run all the FLT benchmarks                                       */
@@ -139,7 +139,7 @@ if [ -f /etc/sysctl.conf ]; then
     if [ -f /proc/sys/kernel/perf_event_paranoid ]; then
       paranoid=`cat /proc/sys/kernel/perf_event_paranoid`
       
-      if [ $paranoid = "-1"]; then
+      if [ $paranoid = "-1" ]; then
 	test_branch_prediction=1;
       fi
     fi
