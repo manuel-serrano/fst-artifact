@@ -165,7 +165,7 @@ username is `artifact`.
 The artifact is in the folder `fst-artifact`
 
 ```
-cd fst-artifact
+(qemu) cd fst-artifact
 ```
 
 ### Run benchmarks
@@ -288,18 +288,25 @@ The artifact's benchmark suite can be parameterized by updating `env.sh`. Below 
   heap with data in the GC impact experiment. For each of these values,
   benchmarks are executed after preallocating a vector of size `(make-vector SIZE)`. This preallocates `SIZE * 8` bytes on the heap.
 - `BIGLOOS` are the Bigloo variants to profile, it can include:
-  - `bigloo`: original Bigloo version with tagged pointers floats.
-  - `bigloo_flt1`: Bigloo with 1-tag self-tagging.
+  - `bigloo`: original Bigloo version with allocated floats.
+  - `bigloo_flt1`: Bigloo with 1-tag self-tagging (including zeros, infinities, 
+     and NaN).
   - `bigloo_fltnz`: Bigloo with 2-tag self-tagging and preallocated zeros.
-  - `bigloo_flt`: Bigloo with 3-tag self-tagging.
+  - `bigloo_flt`: Bigloo with 3-tag self-tagging (including zeros, infinities, 
+     and NaN).
   - `bigloo_nan`: Bigloo with NaN-boxing.
   - `bigloo_nun`: Bigloo with NuN-boxing.
 - `GAMBITS` are the Gambit variants to profile, it can include:
-  - `gambit_0`: original Gambit version with tagged pointers floats.
-  - `gambit_1`: Gambit with 1-tag self-tagging.
-  - `gambit_2`: Gambit with 2-tag self-tagging and preallocated zeros.
-  - `gambit_3`: Gambit with 3-tag self-tagging. 
-  - `gambit_4`: Gambit with 4-tag self-tagging. 
+  - `gambit_0`: original Gambit version with allocated floats.
+  - `gambit_1`: Gambit with 1-tag self-tagging (including zeros, infinities, 
+     and NaN).
+  - `gambit_2`: Gambit with 2-tag self-tagging (including zeros, infinities, 
+     and NaN).
+  - `gambit_3`: Gambit with 3-tag self-tagging (including zeros, infinities, 
+     and NaN).
+     infinities, and NaN.
+  - `gambit_4`: Gambit with 4-tag self-tagging (including zeros, infinities, 
+     and NaN).
   - `gambit_nun`: Gambit with NuN-boxing.
 
 Benchmarks are executing using the `bglstone` tool, which is a wrapper around the
