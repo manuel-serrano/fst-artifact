@@ -309,27 +309,35 @@ The artifact's benchmark suite can be parameterized by updating `env.sh`. Below 
      and NaN).
   - `gambit_nun`: Gambit with NuN-boxing.
 
+## Reusability Guide
+
+### bglstone suite
+
 Benchmarks are executing using the `bglstone` tool, which is a wrapper around the
 R7RS benchmark suite to simplify execution with Bigloo and Gambit.
 
-## Reusability Guide
+Instructions for `bglstone` can be found at https://github.com/manuel-serrano/bglstone
 
-TODO TODO TODO
+### Gambit
 
-This artifact streamlines the benchmark process by 
+The self-tagging (or other float encoding) implementation of Gambit can be found
+in `fst-artifact/download/GAMBIT/include/gambit.h.in` where `GAMBIT` is one of
+the variants listed in the *In-Depth Instructions* Section.
 
-https://github.com/manuel-serrano/bglstone
+Gambit's GitHub repository can be found at https://github.com/gambit/gambit
 
-https://github.com/manuel-serrano/bigloo
+### Bigloo
 
-https://github.com/gambit/gambit
+The self-tagging (or other float encoding) implementation of Bigloo can be found
+in the `fst-artifact/download/BIGLOO/runtime/Include/` folder where `BIGLOO` is one of
+the variants listed in the *In-Depth Instructions* Section. Relevant files are:
 
-TODOS:
-explain env.sh
-add references to gambit, bigloo, bglstone
-explain that float implementations are in gambit.h and bigloo.h
-pull MS changes
-test plot
+- `bigloo.h`
+- `bigloo_real.h`
+- `bigloo_real_flt.h`
+
+Bigloo's GitHub repository can be found at https://github.com/manuel-serrano/bigloo
+
 
 
 
