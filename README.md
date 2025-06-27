@@ -6,7 +6,7 @@ Name: Float Self-Tagging
   * URL: https://zenodo.org/records/15741204
   * GITHUB: git@github.com:omelancon/fst-artifact
 
-This artifact can be installed and ran either:
+This artifact can be installed and run either:
 
   1. using the VM available at https://zenodo.org/records/15741204
   2. using the a native installation from git@github.com:omelancon/fst-artifact
@@ -17,11 +17,12 @@ This artifact evaluates the performance of float self-tagging for implementing
 double-precision floats as tagged values instead of tagged pointers.
 
 Performance is evaluated by implementing the following variants of self-tagging
-to the Bigloo and Gambit Scheme compilers:
+in the Bigloo and Gambit Scheme compilers:
 
 - 1-tag
 - 2-tag
 - 3-tag
+- 4-tag (unsupported by Bigloo)
 
 Performance of self-tagging is compared to that of other encodings for
 double-precision floats, namely:
@@ -30,12 +31,12 @@ double-precision floats, namely:
 - NuN-boxing
 - tagged pointers
 
-Performance are evaluated by executing benchmarks from the R7RS Scheme benchmark
-suite with each encoding, on each compiler. Execution time and memory
-allocations are measured.
+Performance is evaluated by executing benchmarks from the R7RS Scheme benchmark
+suite (https://ecraven.github.io/r7rs-benchmarks/) with each encoding,
+on each compiler. Execution time and memory allocations are measured.
 
 This artifact then generates figures for the profiled execution time, memory
-allocations, branch misprediction, and impact on garbage collection.
+allocation, branch misprediction, and impact on garbage collection.
 
 The most straightforward way to execute this artifact is using the provided VM,
 which contains a Debian QEMU image. QEMU is a hosted virtual machine monitor
@@ -47,8 +48,14 @@ QEMU homepage: https://www.qemu.org/
 
 ### Claims
 
-All figures showing results from benchmark execution in the paper are generated
-from this artifact.
+All figures showing results from benchmark execution in the paper are
+generated from this artifact.
+
+Note: when the benchmarks are executed with QEMU the performance is
+somewhat skewed. The results in the paper are generated on physical
+hardwares to minimize secondary effects. We recommend using a similar
+setting when possible.
+
 
 ## Hardware Dependencies
 
@@ -57,12 +64,13 @@ and should run on any modern personal computer.
 
 ## Getting Started Guide
 
-This artifact provides a VM with a complete Linux image where the native version
-of the artifact has been pre-installed (as installation of all compiler variants
-takes several hours).
+This artifact provides a VM with a complete Linux image where the
+native version of the artifact has been pre-installed (as installation
+of all compiler variants takes several hours).
 
-The artifact can be either executed via the provided VM, or by executing the
-native version that installs all compilers. Both alternative are described hereafter.
+The artifact can be either executed via the provided VM, or by
+executing the native version that installs all compilers. Both
+alternative are described hereafter.
 
 ## Alternative 1: VM-based artifact
 
@@ -126,15 +134,15 @@ See `qemu/Debugging.md` for Windows 8 install instructions.
 
 The base artifact provides a script to start the VM on unix-like systems:
 
-  ```shell
-  qemu/start.sh
-  ```
+```shell
+(host) qemu/start.sh
+```
   
 On Window, use the script:
 
-  ```shell
-  qemu/start.bat
-  ```
+```shell
+(host) qemu/start.bat
+```
   
 Running this script will open a graphical console on the host machine, and
 create a virtualized network interface. On Linux you may need to run with `sudo`
@@ -147,7 +155,7 @@ Whenever you are asked for a password, the answer is `password`. The default
 username is `artifact`.
 
 ```
-$ ssh -p 5555 artifact@localhost
+(host) ssh -p 5555 artifact@localhost
 ```
 
 ### Run benchmarks
@@ -155,7 +163,7 @@ $ ssh -p 5555 artifact@localhost
 Run all benchmarks (takes about 4 hours):
 
 ```shell
-./scripts/run.sh
+(qemu) scripts/run.sh
 ```
 
 This executes all the benchmarks and stores the results in the following
@@ -168,16 +176,16 @@ directories:
 
 
 (*): The branch predictions statistics can only be collected on native Linux
-platform when the `perf` tool is granted full access to the cpu sensors.
+platforms when the `perf` tool is granted full access to the cpu sensors.
 Otherwise, this benchmark is skipped.
 
 Benchmark execution can be interrupted. When restarting (with
-`./scripts/run.sh`), it will restart from the benchmark that was interrupted.
+`scripts/run.sh`), it will restart from the benchmark that was interrupted.
 
 ### Plot Results
 
 ```shell
-./scripts/plot.sh
+(qemu) scripts/plot.sh
 ```
 
 This generates the PDF figures in the `plot.artifact` directory comparing the
@@ -186,7 +194,7 @@ performance of float self-tagging to other float implementation techniques.
 You can copy files to and from the host using scp to extract all figures.
 
 ```shell
-$ scp -P 5555 artifact@localhost:somefile .
+(host) scp -P 5555 artifact@localhost:somefile .
 ```
 
 ### Shutdown
@@ -230,23 +238,25 @@ sudo apt dist-upgrade
 sudo apt install -y libgmp-dev libgmp10 autoconf automake libtool libunistring-dev gnuplot
 ```
 
-One the requirements are installed and operational, clone the [GITHUB] (see
-above) repository and install all the compilers and benchmarks needed to produce
-the figures using the following command (which takes around 4-6 hours):
+Once the requirements are installed and operational, clone the
+[GITHUB] (see above) repository and install all the compilers and
+benchmarks needed to produce the figures using the following command
+(which takes around 4-6 hours):
 
 ```shell
-./scripts/install.sh
+(host) scripts/install.sh
 ```
 
-This creates two directories:
+This creates three directories:
 
   - `download`: all the sources or all the compilers and benchmarks
   - `install`: all the compilers binary files.
+  - `log`: log files for compilations and executions.
   
-To run the artifact, proceed as for the VM-base implementation, that is:
+To run the artifact, proceed as for the VM-based implementation, that is:
 
 ```shell
-./scripts/run.sh
+(host) scripts/run.sh
 ```
 
 This creates all figures in the  `plot.XXXX` directory, where `XXXX` is the
