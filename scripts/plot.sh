@@ -4,7 +4,7 @@
 #*    -------------------------------------------------------------    */
 #*    Author      :  Manuel Serrano                                    */
 #*    Creation    :  Mon Mar 24 14:11:49 2025                          */
-#*    Last change :  Fri Jun 27 09:57:34 2025 (serrano)                */
+#*    Last change :  Fri Jun 27 15:10:00 2025 (serrano)                */
 #*    Copyright   :  2025 Manuel Serrano                               */
 #*    -------------------------------------------------------------    */
 #*    Generate the plots, invoked automatically by run.sh              */
@@ -52,7 +52,7 @@ plot() {
   stats=$*
 
   if [ ! -f $pdf ] || [ $pdf -ot $plot.plot ]; then
-    $downloaddir/bglstone/bin/gnuplothistogram -o $plotdir/$plot --size $size --relative-sans-left $stats --benchmarks "$SCM_BENCHMARKS" --logscale --separator 12 --rename "Bigloo.fltlb" "self-tagging (2-tag, mantissa low-bits)" --rename "Bigloo.fltnz" "self-tagging (2-tag)" --rename "Bigloo.flt" "self-tagging (3-tag)" --rename "Bigloo.flt1" "self-tagging (1-tag)" --rename "Bigloo.nan" "NaN-boxing" --rename "Bigloo.nun" "NuN-boxing" --rename "Bigloo.bigloo" "alloc" --rename "Bigloo" "alloc" --rename "Gambit.nun" "NuN-boxing" --rename "Gambit.0" "alloc" --rename "Gambit.1" "self-tagging (1-tag)" --rename "Gambit.2" "self-tagging (2-tag)" --rename "Gambit.3" "self-tagging (3-tag)" --rename "Gambit.4" "self-tagging (4-tag)" --values --colors "$colors" --bmargin $bmargin --key "$key" --title "$title" --v-fontsize 4 --range $range --errorbars \
+    $downloaddir/bglstone/bin/gnuplothistogram -o $plotdir/$plot --size $size --relative-sans-left $stats --benchmarks "$SCM_BENCHMARKS" --logscale --separator 12 --rename "Bigloo.fltlb" "self-tagging (2-tag, mantissa low-bits)" --rename "Bigloo.fltnz" "self-tagging (2-tag)" --rename "Bigloo.flt" "self-tagging (3-tag)" --rename "Bigloo.flt1" "self-tagging (1-tag)" --rename "Bigloo.nan" "NaN-boxing" --rename "Bigloo.nun" "NuN-boxing" --rename "Bigloo.bigloo" "alloc" --rename "Bigloo" "alloc" --rename "Gambit.nun" "NuN-boxing" --rename "Gambit.0" "alloc" --rename "Gambit.1" "self-tagging (1-tag)" --rename "Gambit.2" "self-tagging (2-tag)" --rename "Gambit.3" "self-tagging (3-tag)" --rename "Gambit.4" "self-tagging (4-tag)" --values --colors "$colors" --bmargin $bmargin --key "$key" --title "$title" --v-fontsize 4 --range $range \
       && (cd $plotdir; unprefix $plot.csv) \
       && (cd $plotdir; gnuplot $plot.plot) 
   fi
@@ -68,9 +68,9 @@ plot $PLOTDIR/bigloo_vs_fltlb.pdf "$COLORLB" "6,2" "3" "off" "" "[0:*]" $STATS/b
 plot $PLOTDIR/bigloo_vs_flt1.pdf "$COLORLB" "6,2" "3" "off" ""  "[0:*]" $STATS/bigloo.stat $STATS/bigloo_flt1.stat
 
 # figure 9
-plot $PLOTDIR/bigloo_vs_flt.pdf "$COLORFLTONE,$COLORFLTNZ,$COLORFLT,$COLORNAN" "6,3" "5" "under nobox" "Relative time (@PROCESSOR@)" "[0.5:2]" $STATS/bigloo_nun.stat $STATS/bigloo_flt1.stat $STATS/bigloo_fltnz.stat $STATS/bigloo_flt.stat $STATS/bigloo_nan.stat
+plot $PLOTDIR/bigloo_vs_flt.pdf "$COLORFLTONE,$COLORFLTNZ,$COLORFLT,$COLORNAN" "6,3" "5" "under nobox" "Relative time (@PROCESSOR@)" "[0.5:2.5]" $STATS/bigloo_nun.stat $STATS/bigloo_flt1.stat $STATS/bigloo_fltnz.stat $STATS/bigloo_flt.stat $STATS/bigloo_nan.stat
 
-plot $PLOTDIR/gambit_vs_flt.pdf "$COLORFLTONE,$COLORFLTNZ,$COLORFLT,$COLORFLTFOUR" "6,3" "5" "under nobox" "Relative time (@PROCESSOR@)" "[0.5:2]" $STATS/gambit_nun.stat $STATS/gambit_1.stat $STATS/gambit_2.stat $STATS/gambit_3.stat $STATS/gambit_4.stat
+plot $PLOTDIR/gambit_vs_flt.pdf "$COLORFLTONE,$COLORFLTNZ,$COLORFLT,$COLORFLTFOUR" "6,3" "5" "under nobox" "Relative time (@PROCESSOR@)" "[0.5:2.5]" $STATS/gambit_nun.stat $STATS/gambit_1.stat $STATS/gambit_2.stat $STATS/gambit_3.stat $STATS/gambit_4.stat
 
 # figure 11
 plot $PLOTDIR/bigloo_vs_nan.pdf "$COLORNAN,$COLORNUN,$COLORFLTONE" "6,3" "5" "under nobox" "Relative time (@PROCESSOR@)" "[0:*]" $STATS/bigloo.stat $STATS/bigloo_nan.stat $STATS/bigloo_nun.stat $STATS/bigloo_flt1.stat

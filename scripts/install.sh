@@ -1,10 +1,10 @@
 #!/bin/sh
 #*=====================================================================*/
-#*    serrano/diffusion/article/flt/artifact/scripts/install.sh        */
+#*    .../diffusion/article/flt/fst-artifact/scripts/install.sh        */
 #*    -------------------------------------------------------------    */
 #*    Author      :  Manuel Serrano                                    */
 #*    Creation    :  Thu Oct  3 09:44:21 2024                          */
-#*    Last change :  Tue Jun 24 15:30:46 2025 (serrano)                */
+#*    Last change :  Fri Jun 27 15:09:09 2025 (serrano)                */
 #*    Copyright   :  2024-25 Manuel Serrano                            */
 #*    -------------------------------------------------------------    */
 #*    Install all the FLT compilers                                    */
@@ -22,7 +22,6 @@ dir=`dirname $path`
 $dir/bigloo.sh
 $dir/bigloo_flt.sh
 $dir/bigloo_fltlb.sh
-$dir/bigloo_fltv.sh
 $dir/bigloo_fltnz.sh
 $dir/bigloo_flt1.sh
 $dir/bigloo_nan.sh
