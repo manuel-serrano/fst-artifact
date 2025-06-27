@@ -4,7 +4,7 @@
 #*    -------------------------------------------------------------    */
 #*    Author      :  Manuel Serrano                                    */
 #*    Creation    :  Thu Oct  3 09:44:21 2024                          */
-#*    Last change :  Fri Jun 27 15:57:31 2025 (serrano)                */
+#*    Last change :  Fri Jun 27 15:58:23 2025 (serrano)                */
 #*    Copyright   :  2024-25 Manuel Serrano                            */
 #*    -------------------------------------------------------------    */
 #*    Run all the FLT benchmarks                                       */
@@ -146,7 +146,7 @@ if [ -f /etc/sysctl.conf ]; then
   fi
 fi
 
-if [ "$test_branch_prediction " = "1" ]; then
+if [ "$test_branch_prediction " = "1 " ]; then
   if which perf > /dev/null 2>&1; then
     for bigloo in $BIGLOOS; do
       echo "\e[1;32m=== branch ($bigloo)\e[0m"

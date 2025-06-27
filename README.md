@@ -33,16 +33,17 @@ double-precision floats, namely:
 
 Performance is evaluated by executing benchmarks from the R7RS Scheme benchmark
 suite (https://ecraven.github.io/r7rs-benchmarks/) with each encoding,
-on each compiler. Execution time and memory allocations are measured.
+on each compiler. Execution time and memory allocation are measured.
 
 This artifact then generates figures for the profiled execution time, memory
 allocation, branch misprediction, and impact on garbage collection.
 
-The most straightforward way to execute this artifact is using the provided VM,
-which contains a Debian QEMU image. QEMU is a hosted virtual machine monitor
-that can emulate a host processor via dynamic binary translation. On common host
-platforms QEMU can also use a host provided virtualization layer, which is
-faster than dynamic binary translation.
+The most straightforward way to execute this artifact is using the
+provided VM, which contains a x86_64 Debian QEMU image. QEMU is a
+hosted virtual machine monitor that can emulate a host processor via
+dynamic binary translation. On common host platforms QEMU can also use
+a host provided virtualization layer, which is faster than dynamic
+binary translation.
 
 QEMU homepage: https://www.qemu.org/
 
@@ -51,9 +52,9 @@ QEMU homepage: https://www.qemu.org/
 All figures showing results from benchmark execution in the paper are
 generated from this artifact.
 
-Note: when the benchmarks are executed with QEMU the performance is
+*Note*: when the benchmarks are executed with QEMU the performance is
 somewhat skewed. The results in the paper are generated on physical
-hardwares to minimize secondary effects. We recommend using a similar
+hardware to minimize secondary effects. We recommend using a similar
 setting when possible.
 
 
@@ -83,13 +84,17 @@ To execute the artifact via the VM distribution, follow these steps.
 
 ### Install QEMU
 
-#### on OSX
+#### on OSX (x86_64)
 
 ```shell
 brew install qemu
 ```
 
 Restart your computer.
+
+For performance reason, although possible, it is not recommended to
+run QEMU on an Apple silicon computer.
+
 
 #### on Debian and Ubuntu Linux
 
