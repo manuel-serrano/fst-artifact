@@ -66,8 +66,12 @@ native version that installs all compilers. Both alternative are described herea
 
 ## Alternative 1: VM-based artifact
 
-To execute the artifact via the VM distribution, follow these steps.
+**NOTE**: the QEMU VM is provided for convenience, to skip the (long) step of
+installing all compilers. However, results obtained through QEMU are bound to be
+noisier and less reliable. Results in the paper are obtained by directly
+executing the native artifact.
 
+To execute the artifact via the VM distribution, follow these steps.
 
 ### Install QEMU
 
@@ -150,9 +154,15 @@ username is `artifact`.
 $ ssh -p 5555 artifact@localhost
 ```
 
+The artifact is in the folder `fst-artifact`
+
+```
+cd fst-artifact
+```
+
 ### Run benchmarks
 
-Run all benchmarks (takes about 4 hours):
+Run all benchmarks (takes about 10 hours):
 
 ```shell
 ./scripts/run.sh
@@ -186,7 +196,7 @@ performance of float self-tagging to other float implementation techniques.
 You can copy files to and from the host using scp to extract all figures.
 
 ```shell
-$ scp -P 5555 artifact@localhost:somefile .
+scp -r -P 5555 artifact@localhost:fst-artifact/plot.artifact .
 ```
 
 ### Shutdown
@@ -250,7 +260,7 @@ To run the artifact, proceed as for the VM-base implementation, that is:
 ```
 
 This creates all figures in the  `plot.XXXX` directory, where `XXXX` is the
-machine name. On a fast machine, this command lasts about 4 hours.
+machine name. On a fast machine, this command lasts about 10 hours.
 
 The shell environment variable `FST_ARTIFACT_ROOT` controls, if defined, where
 the `download` and `install` directories are created. By default they are
@@ -259,22 +269,50 @@ invoked.
 
 ## In-Depth Instructions
 
-TODO:
+The artifact's benchmark suite can be parameterized by updating `env.sh`. Below are the relevant environment variables.
 
-```
-In the Step by Step Instructions, explain how to reproduce any experiments or other activities that support the conclusions in your paper. Write this for readers who have a deep interest in your work and are studying it to improve it or compare against it. If your artifact runs for more than a few minutes, point this out, note how long it is expected to run (roughly) and explain how to run it on smaller inputs. Reviewers may choose to run on smaller inputs or larger inputs depending on available resources.
+- `REPETITION` is the number of repetitions for each benchmark.
+- `SCM_BENCHMARKS` are the profiled benchmarks from the R7RS benchmark suite.
+- `SCM_FLOAT_BENCHMARKS` are the profiled benchmarks for the GC impact experiment.
+- `SCM_BENCHMARKS_VECTOR_SIZES` are the vector sizes used to prepopulate the
+  heap with data in the GC impact experiment. For each of these values,
+  benchmarks are executed after preallocating a vector of size `(make-vector SIZE)`. This preallocates `SIZE * 8` bytes on the heap.
+- `BIGLOOS` are the Bigloo variants to profile, it can include:
+  - `bigloo`: original Bigloo version with tagged pointers floats.
+  - `bigloo_flt1`: Bigloo with 1-tag self-tagging.
+  - `bigloo_fltnz`: Bigloo with 2-tag self-tagging and preallocated zeros.
+  - `bigloo_flt`: Bigloo with 3-tag self-tagging.
+  - `bigloo_nan`: Bigloo with NaN-boxing.
+  - `bigloo_nun`: Bigloo with NuN-boxing.
+- `GAMBITS` are the Gambit variants to profile, it can include:
+  - `gambit_0`: original Gambit version with tagged pointers floats.
+  - `gambit_1`: Gambit with 1-tag self-tagging.
+  - `gambit_2`: Gambit with 2-tag self-tagging and preallocated zeros.
+  - `gambit_3`: Gambit with 3-tag self-tagging. 
+  - `gambit_4`: Gambit with 4-tag self-tagging. 
+  - `gambit_nun`: Gambit with NuN-boxing.
 
-Be sure to explain the expected outputs produced by the Step by Step Instructions. State where to find the outputs and how to interpret them relative to the paper. If there are any expected warnings or error messages, explain those as well. Ideally, artifacts should include sample outputs and logs for comparison.
-```
+Benchmarks are executing using the `bglstone` tool, which is a wrapper around the
+R7RS benchmark suite to simplify execution with Bigloo and Gambit.
 
 ## Reusability Guide
 
-TODO:
+TODO TODO TODO
 
-```
-In the Reusability Guide, explain which parts of your artifact constitute the core pieces which should be evaluated for reusability. Explain how to adapt the artifact to new inputs or new use cases. Provide instructions for how to find/generate/read documentation about the core artifact. Articulate any limitations to the artifact’s reusability.
-```
+This artifact streamlines the benchmark process by 
 
+https://github.com/manuel-serrano/bglstone
+
+https://github.com/manuel-serrano/bigloo
+
+https://github.com/gambit/gambit
+
+TODOS:
+explain env.sh
+add references to gambit, bigloo, bglstone
+explain that float implementations are in gambit.h and bigloo.h
+pull MS changes
+test plot
 
 
 
