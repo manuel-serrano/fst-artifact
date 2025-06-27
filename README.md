@@ -9,7 +9,7 @@ Name: Float Self-Tagging
 This artifact can be installed and run either:
 
   1. using the VM available at https://zenodo.org/records/15741204
-  2. using the a native installation from git@github.com:omelancon/fst-artifact
+  2. using a native installation from git@github.com:omelancon/fst-artifact
 
 ## Introduction
 
@@ -71,7 +71,7 @@ of all compiler variants takes several hours).
 
 The artifact can be either executed via the provided VM, or by
 executing the native version that installs all compilers. Both
-alternative are described hereafter.
+alternatives are described hereafter.
 
 ## Alternative 1: VM-based artifact
 
@@ -159,7 +159,7 @@ to start the VM. If the VM does not start then check `qemu/Debugging.md`
 
 ### Login to the VM
 
-Once the VM has started you can login to the guest system from the host.
+Once the VM has started, you can login to the guest system from the host.
 Whenever you are asked for a password, the answer is `password`. The default
 username is `artifact`.
 
