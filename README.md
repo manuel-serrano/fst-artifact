@@ -87,7 +87,7 @@ To execute the artifact via the VM distribution, follow these steps.
 #### on OSX (x86_64)
 
 ```shell
-brew install qemu
+(host) brew install qemu
 ```
 
 Restart your computer.
@@ -99,7 +99,7 @@ run QEMU on an Apple silicon computer.
 #### on Debian and Ubuntu Linux
 
 ```shell
-apt-get install qemu-kvm
+(host) apt-get install qemu-kvm
 ```
 
 On x86 laptops and server machines you may need to enable the "Intel
@@ -112,7 +112,7 @@ Restart your computer.
 #### on Arch Linux
 
 ```shell
-pacman -Sy qemu
+(host) pacman -Sy qemu
 ```
 
 See the [Arch wiki](https://wiki.archlinux.org/title/QEMU) for more info.
@@ -237,7 +237,7 @@ Inside the bare Debian VM run the following commands:
 
 ## Alternative 2: Native artifact
 
-To run the native artifact outside of the VM, a full development tool kit is
+To run the native artifact outside of the VM, a full development toolkit is
 required. It must at least contain:
 
   - a full-fledged C compiler
@@ -248,9 +248,9 @@ required. It must at least contain:
 Under Linux Debian or Ubuntu the requirements can be installed with:
 
 ```shell
-apt update
-sudo apt dist-upgrade
-sudo apt install -y libgmp-dev libgmp10 autoconf automake libtool libunistring-dev gnuplot
+(host) apt update
+(host) sudo apt dist-upgrade
+(host) sudo apt install -y libgmp-dev libgmp10 autoconf automake libtool libunistring-dev gnuplot
 ```
 
 Once the requirements are installed and operational, clone the
