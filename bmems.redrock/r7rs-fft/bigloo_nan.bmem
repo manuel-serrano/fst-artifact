@@ -1,0 +1,43 @@
+(monitor (info (exec "./a.out") (version "0.0.4") (sizeof-word 1))
+  (gc
+    (number: 0 alloc: #l3775377 heap: #l4259840 live: #l640416 lastfun: "unknown" time: #l1742824765193046000)
+    (number: 1 alloc: #l3145792 heap: #l4259840 live: #l640416 lastfun: "unknown" time: #l1742824765255974000)
+    (number: 2 alloc: #l3145792 heap: #l4259840 live: #l640416 lastfun: "unknown" time: #l1742824765318879000)
+    (number: 3 alloc: #l3145792 heap: #l4259840 live: #l640416 lastfun: "unknown" time: #l1742824765383012000)
+    (number: 4 alloc: #l3145792 heap: #l4259840 live: #l640416 lastfun: "unknown" time: #l1742824765447167000)
+    (number: 5 alloc: #l3145792 heap: #l4259840 live: #l640416 lastfun: "unknown" time: #l1742824765510145000)
+    (number: 6 alloc: #l3145792 heap: #l4259840 live: #l640416 lastfun: "unknown" time: #l1742824765572837000)
+    (number: 7 alloc: #l3145792 heap: #l4259840 live: #l640416 lastfun: "unknown" time: #l1742824765636091000)
+    (number: 8 alloc: #l3145792 heap: #l4259840 live: #l640416 lastfun: "unknown" time: #l1742824765699967000)
+    (number: 9 alloc: #l3145792 heap: #l4259840 live: #l640416 lastfun: "unknown" time: #l1742824765763511000)
+    (number: 10 alloc: #l3145792 heap: #l4259840 live: #l640416 lastfun: "unknown" time: #l1742824765826632000)
+    (number: 11 alloc: #l3145792 heap: #l4259840 live: #l640416 lastfun: "unknown" time: #l1742824765889936000)
+    (number: 12 alloc: #l3145792 heap: #l4259840 live: #l640416 lastfun: "unknown" time: #l1742824765955430000)
+    (number: 13 alloc: #l3145792 heap: #l4259840 live: #l640416 lastfun: "unknown" time: #l1742824766019569000)
+    (number: 14 alloc: #l3145792 heap: #l4259840 live: #l640416 lastfun: "unknown" time: #l1742824766083463000)
+    (number: 15 alloc: #l3145792 heap: #l4259840 live: #l640416 lastfun: "unknown" time: #l1742824766146775000)
+    (number: 16 alloc: #l1572904 heap: #l4259840 live: #l640416 lastfun: "unknown" time: #l1742824766178714000)
+   )
+  (alloc 
+    (kbsize 51303)
+    (gc-count 17)
+    (files
+      (file: "lib/init.c"
+       lines: ((line: 574 kbsize: 47 %: 0 count: 64 types: #("vector" "keyword" "input-port" "output-port" "string" "mutex"))))
+      (file: "/misc/serrano/flt-artifact/download/bglstone_nan/src/r7rs-fft/bigloo/r7rs-fft.c"
+       lines: ((line: 3542 kbsize: 51200 %: 0 count: 100 types: #("vector"))          (line: 248 kbsize: 40 %: 0 count: 1138 types: #("string" "mutex" "?" "pair" "class" "vector" "keyword" "symbol"))))
+       )
+   )
+  (types
+    (count 1428)
+    (types
+      (vector (kbsize: 51260 %: 99.9154 cnt: 371))
+      (string (kbsize: 20 %: 0.0407765 cnt: 487))
+      (class (kbsize: 6 %: 0.0133244 cnt: 37))
+      (symbol (kbsize: 5 %: 0.0112382 cnt: 369))
+      (? (kbsize: 2 %: 0.00557912 cnt: 54))
+      (mutex (kbsize: 1 %: 0.0028933 cnt: 19))
+      (keyword (kbsize: 1 %: 0.00283239 cnt: 62))
+      (pair (kbsize: 0 %: 0.000639572 cnt: 21))
+   ))
+)
