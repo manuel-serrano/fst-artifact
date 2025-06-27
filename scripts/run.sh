@@ -4,7 +4,7 @@
 #*    -------------------------------------------------------------    */
 #*    Author      :  Manuel Serrano                                    */
 #*    Creation    :  Thu Oct  3 09:44:21 2024                          */
-#*    Last change :  Thu Jun 26 18:52:24 2025 (serrano)                */
+#*    Last change :  Fri Jun 27 15:16:57 2025 (serrano)                */
 #*    Copyright   :  2024-25 Manuel Serrano                            */
 #*    -------------------------------------------------------------    */
 #*    Run all the FLT benchmarks                                       */
@@ -146,22 +146,24 @@ if [ -f /etc/sysctl.conf ]; then
   fi
 fi
 
-if [ $test_branch_prediction ]; then
-  for bigloo in $BIGLOOS; do
-    echo "\e[1;32m=== branch ($bigloo)\e[0m"
-    conf=`echo $bigloo | sed -e 's/bigloo//'`
-    bglstone="bglstone$conf"
-  
-    for benchmark in $SCM_BENCHMARKS; do
-      echo "  $benchmark"
-      if [ ! -f $BRANCHS/$benchmark/$bigloo.branch ]; then
-        mkdir -p $BRANCHS/$benchmark
-        (cd $downloaddir/$bglstone/src/$benchmark/bigloo \
-  	 && perf stat -x , -e branch-misses ./bigloo.exe 2>&1 > /dev/null | awk -F, '{print $1}' > a.branch) \
-  	&& mv $downloaddir/$bglstone/src/$benchmark/bigloo/a.branch $BRANCHS/$benchmark/$bigloo.branch
-      fi
+if [ "$test_branch_prediction " = "1" ]; then
+  if which perf > /dev/null 2>&1; then
+    for bigloo in $BIGLOOS; do
+      echo "\e[1;32m=== branch ($bigloo)\e[0m"
+      conf=`echo $bigloo | sed -e 's/bigloo//'`
+      bglstone="bglstone$conf"
+    
+      for benchmark in $SCM_BENCHMARKS; do
+        echo "  $benchmark"
+        if [ ! -f $BRANCHS/$benchmark/$bigloo.branch ]; then
+          mkdir -p $BRANCHS/$benchmark
+          (cd $downloaddir/$bglstone/src/$benchmark/bigloo \
+    	   && perf stat -x , -e branch-misses ./bigloo.exe 2>&1 > /dev/null | awk -F, '{print $1}' > a.branch) \
+    	   && mv $downloaddir/$bglstone/src/$benchmark/bigloo/a.branch $BRANCHS/$benchmark/$bigloo.branch
+        fi
+      done
     done
-  done
+  fi
 fi
 
 # hop
