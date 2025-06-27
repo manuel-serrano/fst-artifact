@@ -208,7 +208,7 @@ Inside the bare Debian VM run the following commands:
 ```
 (qemu) sudo apt update
 (qemu) sudo apt dist-upgrade
-(qemu) sudo apt install -y libgmp-dev libgmp10 autoconf automake libtool libunistring-dev gnuplot
+(qemu) sudo apt install -y libgmp-dev libgmp10 autoconf automake libtool libunistring-dev gnuplot bc
 (qemu) git clone https://github.com:omelancon/fst-artifact
 ```
 
