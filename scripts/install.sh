@@ -4,7 +4,7 @@
 #*    -------------------------------------------------------------    */
 #*    Author      :  Manuel Serrano                                    */
 #*    Creation    :  Thu Oct  3 09:44:21 2024                          */
-#*    Last change :  Fri Jun 27 15:09:09 2025 (serrano)                */
+#*    Last change :  Fri Jun 27 17:34:32 2025 (serrano)                */
 #*    Copyright   :  2024-25 Manuel Serrano                            */
 #*    -------------------------------------------------------------    */
 #*    Install all the FLT compilers                                    */
@@ -46,7 +46,6 @@ $dir/gambit_nun.sh
 # benchmark suites
 $dir/bglstone.sh
 $dir/bglstone_flt.sh
-$dir/bglstone_fltv.sh
 $dir/bglstone_fltlb.sh
 $dir/bglstone_fltnz.sh
 $dir/bglstone_flt1.sh
