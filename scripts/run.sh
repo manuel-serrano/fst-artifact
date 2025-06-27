@@ -92,8 +92,7 @@ done
 
 for gambit in gambit_0 gambit_1; do
   echo "\e[1;31m=== heap ($gambit)\e[0m"
-  conf=`echo $gambit | sed -e 's/gambit//'`
-  bglstone="bglstone$conf"
+  bglstone="bglstone_$gambit"
   for benchmark in $SCM_FLOAT_BENCHMARKS; do
     if [ ! -f $HEAPS/$benchmark/$gambit.heap ]; then
       mkdir -p $HEAPS/$benchmark
