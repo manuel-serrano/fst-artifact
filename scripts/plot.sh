@@ -4,7 +4,7 @@
 #*    -------------------------------------------------------------    */
 #*    Author      :  Manuel Serrano                                    */
 #*    Creation    :  Mon Mar 24 14:11:49 2025                          */
-#*    Last change :  Thu Jun 26 17:16:56 2025 (serrano)                */
+#*    Last change :  Fri Jun 27 09:57:34 2025 (serrano)                */
 #*    Copyright   :  2025 Manuel Serrano                               */
 #*    -------------------------------------------------------------    */
 #*    Generate the plots, invoked automatically by run.sh              */
@@ -52,7 +52,7 @@ plot() {
   stats=$*
 
   if [ ! -f $pdf ] || [ $pdf -ot $plot.plot ]; then
-    $downloaddir/bglstone/bin/gnuplothistogram -o $plotdir/$plot --size $size --relative-sans-left $stats --benchmarks "$SCM_BENCHMARKS" --logscale --separator 12 --rename "Bigloo.fltlb" "self-tagging (2-tag, mantissa low-bits)" --rename "Bigloo.fltnz" "self-tagging (2-tag)" --rename "Bigloo.flt" "self-tagging (3-tag)" --rename "Bigloo.flt1" "self-tagging (1-tag)" --rename "Bigloo.nan" "NaN-boxing" --rename "Bigloo.nun" "NuN-boxing" --rename "Bigloo.bigloo" "alloc" --rename "Bigloo" "alloc" --rename "Gambit" "NuN-boxing" --rename "Gambit_0" "alloc" --rename "Gambit_1" "self-tagging (1-tag)" --rename "Gambit_2" "self-tagging (2-tag)" --rename "Gambit_3" "self-tagging (3-tag)" --rename "Gambit_4" "self-tagging (4-tag)" --values --colors "$colors" --bmargin $bmargin --key "$key" --title "$title" --v-fontsize 4 --range $range --errorbars \
+    $downloaddir/bglstone/bin/gnuplothistogram -o $plotdir/$plot --size $size --relative-sans-left $stats --benchmarks "$SCM_BENCHMARKS" --logscale --separator 12 --rename "Bigloo.fltlb" "self-tagging (2-tag, mantissa low-bits)" --rename "Bigloo.fltnz" "self-tagging (2-tag)" --rename "Bigloo.flt" "self-tagging (3-tag)" --rename "Bigloo.flt1" "self-tagging (1-tag)" --rename "Bigloo.nan" "NaN-boxing" --rename "Bigloo.nun" "NuN-boxing" --rename "Bigloo.bigloo" "alloc" --rename "Bigloo" "alloc" --rename "Gambit.nun" "NuN-boxing" --rename "Gambit.0" "alloc" --rename "Gambit.1" "self-tagging (1-tag)" --rename "Gambit.2" "self-tagging (2-tag)" --rename "Gambit.3" "self-tagging (3-tag)" --rename "Gambit.4" "self-tagging (4-tag)" --values --colors "$colors" --bmargin $bmargin --key "$key" --title "$title" --v-fontsize 4 --range $range --errorbars \
       && (cd $plotdir; unprefix $plot.csv) \
       && (cd $plotdir; gnuplot $plot.plot) 
   fi
