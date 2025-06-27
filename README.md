@@ -316,7 +316,7 @@ The artifact's benchmark suite can be parameterized by updating `env.sh`. Below 
 
 ## Reusability Guide
 
-### bglstone suite
+### Bglstone suite
 
 Benchmarks are executing using the `bglstone` tool, which is a wrapper around the
 R7RS benchmark suite to simplify execution with Bigloo and Gambit.
