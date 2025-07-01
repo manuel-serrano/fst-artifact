@@ -2,7 +2,7 @@
 package=gambit_1
 color=34
 
-GAMBIT_CONFIGURE_OPTIONS="--enable-single-host --enable-march=native --enable-dynamic-clib"
+GAMBIT_CONFIGURE_OPTIONS="--enable-single-host --enable-march=native --enable-dynamic-clib -enable-char-size=1"
 
 . `dirname $0`/versions.sh
 . `dirname $0`/common.sh
