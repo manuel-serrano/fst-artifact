@@ -4,7 +4,7 @@
 #*    -------------------------------------------------------------    */
 #*    Author      :  Manuel Serrano                                    */
 #*    Creation    :  Thu Oct  3 09:53:13 2024                          */
-#*    Last change :  Tue Jul  1 11:13:15 2025 (serrano)                */
+#*    Last change :  Tue Jul  1 11:49:32 2025 (serrano)                */
 #*    Copyright   :  2024-25 Manuel Serrano                            */
 #*    -------------------------------------------------------------    */
 #*    Package versions                                                 */
@@ -12,7 +12,7 @@
 
 # bigloo
 bigloo_giturl=https://github.com/manuel-serrano/bigloo
-bigloo_commit=966a804a284a8630d8a84585bcd779f1e2b79e19
+bigloo_commit=0d8683e38e362dab180c68fbe9c541357e6e8c99
 bigloo_branch=master
 bigloo_configure_opts="--disable-gmp --disable-libunistring --disable-pcre2 --disable-pcre --disable-libuv"
 
@@ -131,7 +131,7 @@ jsbench_branch=master
 
 # gambit
 gambit_giturl=https://github.com/gambit/gambit
-gambit_commit=45c42fc2a6da5bae027d430000a1c4150647bd51
+gambit_commit=6d286cbd6c8f025bf0b0124cf284c3429f305726
 gambit_branch=master
 
 gambit_0_giturl=$gambit_giturl
