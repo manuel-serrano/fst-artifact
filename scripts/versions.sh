@@ -131,7 +131,7 @@ jsbench_branch=master
 
 # gambit
 gambit_giturl=https://github.com/gambit/gambit
-gambit_commit=6d286cbd6c8f025bf0b0124cf284c3429f305726
+gambit_commit=f940dc58033aaa5570800e9d0b32dcc41f60ebd8
 gambit_branch=master
 
 gambit_0_giturl=$gambit_giturl
