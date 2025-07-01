@@ -4,7 +4,7 @@
 #*    -------------------------------------------------------------    */
 #*    Author      :  Manuel Serrano                                    */
 #*    Creation    :  Thu Oct  3 09:53:13 2024                          */
-#*    Last change :  Tue Jul  1 17:32:27 2025 (serrano)                */
+#*    Last change :  Tue Jul  1 18:23:27 2025 (serrano)                */
 #*    Copyright   :  2024-25 Manuel Serrano                            */
 #*    -------------------------------------------------------------    */
 #*    Package versions                                                 */
@@ -12,7 +12,7 @@
 
 # bigloo
 bigloo_giturl=https://github.com/manuel-serrano/bigloo
-bigloo_commit=b9014bb89d63e7841f4606073eaf9c64f5a0c698
+bigloo_commit=f751601c0f12047dab69d3f91fa03f3c20c7db8b
 bigloo_branch=master
 bigloo_configure_opts="--disable-gmp --disable-libunistring --disable-pcre2 --disable-pcre --disable-libuv"
 
