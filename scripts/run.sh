@@ -171,7 +171,7 @@ echo "\e[1;31m=== floats ($GAMBIT_FLOAT)\e[0m"
 bglstone_floats="bglstone_$GAMBIT_FLOAT"
 gsc_floats="$installdir/$GAMBIT_FLOAT/bin/gsc"
 for benchmark in $SCM_FLOAT_BENCHMARKS; do
-  if [ ! -f $FLOATS/$benchmark/$benchmark.floats.tmp ]; then
+  if [ ! -f $FLOATS/$benchmark/$benchmark.floats ]; then
     mkdir -p $FLOATS/$benchmark
     echo "  $benchmark"
     (cd $downloaddir/$bglstone_floats/src/$benchmark/gambit \
