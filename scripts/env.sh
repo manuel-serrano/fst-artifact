@@ -43,6 +43,7 @@ STATS=`dirname $dir`/stats.$host
 BMEMS=`dirname $dir`/bmems.$host
 BRANCHS=`dirname $dir`/branchs.$host
 HEAPS=`dirname $dir`/heaps.$host
+FLOATS=`dirname $dir`/floats.$host
 LOGS=`dirname $dir`/logs.$host
 
 # artifact colors
@@ -70,3 +71,4 @@ BIGLOOS="bigloo bigloo_flt bigloo_fltlb bigloo_fltnz bigloo_flt1 bigloo_nan bigl
 
 # compilers
 GAMBITS="gambit_0 gambit_1 gambit_2 gambit_3 gambit_4 gambit_nun"
+GAMBIT_FLOAT="gambit_0"

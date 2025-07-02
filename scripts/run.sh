@@ -24,6 +24,7 @@ mkdir -p $STATS
 mkdir -p $BMEMS
 mkdir -p $BRANCHS
 mkdir -p $HEAPS
+mkdir -p $FLOATS
 mkdir -p $LOGS
 
 #*---------------------------------------------------------------------*/
@@ -164,6 +165,26 @@ if [ "$test_branch_prediction " = "1 " ]; then
     done
   fi
 fi
+
+#float distribution
+echo "\e[1;31m=== floats ($GAMBIT_FLOAT)\e[0m"
+bglstone_floats="bglstone_$GAMBIT_FLOAT"
+gsc_floats="$installdir/$GAMBIT_FLOAT/bin/gsc"
+for benchmark in $SCM_FLOAT_BENCHMARKS; do
+  if [ ! -f $FLOATS/$benchmark/$benchmark.floats.tmp ]; then
+    mkdir -p $FLOATS/$benchmark
+    echo "  $benchmark"
+    (cd $downloaddir/$bglstone_floats/src/$benchmark/gambit \
+    && $gsc_floats -prelude "(##include \"$dir/gambit-float-counter-prelude.scm\")" \
+                   -exe \
+                   -e "(load \"../../r7rs/gambit-module-macro.scm\")" \
+                   $benchmark.scm \
+    && ./$benchmark) > $FLOATS/$benchmark/$benchmark.floats.tmp
+    sed -n '/=== float distribution ===/,/=== end float distribution ===/p' \
+    $FLOATS/$benchmark/$benchmark.floats.tmp | sed '1d;$d' > $FLOATS/$benchmark/$benchmark.floats
+    rm $FLOATS/$benchmark/$benchmark.floats.tmp
+  fi
+done
 
 # hop
 # echo "\e[1;33m=== jsbench\e[0m"
