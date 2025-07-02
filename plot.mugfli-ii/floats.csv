@@ -1,5 +1,5 @@
-high-bits r7rs-fft r7rs-fibfp r7rs-mbrot r7rs-nucleic r7rs-pnpoly r7rs-ray r7rs-simplex r7rs-sum1 r7rs-sumfp
-zero 90%  13%  0%  0%  26%  4%  11%  -  0% 
+high-bits r7rs-fft r7rs-fibfp r7rs-mbrot r7rs-nucleic r7rs-pnpoly r7rs-ray r7rs-simplex r7rs-sumfp r7rs-sum1
+zero 90%  13%  0%  0%  26%  4%  11%  0%  - 
 nan -  -  -  -  -  -  -  -  - 
 inf -  -  -  -  -  -  -  -  - 
 00000 -  -  -  -  -  -  -  -  - 
