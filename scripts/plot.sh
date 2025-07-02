@@ -61,6 +61,7 @@ plot() {
 #*---------------------------------------------------------------------*/
 #*    Scheme performance                                               */
 #*---------------------------------------------------------------------*/
+
 # figure 5.b
 plot $PLOTDIR/bigloo_vs_fltlb.pdf "$COLORLB" "6,2" "3" "off" "" "[0:*]" $STATS/bigloo.stat $STATS/bigloo_fltlb.stat
 
@@ -132,4 +133,32 @@ fi
 # 
 # figure 12
 # (cd $PLOTDIR; gnuplot hop.plot)
+
+#*---------------------------------------------------------------------*/
+#*    Float Distribution                                               */
+#*---------------------------------------------------------------------*/
+float_table_csv=$PLOTDIR/floats.csv
+echo -n "high-bits $SCM_FLOAT_BENCHMARKS" > $float_table_csv
+for i in $(seq 0 31); do
+  echo >> $float_table_csv
+  bin=$(printf "%05d" "$(echo "obase=2;$i" | bc)")
+  echo -n $bin >> $float_table_csv
+  for benchmark in $SCM_FLOAT_BENCHMARKS; do
+percentage=$(awk -F, -v "p=$bin" '
+    BEGIN {
+      total = 0;
+      target = 0;
+    }
+    { 
+      total += $2;
+      if (match($1, "^" p)) target += $2
+    }
+    END {
+      if (target > 0 && total > 0) { printf "%.0f%% ", (100 * target / total); }
+      else { printf "- "; }
+    }' "$FLOATS/$benchmark/$benchmark.floats")
+    echo -n " $percentage" >> $float_table_csv
+  done
+done
+cat $float_table_csv | tr -s ' ' | column -t > $PLOTDIR/floats.txt
 
