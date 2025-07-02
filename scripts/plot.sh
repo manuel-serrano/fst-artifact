@@ -137,15 +137,11 @@ fi
 #*---------------------------------------------------------------------*/
 #*    Float Distribution                                               */
 #*---------------------------------------------------------------------*/
-float_table_csv=$PLOTDIR/floats.csv
-echo -n "high-bits $SCM_FLOAT_BENCHMARKS" > $float_table_csv
-for i in $(seq 0 31); do
-  echo >> $float_table_csv
-  bin=$(printf "%05d" "$(echo "obase=2;$i" | bc)")
-  echo -n $bin >> $float_table_csv
-  for benchmark in $SCM_FLOAT_BENCHMARKS; do
-percentage=$(awk -F, -v "p=$bin" '
-    BEGIN {
+
+get_float_percentage() {
+  local pattern=$1
+  local file=$2
+  awk -F, -v "p=$pattern" 'BEGIN {
       total = 0;
       target = 0;
     }
@@ -156,9 +152,22 @@ percentage=$(awk -F, -v "p=$bin" '
     END {
       if (target > 0 && total > 0) { printf "%.0f%% ", (100 * target / total); }
       else { printf "- "; }
-    }' "$FLOATS/$benchmark/$benchmark.floats")
-    echo -n " $percentage" >> $float_table_csv
+    }' $file
+}
+
+float_buckets="zero nan inf"
+for i in $(seq 0 31); do
+  bin=$(printf "%05d" "$(echo "obase=2;$i" | bc)")
+  float_buckets="$float_buckets $bin"
+done
+
+float_table_csv=$PLOTDIR/floats.csv
+echo -n "high-bits $SCM_FLOAT_BENCHMARKS" > $float_table_csv
+for pattern in $float_buckets; do
+  echo >> $float_table_csv
+  echo -n $pattern >> $float_table_csv
+  for benchmark in $SCM_FLOAT_BENCHMARKS; do
+    echo -n " $(get_float_percentage $pattern "$FLOATS/$benchmark/$benchmark.floats")" >> $float_table_csv
   done
 done
 cat $float_table_csv | tr -s ' ' | column -t > $PLOTDIR/floats.txt
-
