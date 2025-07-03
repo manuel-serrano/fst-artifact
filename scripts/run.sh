@@ -78,13 +78,22 @@ for bigloo in bigloo bigloo_flt1; do
   for benchmark in $SCM_FLOAT_BENCHMARKS; do
     if [ ! -f $HEAPS/$benchmark/$bigloo.heap ]; then
       mkdir -p $HEAPS/$benchmark
+      echo "size,time" > $HEAPS/$benchmark/$bigloo.heap.reps
       echo "size,time" > $HEAPS/$benchmark/$bigloo.heap.tmp
       for size in $SCM_BENCHMARKS_VECTOR_SIZES; do
-        echo "  $benchmark $size"
-        printf "$((size * 8))," >> $HEAPS/$benchmark/$bigloo.heap.tmp
-        (cd $downloaddir/$bglstone/src/$benchmark/bigloo \
-        && BGLSTONE_FILLER="(make-vector $size)" bash -c "time ./bigloo.exe") 2>&1 \
-        | fgrep real | sed -e 's/[^0-9]*//' -e 's/m/*60+/' -e 's/s//' | bc >> $HEAPS/$benchmark/$bigloo.heap.tmp
+        echo -n "  $benchmark $size"
+        bytes_size=$((size * 8))
+        time_sum=0.0
+        for rep in $(seq $REPETITION); do
+          echo -n "."
+          rep_time=$( (cd $downloaddir/$bglstone/src/$benchmark/bigloo \
+            && BGLSTONE_FILLER="(make-vector $size)" bash -c "time ./bigloo.exe") 2>&1 \
+            | fgrep real | sed -e 's/[^0-9]*//' -e 's/m/*60+/' -e 's/s//' | bc)
+          time_sum=$(echo "$time_sum + $rep_time" | bc)
+          printf "$bytes_size,$rep_time\n" >> $HEAPS/$benchmark/$bigloo.heap.reps
+        done
+        echo
+        printf "$bytes_size,$(echo "scale=2; $time_sum / $REPETITION" | bc)\n" >> $HEAPS/$benchmark/$bigloo.heap.tmp
       done
       mv $HEAPS/$benchmark/$bigloo.heap.tmp $HEAPS/$benchmark/$bigloo.heap
     fi
@@ -97,13 +106,22 @@ for gambit in gambit_0 gambit_1; do
   for benchmark in $SCM_FLOAT_BENCHMARKS; do
     if [ ! -f $HEAPS/$benchmark/$gambit.heap ]; then
       mkdir -p $HEAPS/$benchmark
+      echo "size,time" > $HEAPS/$benchmark/$gambit.heap.reps
       echo "size,time" > $HEAPS/$benchmark/$gambit.heap.tmp
       for size in $SCM_BENCHMARKS_VECTOR_SIZES; do
-        echo "  $benchmark $size"
-        printf "$((size * 8))," >> $HEAPS/$benchmark/$gambit.heap.tmp
-        (cd $downloaddir/$bglstone/src/$benchmark/gambit \
-        && BGLSTONE_FILLER="(make-vector $size)" bash -c "time ./gambit.exe") 2>&1 \
-        | fgrep real | sed -e 's/[^0-9]*//' -e 's/m/*60+/' -e 's/s//' | bc >> $HEAPS/$benchmark/$gambit.heap.tmp
+        echo -n "  $benchmark $size"
+        bytes_size=$((size * 8))
+        time_sum=0
+        for rep in $(seq $REPETITION); do
+          echo -n "."
+          rep_time=$( (cd $downloaddir/$bglstone/src/$benchmark/gambit \
+            && BGLSTONE_FILLER="(make-vector $size)" bash -c "time ./gambit.exe") 2>&1 \
+            | fgrep real | sed -e 's/[^0-9]*//' -e 's/m/*60+/' -e 's/s//' | bc)
+          time_sum=$(echo "$time_sum + $rep_time" | bc)
+          printf "$bytes_size,$rep_time\n" >> $HEAPS/$benchmark/$gambit.heap.reps
+        done
+        echo
+        printf "$bytes_size,$(echo "scale=2; $time_sum / $REPETITION" | bc)\n" >> $HEAPS/$benchmark/$gambit.heap.tmp
       done
       mv $HEAPS/$benchmark/$gambit.heap.tmp $HEAPS/$benchmark/$gambit.heap
     fi
