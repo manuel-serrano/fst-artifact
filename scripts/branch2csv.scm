@@ -1,9 +1,9 @@
 ;*=====================================================================*/
-;*    .../diffusion/article/flt/artifact/scripts/branch2csv.scm        */
+;*    .../article/flt/fst-artifact/scripts/branch2csv.scm              */
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  manuel serrano                                    */
 ;*    Creation    :  Fri Nov  1 19:53:56 2024                          */
-;*    Last change :  Mon Mar 24 13:55:34 2025 (serrano)                */
+;*    Last change :  Wed Jul  2 15:14:41 2025 (serrano)                */
 ;*    Copyright   :  2024-25 manuel serrano                            */
 ;*    -------------------------------------------------------------    */
 ;*    Convert branch profiles into a CSV file.                         */
@@ -19,7 +19,13 @@
 ;*    configuration                                                    */
 ;*---------------------------------------------------------------------*/
 (define *base-color* "red")
-(define *offset-tables* `#(- - #(0) #(,(- (/ 1 6)) ,(/ 1 6))))
+(define *offset-tables*
+   `#(- #(0)
+	#(,(- (/ 1 6)) ,(/ 1 6))
+	#(,(- (/ 1 6)) 0 ,(/ 1 6))
+	#(,(- (/ 2 6)) ,(- (/ 1 6)) ,(/ 1 6) ,(/ 2 6))
+	#(,(- (/ 2 6)) ,(- (/ 1 6)) 0 ,(/ 1 6) ,(/ 2 6))
+	#(,(- (/ 3 6)) ,(- (/ 2 6)) ,(- (/ 1 6)) 0 ,(/ 1 6) ,(/ 2 6) ,(/ 3 6))))
 (define *separator* -1)
 (define *aliases* '())
 

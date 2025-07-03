@@ -4,7 +4,7 @@
 #*    -------------------------------------------------------------    */
 #*    Author      :  Manuel Serrano                                    */
 #*    Creation    :  Mon Mar 24 14:11:49 2025                          */
-#*    Last change :  Fri Jun 27 15:10:00 2025 (serrano)                */
+#*    Last change :  Wed Jul  2 14:42:03 2025 (serrano)                */
 #*    Copyright   :  2025 Manuel Serrano                               */
 #*    -------------------------------------------------------------    */
 #*    Generate the plots, invoked automatically by run.sh              */
@@ -59,30 +59,38 @@ plot() {
 }
 
 #*---------------------------------------------------------------------*/
-#*    Scheme performance                                               */
+#*    COMP_time_nun_ARCH.pdf                                           */
 #*---------------------------------------------------------------------*/
+plot $PLOTDIR/bigloo_time_nun_$host.pdf "$COLORFLTONE,$COLORFLTNZ,$COLORFLT,$COLORNAN" "6,3" "5" "under nobox" "Relative time (@PROCESSOR@)" "[0.5:2.5]" $STATS/bigloo_nun.stat $STATS/bigloo_flt1.stat $STATS/bigloo_fltnz.stat $STATS/bigloo_flt.stat $STATS/bigloo_nan.stat
+plot $PLOTDIR/gambit_time_nun_$host.pdf "$COLORFLTONE,$COLORFLTNZ,$COLORFLT,$COLORFLTFOUR" "6,3" "5" "under nobox" "Relative time (@PROCESSOR@)" "[0.5:2.5]" $STATS/gambit_nun.stat $STATS/gambit_1.stat $STATS/gambit_2.stat $STATS/gambit_3.stat $STATS/gambit_4.stat
 
-# figure 5.b
-plot $PLOTDIR/bigloo_vs_fltlb.pdf "$COLORLB" "6,2" "3" "off" "" "[0:*]" $STATS/bigloo.stat $STATS/bigloo_fltlb.stat
+#*---------------------------------------------------------------------*/
+#*    COMP_time_alloc_ARCH.pdf                                         */
+#*---------------------------------------------------------------------*/
+plot $PLOTDIR/bigloo_time_alloc_$host.pdf "$COLORFLTONE" "6,3" "5" "under nobox" "Relative time (@PROCESSOR@)" "[0.5:2.5]" $STATS/bigloo.stat $STATS/bigloo_flt1.stat
+plot $PLOTDIR/gambit_time_alloc_$host.pdf "$COLORFLTONE" "6,3" "5" "under nobox" "Relative time (@PROCESSOR@)" "[0.5:2.5]" $STATS/gambit_0.stat $STATS/gambit_1.stat
 
-# figure 7
-plot $PLOTDIR/bigloo_vs_flt1.pdf "$COLORLB" "6,2" "3" "off" ""  "[0:*]" $STATS/bigloo.stat $STATS/bigloo_flt1.stat
+#*---------------------------------------------------------------------*/
+#*    COMP_time_mantissa_ARCH.pdf                                      */
+#*---------------------------------------------------------------------*/
+plot $PLOTDIR/bigloo_time_mantissa_$host.pdf "$COLORFLTLB" "6,3" "5" "under nobox" "Relative time (@PROCESSOR@)" "[0.5:2.5]" $STATS/bigloo.stat $STATS/bigloo_fltlb.stat
 
-# figure 9
-plot $PLOTDIR/bigloo_vs_flt.pdf "$COLORFLTONE,$COLORFLTNZ,$COLORFLT,$COLORNAN" "6,3" "5" "under nobox" "Relative time (@PROCESSOR@)" "[0.5:2.5]" $STATS/bigloo_nun.stat $STATS/bigloo_flt1.stat $STATS/bigloo_fltnz.stat $STATS/bigloo_flt.stat $STATS/bigloo_nan.stat
+#*---------------------------------------------------------------------*/
+#*    COMP_mem_ARCH.pdf                                                */
+#*---------------------------------------------------------------------*/
+(cd $BMEMS; $installdir/bigloo/bin/bigloo -i $dir/bmem2csv.scm bigloo_mem_$host $SCM_BENCHMARKS --key "off" --separator 12 --colors "#ff0,$COLORFLTONE,$COLORFLTNZ,$COLORFLT,$COLORNAN,$COLORNUN" -:- bigloo bigloo_flt1 bigloo_fltnz bigloo_flt bigloo_nan bigloo_nun 2> ../$PLOTDIR/bigloo_mem_$host.plot | sed -e 's/r7rs-//'  > ../$PLOTDIR/bigloo_mem_$host.csv) && (cd $PLOTDIR; gnuplot bigloo_mem_$host.plot)
 
-plot $PLOTDIR/gambit_vs_flt.pdf "$COLORFLTONE,$COLORFLTNZ,$COLORFLT,$COLORFLTFOUR" "6,3" "5" "under nobox" "Relative time (@PROCESSOR@)" "[0.5:2.5]" $STATS/gambit_nun.stat $STATS/gambit_1.stat $STATS/gambit_2.stat $STATS/gambit_3.stat $STATS/gambit_4.stat
+#*---------------------------------------------------------------------*/
+#*    COMP_branch_ARCH.pdf                                             */
+#*---------------------------------------------------------------------*/
+if [ -f $BRANCHS/r7rs-compiler/bigloo.branch ]; then
+  (cd $BRANCHS; $installdir/bigloo/bin/bigloo -i $dir/branch2csv.scm bigloo_branch_$host $SCM_BENCHMARKS --key "off" --separator 12 --colors "#ff0,$COLORFLTONE,$COLORFLTNZ,$COLORFLT,$COLORNAN,$COLORNUN" -:- bigloo bigloo_flt1 bigloo_fltnz bigloo_flt bigloo_nan bigloo_nun 2> ../$PLOTDIR/bigloo_branch_$host.plot | sed -e 's/r7rs-//'  > ../$PLOTDIR/bigloo_branch_$host.csv) && (cd $PLOTDIR; gnuplot bigloo_branch_$host.plot)
+fi
 
-# figure 11
-plot $PLOTDIR/bigloo_vs_nan.pdf "$COLORNAN,$COLORNUN,$COLORFLTONE" "6,3" "5" "under nobox" "Relative time (@PROCESSOR@)" "[0:*]" $STATS/bigloo.stat $STATS/bigloo_nan.stat $STATS/bigloo_nun.stat $STATS/bigloo_flt1.stat
-
-# figure 8 (gc)
+#*---------------------------------------------------------------------*/
+#*    Heap                                                             */
+#*---------------------------------------------------------------------*/
 mkdir -p $PLOTDIR/gc
-
-# The line below is used to generate the legend
-#gnuplot -e "legend_only=1" \
-#        -e "output='$PLOTDIR/gc/legend.pdf'" \
-#        $dir/plot_gc.gp
 
 for benchmark in $SCM_FLOAT_BENCHMARKS; do
   gnuplot -e "benchmark='$benchmark'" \
@@ -96,23 +104,47 @@ for benchmark in $SCM_FLOAT_BENCHMARKS; do
 done
 
 #*---------------------------------------------------------------------*/
-#*    Memory                                                           */
+#*    Scheme performance                                               */
 #*---------------------------------------------------------------------*/
-# figure 5.a
-(cd $BMEMS; $installdir/bigloo/bin/bigloo -i $dir/bmem2csv.scm bigloo_vs_fltlb_bmem $SCM_BENCHMARKS --key "off" --separator 12 --colors "#000,$COLORLB" -:- bigloo bigloo_fltlb 2> ../$PLOTDIR/bigloo_vs_fltlb_bmem.plot | sed -e 's/r7rs-//' > ../$PLOTDIR/bigloo_vs_fltlb_bmem.csv) && (cd $PLOTDIR; gnuplot bigloo_vs_fltlb_bmem.plot)
+#* # figure 5.b                                                        */
+#* plot $PLOTDIR/bigloo_vs_fltlb.pdf "$COLORLB" "6,2" "3" "off" "" "[0:*]" $STATS/bigloo.stat $STATS/bigloo_fltlb.stat */
+#*                                                                     */
+#* # figure 7                                                          */
+#* plot $PLOTDIR/bigloo_vs_flt1.pdf "$COLORLB" "6,2" "3" "off" ""  "[0:*]" $STATS/bigloo.stat $STATS/bigloo_flt1.stat */
+#*                                                                     */
+#* # figure 9                                                          */
+#* plot $PLOTDIR/bigloo_vs_flt.pdf "$COLORFLTONE,$COLORFLTNZ,$COLORFLT,$COLORNAN" "6,3" "5" "under nobox" "Relative time (@PROCESSOR@)" "[0.5:2.5]" $STATS/bigloo_nun.stat $STATS/bigloo_flt1.stat $STATS/bigloo_fltnz.stat $STATS/bigloo_flt.stat $STATS/bigloo_nan.stat */
+#*                                                                     */
+#* plot $PLOTDIR/gambit_vs_flt.pdf "$COLORFLTONE,$COLORFLTNZ,$COLORFLT,$COLORFLTFOUR" "6,3" "5" "under nobox" "Relative time (@PROCESSOR@)" "[0.5:2.5]" $STATS/gambit_nun.stat $STATS/gambit_1.stat $STATS/gambit_2.stat $STATS/gambit_3.stat $STATS/gambit_4.stat */
+#*                                                                     */
+#* # figure 11                                                         */
+#* plot $PLOTDIR/bigloo_vs_nan.pdf "$COLORNAN,$COLORNUN,$COLORFLTONE" "6,3" "5" "under nobox" "Relative time (@PROCESSOR@)" "[0:*]" $STATS/bigloo.stat $STATS/bigloo_nan.stat $STATS/bigloo_nun.stat $STATS/bigloo_flt1.stat */
+#*                                                                     */
+# figure 8 (gc)
 
-# figure 8
-(cd $BMEMS; $installdir/bigloo/bin/bigloo -i $dir/bmem2csv.scm bigloo_vs_flt_bmem $SCM_BENCHMARKS --key "off" --separator 12 --colors "#000,$COLORFLT,$COLORFLTNZ,$COLORFLTONE" -:- bigloo bigloo_flt bigloo_fltnz bigloo_flt1 2> ../$PLOTDIR/bigloo_vs_flt_bmem.plot | sed -e 's/r7rs-//'  > ../$PLOTDIR/bigloo_vs_flt_bmem.csv) && (cd $PLOTDIR; gnuplot bigloo_vs_flt_bmem.plot)
+# The line below is used to generate the legend
+#gnuplot -e "legend_only=1" \
+#        -e "output='$PLOTDIR/gc/legend.pdf'" \
+#        $dir/plot_gc.gp
 
-#*---------------------------------------------------------------------*/
-#*    Branch prediction (generated only if branch profile files exist) */
-#*---------------------------------------------------------------------*/
-# figure 5.c
-if [ -f $BRANCHS/r7rs-compiler/bigloo.branch ]; then
-  (cd $BRANCHS; $installdir/bigloo/bin/bigloo -i $dir/branch2csv.scm bigloo_vs_fltlb_branch $SCM_BENCHMARKS --key "off" --separator 12 --colors "#000,$COLORLB" -:- bigloo bigloo_fltlb 2> ../$PLOTDIR/bigloo_vs_fltlb_branch.plot | sed -e 's/r7rs-//'  > ../$PLOTDIR/bigloo_vs_fltlb_branch.csv) && (cd $PLOTDIR; gnuplot bigloo_vs_fltlb_branch.plot)
-
-  (cd $BRANCHS; $installdir/bigloo/bin/bigloo -i $dir/branch2csv.scm bigloo_vs_flt_branch $SCM_BENCHMARKS --key "off" --separator 12 --colors "#000,$COLORLB" -:- bigloo bigloo_flt bigloo_fltnz 2> ../$PLOTDIR/bigloo_vs_flt_branch.plot | sed -e 's/r7rs-//'  > ../$PLOTDIR/bigloo_vs_flt_branch.csv) && (cd $PLOTDIR; gnuplot bigloo_vs_flt_branch.plot)
-fi
+#* {*---------------------------------------------------------------------*} */
+#* {*    Memory                                                           *} */
+#* {*---------------------------------------------------------------------*} */
+#* # figure 5.a                                                        */
+#* (cd $BMEMS; $installdir/bigloo/bin/bigloo -i $dir/bmem2csv.scm bigloo_vs_fltlb_bmem $SCM_BENCHMARKS --key "off" --separator 12 --colors "#000,$COLORLB" -:- bigloo bigloo_fltlb 2> ../$PLOTDIR/bigloo_vs_fltlb_bmem.plot | sed -e 's/r7rs-//' > ../$PLOTDIR/bigloo_vs_fltlb_bmem.csv) && (cd $PLOTDIR; gnuplot bigloo_vs_fltlb_bmem.plot) */
+#*                                                                     */
+#* # figure 8                                                          */
+#* (cd $BMEMS; $installdir/bigloo/bin/bigloo -i $dir/bmem2csv.scm bigloo_vs_flt_bmem $SCM_BENCHMARKS --key "off" --separator 12 --colors "#000,$COLORFLT,$COLORFLTNZ,$COLORFLTONE" -:- bigloo bigloo_flt bigloo_fltnz bigloo_flt1 2> ../$PLOTDIR/bigloo_vs_flt_bmem.plot | sed -e 's/r7rs-//'  > ../$PLOTDIR/bigloo_vs_flt_bmem.csv) && (cd $PLOTDIR; gnuplot bigloo_vs_flt_bmem.plot) */
+#*                                                                     */
+#* {*---------------------------------------------------------------------*} */
+#* {*    Branch prediction (generated only if branch profile files exist) *} */
+#* {*---------------------------------------------------------------------*} */
+#* # figure 5.c                                                        */
+#* if [ -f $BRANCHS/r7rs-compiler/bigloo.branch ]; then                */
+#*   (cd $BRANCHS; $installdir/bigloo/bin/bigloo -i $dir/branch2csv.scm bigloo_vs_fltlb_branch $SCM_BENCHMARKS --key "off" --separator 12 --colors "#000,$COLORLB" -:- bigloo bigloo_fltlb 2> ../$PLOTDIR/bigloo_vs_fltlb_branch.plot | sed -e 's/r7rs-//'  > ../$PLOTDIR/bigloo_vs_fltlb_branch.csv) && (cd $PLOTDIR; gnuplot bigloo_vs_fltlb_branch.plot) */
+#*                                                                     */
+#*   (cd $BRANCHS; $installdir/bigloo/bin/bigloo -i $dir/branch2csv.scm bigloo_vs_flt_branch $SCM_BENCHMARKS --key "off" --separator 12 --colors "#000,$COLORLB" -:- bigloo bigloo_flt bigloo_fltnz 2> ../$PLOTDIR/bigloo_vs_flt_branch.plot | sed -e 's/r7rs-//'  > ../$PLOTDIR/bigloo_vs_flt_branch.csv) && (cd $PLOTDIR; gnuplot bigloo_vs_flt_branch.plot) */
+#* fi                                                                  */
 
 #*---------------------------------------------------------------------*/
 #*    Hop performance                                                  */
