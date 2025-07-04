@@ -4,7 +4,7 @@
 #*    -------------------------------------------------------------    */
 #*    Author      :  Manuel Serrano                                    */
 #*    Creation    :  Thu Oct  3 09:53:13 2024                          */
-#*    Last change :  Thu Jul  3 15:34:25 2025 (serrano)                */
+#*    Last change :  Fri Jul  4 08:40:32 2025 (serrano)                */
 #*    Copyright   :  2024-25 Manuel Serrano                            */
 #*    -------------------------------------------------------------    */
 #*    Package versions                                                 */
@@ -12,7 +12,7 @@
 
 # bigloo
 bigloo_giturl=https://github.com/manuel-serrano/bigloo
-bigloo_commit=dffa461d81d028eb2d420b68256a7a4673e9f044
+bigloo_commit=37ce5d0ffaeb66cb6d97e41d9b1f1b86ee79a5f7
 bigloo_branch=master
 bigloo_configure_opts="--disable-gmp --disable-libunistring --disable-pcre2 --disable-pcre --disable-libuv"
 
@@ -87,7 +87,7 @@ hop_nun_branch=$hop_branch
 
 # bglstone
 bglstone_giturl=https://github.com/manuel-serrano/bglstone
-bglstone_commit=614b7c33b5879f6616d7b76c2ed5fcb20d7227b0
+bglstone_commit=e98e8a7c02bd6f75485101b3a0267f6fc532f598
 bglstone_branch=master
 
 bglstone_bflags="-O6 -freturn -freturn-goto -copt -O3 -static-all-bigloo"
