@@ -2,7 +2,7 @@ set output '/dev/null'
 set terminal dumb
 
 plot \
-   'gambit_time_alloc_redrock2020.csv' u 2:xtic(1) title 'gambit' ls 1, \
+   'gambit_time_alloc_redrock2020.csv' u 2:xtic(1) title 'self-tagging (1-tag)' ls 1, \
    'gambit_time_alloc_redrock2020.csv' u ($0+0):($2+.15):(sprintf("%3.2f",$2)) with labels font 'Verdana,4' rotate by 90 notitle
 reset
 
@@ -50,12 +50,12 @@ set bmargin 5
 set key under nobox
 
 set arrow 1 from graph 0, first 1 to graph 1, first 1 nohead lc 'red' lw 2 dt '---' front
-set label 1 'gambit' font 'Verdana,10' at -1,1 offset 0.1,0.4 left tc 'red' front
+set label 1 'alloc' font 'Verdana,10' at -1,1 offset 0.1,0.4 left tc 'red' front
 
 set logscale y
 
 set arrow from 11.5,GPVAL_Y_MIN to 11.5,GPVAL_Y_MAX nohead ls 1000 dashtype 2
 
 plot \
-   'gambit_time_alloc_redrock2020.csv' u 2:xtic(1) title 'gambit' ls 1, \
+   'gambit_time_alloc_redrock2020.csv' u 2:xtic(1) title 'self-tagging (1-tag)' ls 1, \
    'gambit_time_alloc_redrock2020.csv' u ($0+0):($2+.15):(sprintf("%3.2f",$2)) with labels font 'Verdana,4' rotate by 90 notitle
