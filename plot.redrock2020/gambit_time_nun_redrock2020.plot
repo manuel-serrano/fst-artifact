@@ -2,10 +2,10 @@ set output '/dev/null'
 set terminal dumb
 
 plot \
-   'gambit_time_nun_redrock2020.csv' u 2:xtic(1) title 'gambit' ls 1,\
-   'gambit_time_nun_redrock2020.csv' u 3:xtic(1) title 'gambit' ls 2,\
-   'gambit_time_nun_redrock2020.csv' u 4:xtic(1) title 'gambit' ls 3,\
-   'gambit_time_nun_redrock2020.csv' u 5:xtic(1) title 'gambit' ls 4, \
+   'gambit_time_nun_redrock2020.csv' u 2:xtic(1) title 'self-tagging (1-tag)' ls 1,\
+   'gambit_time_nun_redrock2020.csv' u 3:xtic(1) title 'self-tagging (2-tag)' ls 2,\
+   'gambit_time_nun_redrock2020.csv' u 4:xtic(1) title 'self-tagging (3-tag)' ls 3,\
+   'gambit_time_nun_redrock2020.csv' u 5:xtic(1) title 'self-tagging (4-tag)' ls 4, \
    'gambit_time_nun_redrock2020.csv' u ($0+-0.3333333333333333):($2+.15):(sprintf("%3.2f",$2)) with labels font 'Verdana,4' rotate by 90 notitle,\
    'gambit_time_nun_redrock2020.csv' u ($0+-0.16666666666666666):($3+.15):(sprintf("%3.2f",$3)) with labels font 'Verdana,4' rotate by 90 notitle,\
    'gambit_time_nun_redrock2020.csv' u ($0+0.16666666666666666):($4+.15):(sprintf("%3.2f",$4)) with labels font 'Verdana,4' rotate by 90 notitle,\
@@ -56,17 +56,17 @@ set bmargin 5
 set key under nobox
 
 set arrow 1 from graph 0, first 1 to graph 1, first 1 nohead lc 'red' lw 2 dt '---' front
-set label 1 'gambit' font 'Verdana,10' at -1,1 offset 0.1,0.4 left tc 'red' front
+set label 1 'NuN-boxing' font 'Verdana,10' at -1,1 offset 0.1,0.4 left tc 'red' front
 
 set logscale y
 
 set arrow from 11.5,GPVAL_Y_MIN to 11.5,GPVAL_Y_MAX nohead ls 1000 dashtype 2
 
 plot \
-   'gambit_time_nun_redrock2020.csv' u 2:xtic(1) title 'gambit' ls 1,\
-   'gambit_time_nun_redrock2020.csv' u 3:xtic(1) title 'gambit' ls 2,\
-   'gambit_time_nun_redrock2020.csv' u 4:xtic(1) title 'gambit' ls 3,\
-   'gambit_time_nun_redrock2020.csv' u 5:xtic(1) title 'gambit' ls 4, \
+   'gambit_time_nun_redrock2020.csv' u 2:xtic(1) title 'self-tagging (1-tag)' ls 1,\
+   'gambit_time_nun_redrock2020.csv' u 3:xtic(1) title 'self-tagging (2-tag)' ls 2,\
+   'gambit_time_nun_redrock2020.csv' u 4:xtic(1) title 'self-tagging (3-tag)' ls 3,\
+   'gambit_time_nun_redrock2020.csv' u 5:xtic(1) title 'self-tagging (4-tag)' ls 4, \
    'gambit_time_nun_redrock2020.csv' u ($0+-0.3333333333333333):($2+.15):(sprintf("%3.2f",$2)) with labels font 'Verdana,4' rotate by 90 notitle,\
    'gambit_time_nun_redrock2020.csv' u ($0+-0.16666666666666666):($3+.15):(sprintf("%3.2f",$3)) with labels font 'Verdana,4' rotate by 90 notitle,\
    'gambit_time_nun_redrock2020.csv' u ($0+0.16666666666666666):($4+.15):(sprintf("%3.2f",$4)) with labels font 'Verdana,4' rotate by 90 notitle,\
