@@ -55,6 +55,7 @@ COLORLB="#d83812"
 COLORNUN="#109318"
 COLORNAN="#edd20b"
 COLORALLOC="#a705d9"
+COLORFLT2="#495917" # gambit 2-tag
 
 # benchmarks
 BENCH=r7rs
