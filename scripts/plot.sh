@@ -72,7 +72,7 @@ cat >> $legendfile <<EOF
 \colorrect{self-tagging (1-tag)}{$COLORFLTONE}     &
 \colorrect{self-tagging (2-tag w/ prealloc. zero)}{$COLORFLTNZ}    &
 \colorrect{self-tagging (3-tag)}{$COLORFLT}   &
-\colorrect{NaN-boxing}{$COLORNAN}    \\
+\colorrect{NaN-boxing}{$COLORNAN}    \\\\
 \end{tabular}
 \end{center}
 }
@@ -85,7 +85,7 @@ cat >> $legendfile <<EOF
 \colorrect{self-tagging (1-tag)}{$COLORFLTONE}     &
 \colorrect{self-tagging (2-tag)}{$COLORFLT2}    &
 \colorrect{self-tagging (3-tag)}{$COLORFLT}   &
-\colorrect{self-tagging (4-tag)}{$COLORFLTFOUR}  \\
+\colorrect{self-tagging (4-tag)}{$COLORFLTFOUR}  \\\\
 \end{tabular}
 \end{center}
 }
@@ -129,6 +129,20 @@ plot $PLOTDIR/bigloo_time_mantissa_$host.pdf "#$COLORFLTLB" "6,3" "5" "under nob
 #*---------------------------------------------------------------------*/
 #*    COMP_mem_ARCH.pdf                                                */
 #*---------------------------------------------------------------------*/
+cat >> $legendfile <<EOF
+\newcommand{\legendbigloomem}{
+\begin{center}
+\begin{tabular}{lll}
+\colorrect{self-tagging (1-tag)}{$COLORFLTONE}     &
+\colorrect{self-tagging (2-tag w/ prealloc. zero)}{$COLORFLTNZ}    &
+\colorrect{self-tagging (3-tag)}{$COLORFLT}   \\\\
+\colorrect{NaN-boxing}{$COLORNAN}    &
+\colorrect{NuN-boxing}{$COLORNUN}    \\\\
+\end{tabular}
+\end{center}
+}
+EOF
+
 (cd $BMEMS; $installdir/bigloo/bin/bigloo -i $dir/bmem2csv.scm bigloo_mem_$host $SCM_BENCHMARKS --key "off" --separator 12 --colors "#ff0,#$COLORFLTONE,#$COLORFLTNZ,#$COLORFLT,#$COLORNAN,#$COLORNUN" -:- bigloo bigloo_flt1 bigloo_fltnz bigloo_flt bigloo_nan bigloo_nun 2> ../$PLOTDIR/bigloo_mem_$host.plot | sed -e 's/r7rs-//'  > ../$PLOTDIR/bigloo_mem_$host.csv) && (cd $PLOTDIR; gnuplot bigloo_mem_$host.plot)
 
 #*---------------------------------------------------------------------*/
