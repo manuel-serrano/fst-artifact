@@ -5,8 +5,7 @@
 set output output
 
 if (exists("legend_only")) {
-    #set terminal pngcairo size 1200, 400
-    set terminal pdf font 'Verdana,28' size 10,1
+    set terminal pdf font 'Verdana,28' size 10.6,1
     set xrange [0:1]
     set yrange [0:1]
 
@@ -14,13 +13,14 @@ if (exists("legend_only")) {
     unset ytics
     unset border
 
-    set key bottom center
+    set key bottom
     set key spacing 1.5
-    set lmargin at screen 0.53
-    set rmargin at screen 1
-    set key below columns 3
-    set key width -10
+    set key below columns 2
+    set key width 0
     set key samplen 7
+    set key reverse
+    set key Left
+    set key left
 
     plot \
         NaN with linespoints title "Bigloo (self-tagging, 1-tag)" linecolor "dark-blue" ps 2 lw 3 pointtype 9, \
