@@ -6,7 +6,7 @@ set output output
 
 if (exists("legend_only")) {
     #set terminal pngcairo size 1200, 400
-    set terminal pdf font 'Verdana,28' size 8,1
+    set terminal pdf font 'Verdana,28' size 10,1
     set xrange [0:1]
     set yrange [0:1]
 
@@ -16,17 +16,17 @@ if (exists("legend_only")) {
 
     set key bottom center
     set key spacing 1.5
-    set lmargin at screen 0.55
+    set lmargin at screen 0.53
     set rmargin at screen 1
     set key below columns 3
     set key width -10
     set key samplen 7
 
     plot \
-        NaN with linespoints title "Bigloo (self-tagging)" linecolor "dark-blue" ps 2 lw 3 pointtype 9, \
-        NaN with linespoints title "Gambit (self-tagging)" linecolor "dark-red" ps 2 lw 3 pointtype 5, \
-        NaN with linespoints title "Bigloo (orig)" linecolor "dark-blue" dashtype (30,15,30,15) ps 2 lw 3 pointtype 8, \
-        NaN with linespoints title "Gambit (orig)" linecolor "dark-red" dashtype (30,15,30,15) ps 2 lw 3 pointtype 4, \
+        NaN with linespoints title "Bigloo (self-tagging, 1-tag)" linecolor "dark-blue" ps 2 lw 3 pointtype 9, \
+        NaN with linespoints title "Gambit (self-tagging, 1-tag)" linecolor "dark-red" ps 2 lw 3 pointtype 5, \
+        NaN with linespoints title "Bigloo (alloc)" linecolor "dark-blue" dashtype (30,15,30,15) ps 2 lw 3 pointtype 8, \
+        NaN with linespoints title "Gambit (alloc)" linecolor "dark-red" dashtype (30,15,30,15) ps 2 lw 3 pointtype 4, \
 
     exit 0
 }
@@ -110,9 +110,9 @@ set bmargin 7
 unset key
 
 plot \
-    bigloo_orig using (zx($1)):2 with linespoints title "Bigloo (orig)" linecolor "dark-blue" dashtype (50,30,50,30) ps 2 lw 2 pointtype 8, \
-    gambit_orig using (zx($1)):2 with linespoints title "Gambit (orig)" linecolor "dark-red" dashtype (50,30,50,30) ps 2 lw 2 pointtype 4, \
-    gambit_fst  using (zx($1)):2 with linespoints title "Gambit (self-tagging)" linecolor "dark-red" ps 2 lw 3 pointtype 5, \
-    bigloo_fst  using (zx($1)):2 with linespoints title "Bigloo (self-tagging)" linecolor "dark-blue" ps 2 lw 3 pointtype 9
+    bigloo_orig using (zx($1)):2 with linespoints title "Bigloo (alloc)" linecolor "dark-blue" dashtype (50,30,50,30) ps 2 lw 2 pointtype 8, \
+    gambit_orig using (zx($1)):2 with linespoints title "Gambit (alloc)" linecolor "dark-red" dashtype (50,30,50,30) ps 2 lw 2 pointtype 4, \
+    gambit_fst  using (zx($1)):2 with linespoints title "Gambit (self-tagging, 1-tag)" linecolor "dark-red" ps 2 lw 3 pointtype 5, \
+    bigloo_fst  using (zx($1)):2 with linespoints title "Bigloo (self-tagging, 1-tag)" linecolor "dark-blue" ps 2 lw 3 pointtype 9
 
 exit 0

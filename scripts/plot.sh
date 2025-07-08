@@ -210,9 +210,9 @@ done
 # figure 8 (gc)
 
 # The line below is used to generate the legend
-#gnuplot -e "legend_only=1" \
-#        -e "output='$PLOTDIR/gc/legend.pdf'" \
-#        $dir/plot_gc.gp
+gnuplot -e "legend_only=1" \
+        -e "output='$PLOTDIR/gc/legend.pdf'" \
+        $dir/plot_gc.gp
 
 #* {*---------------------------------------------------------------------*} */
 #* {*    Memory                                                           *} */
