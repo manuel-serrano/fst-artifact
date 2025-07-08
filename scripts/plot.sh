@@ -108,7 +108,7 @@ cat >> $legendfile <<EOF
 \newcommand{\legendbiglootimealloc}{
 \begin{center}
 \begin{tabular}{l}
-\colorrect{self-tagging (1-tag, Bigloo)}{$COLORFLTONE}
+\colorrect{self-tagging (1-tag)}{$COLORFLTONE}
 \end{tabular}
 \end{center}
 }
@@ -118,7 +118,7 @@ cat >> $legendfile <<EOF
 \newcommand{\legendgambittimealloc}{
 \begin{center}
 \begin{tabular}{l}
-\colorrect{self-tagging (1-tag, Gambit)}{$COLORFLTONE}
+\colorrect{self-tagging (1-tag)}{$COLORFLTONE}
 \end{tabular}
 \end{center}
 }
