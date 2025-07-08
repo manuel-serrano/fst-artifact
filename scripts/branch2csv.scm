@@ -19,13 +19,15 @@
 ;*    configuration                                                    */
 ;*---------------------------------------------------------------------*/
 (define *base-color* "red")
-(define *offset-tables*
-   `#(- #(0)
-	#(,(- (/ 1 6)) ,(/ 1 6))
-	#(,(- (/ 1 6)) 0 ,(/ 1 6))
-	#(,(- (/ 2 6)) ,(- (/ 1 6)) ,(/ 1 6) ,(/ 2 6))
-	#(,(- (/ 2 6)) ,(- (/ 1 6)) 0 ,(/ 1 6) ,(/ 2 6))
-	#(,(- (/ 3 6)) ,(- (/ 2 6)) ,(- (/ 1 6)) 0 ,(/ 1 6) ,(/ 2 6) ,(/ 3 6))))
+
+(define (get-offsets n)
+	(let* ((max-numerator (quotient (+ n 1) 2))
+		   (abs-offsets (map (lambda (x) (/ x 6)) (iota max-numerator 1))))
+	(list->vector (append
+		(map (lambda (x) (- x)) (reverse abs-offsets))
+		(if (even? n) '(0) '())
+		abs-offsets))))
+
 (define *separator* -1)
 (define *aliases* '())
 
@@ -58,6 +60,7 @@ set ytics font 'Verdana,10'
 
 set boxwidth 0.9
 set style fill solid
+set logscale y
 
 set style line 1 linecolor rgb '@COLOR0@' linetype 1 linewidth 1
 set style line 2 linecolor rgb '@COLOR1@' linetype 1 linewidth 1
@@ -75,8 +78,9 @@ set style line 1000 linecolor rgb '#555555 linewidth 20
 set grid ytics
 set xtics scale 0
 set datafile separator ','
+unset mytics
 
-set yrange [0:*]
+set yrange [0.001:100]
 
 set lmargin 6
 set rmargin 1
@@ -169,7 +173,7 @@ set bmargin 3")
 		     ("bigloo_fltlb" "Scheme self tagging (2 tags, mantissa low-bits)")
 		     ("bigloo_nan" "Scheme nan tagging")
 		     ("bigloo_flt" "Scheme self tagging (3 tags)")
-		     ("bigloo" "orig"))))
+		     ("bigloo" "alloc"))))
       (let loop ((patterns patterns)
 		 (str (prefix str)))
 	 (if (null? patterns)
@@ -187,7 +191,7 @@ set bmargin 3")
       (fprintf (current-error-port) "set label 1 '~a' font 'Verdana,10' at 20,1 offset -0.5,0.5 tc 'red'\n\n" (nice (car compilers)) *base-color*)
       
       (when sep
-	 (fprintf (current-error-port) "set arrow from ~a,0 to ~a,GPVAL_Y_MAX nohead ls 1000 dashtype 2 front\n\n"
+	 (fprintf (current-error-port) "set arrow from ~a,0.001 to ~a,100 nohead ls 1000 dashtype 2 front\n\n"
 	    (- *separator* 0.5) (- *separator* 0.5)))
       
       (fprintf (current-error-port) "plot \\\n~(,\\\n),\\\n~(,\\\n)\n"
@@ -195,10 +199,10 @@ set bmargin 3")
 		 (format "  '~a.csv' u ~a:xtic(1) title '~a' ls ~a"
 		    output idx (nice comp) idx))
 	    (cdr compilers) (iota (length compilers) 2))
-	 (let ((table (vector-ref *offset-tables* (length compilers))))
+	 (let ((table (get-offsets (length compilers))))
 	    (map (lambda (comp idx)
-		    (format "  '~a.csv' u ($0+~a):($2+.3):(sprintf(\"%3.2f\",$2)) with labels font 'Verdana,6' rotate by 90 notitle"
-		       output (vector-ref table (-fx idx 2)) idx idx))
+		    (format "  '~a.csv' u ($0+~a):($2+1):(sprintf(\"%3.2f\",$~a)) with labels font 'Verdana,6' rotate by 90 notitle"
+		       output (vector-ref table idx) idx idx idx))
 	       (cdr compilers) (iota (length compilers) 2)))))
    
    ;; color patching
