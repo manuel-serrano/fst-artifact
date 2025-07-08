@@ -161,9 +161,8 @@ cat >> $legendfile <<EOF
 \begin{center}
 \begin{tabular}{lll}
 \colorrect{self-tagging (2-tag, mantissa low-bits)}{$COLORFLTLB}     &
-\colorrect{self-tagging (1-tag)}{$COLORFLTONE}     &
-\colorrect{self-tagging (2-tag w/ prealloc. zero)}{$COLORFLTNZ}    \\\\
-\colorrect{self-tagging (3-tag)}{$COLORFLT}   &
+\colorrect{self-tagging (1-tag)}{$COLORFLTONE} & \\\\
+\colorrect{self-tagging (2-tag w/ prealloc. zero)}{$COLORFLTNZ}    &
 \colorrect{NaN-boxing}{$COLORNAN}    &
 \colorrect{NuN-boxing}{$COLORNUN}    \\\\
 \end{tabular}
@@ -172,7 +171,7 @@ cat >> $legendfile <<EOF
 EOF
 
 if [ -f $BRANCHS/r7rs-compiler/bigloo.branch ]; then
-  (cd $BRANCHS; $installdir/bigloo/bin/bigloo -i $dir/branch2csv.scm bigloo_branch_$host $SCM_BENCHMARKS --key "off" --separator 12 --colors "#ff0,#$COLORFLTLB,#$COLORFLTONE,#$COLORFLTNZ,#$COLORFLT,#$COLORNAN,#$COLORNUN" -:- bigloo bigloo_fltlb bigloo_flt1 bigloo_fltnz bigloo_flt bigloo_nan bigloo_nun 2> ../$PLOTDIR/bigloo_branch_$host.plot | sed -e 's/r7rs-//'  > ../$PLOTDIR/bigloo_branch_$host.csv) && (cd $PLOTDIR; gnuplot bigloo_branch_$host.plot)
+  (cd $BRANCHS; $installdir/bigloo/bin/bigloo -i $dir/branch2csv.scm bigloo_branch_$host $SCM_BENCHMARKS --key "off" --separator 12 --colors "#ff0,#$COLORFLTLB,#$COLORFLTONE,#$COLORFLTNZ,#$COLORNAN,#$COLORNUN" -:- bigloo bigloo_fltlb bigloo_flt1 bigloo_fltnz bigloo_nan bigloo_nun 2> ../$PLOTDIR/bigloo_branch_$host.plot | sed -e 's/r7rs-//'  > ../$PLOTDIR/bigloo_branch_$host.csv) && (cd $PLOTDIR; gnuplot bigloo_branch_$host.plot)
 fi
 
 #*---------------------------------------------------------------------*/
