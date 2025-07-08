@@ -19,6 +19,7 @@ dir=`dirname $path`
 . $dir/env.sh
 
 legendfile="$PLOTDIR/legend.tex"
+repetitionsfile="$PLOTDIR/repetitions.tex"
 
 mkdir -p $PLOTDIR
 
@@ -61,6 +62,11 @@ plot() {
 }
 
 echo > $legendfile
+echo > $repetitionsfile
+
+cat >> $repetitionsfile <<EOF
+\newcommand{\experimentsrepetitions}{$REPETITION}
+EOF
 
 #*---------------------------------------------------------------------*/
 #*    COMP_time_nun_ARCH.pdf                                           */
