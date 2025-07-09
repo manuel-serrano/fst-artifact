@@ -165,34 +165,34 @@ cat >> $ratiofile <<EOF
 \newcommand{\bigloo${latex_friendly_host}FltOneNunRatioNonFloats}{$(geomean $PLOTDIR/bigloo_time_nun_$host.csv 2 "$SCM_NONFLOAT_BENCHMARKS_NAMES")}
 \newcommand{\bigloo${latex_friendly_host}FltOneNunRatioAll}{$(geomean $PLOTDIR/bigloo_time_nun_$host.csv 2 "$SCM_BENCHMARKS_NAMES")}
 
-\newcommand{\bigloo${latex_friendly_host}FltnzNunRatioFloats}{$(geomean $PLOTDIR/bigloo_time_nun_$host.csv 3 "$SCM_FLOAT_BENCHMARKS_NAMES")}
-\newcommand{\bigloo${latex_friendly_host}FltnzNunRatioNonFloats}{$(geomean $PLOTDIR/bigloo_time_nun_$host.csv 3 "$SCM_NONFLOAT_BENCHMARKS_NAMES")}
-\newcommand{\bigloo${latex_friendly_host}FltnzNunRatioAll}{$(geomean $PLOTDIR/bigloo_time_nun_$host.csv 3 "$SCM_BENCHMARKS_NAMES")}
+\newcommand{\bigloo${latex_friendly_host}FltnzNunRatioFloats}{$(geomean $PLOTDIR/bigloo_time_nun_$host.csv 5 "$SCM_FLOAT_BENCHMARKS_NAMES")}
+\newcommand{\bigloo${latex_friendly_host}FltnzNunRatioNonFloats}{$(geomean $PLOTDIR/bigloo_time_nun_$host.csv 5 "$SCM_NONFLOAT_BENCHMARKS_NAMES")}
+\newcommand{\bigloo${latex_friendly_host}FltnzNunRatioAll}{$(geomean $PLOTDIR/bigloo_time_nun_$host.csv 5 "$SCM_BENCHMARKS_NAMES")}
 
-\newcommand{\bigloo${latex_friendly_host}FltThreeNunRatioFloats}{$(geomean $PLOTDIR/bigloo_time_nun_$host.csv 4 "$SCM_FLOAT_BENCHMARKS_NAMES")}
-\newcommand{\bigloo${latex_friendly_host}FltThreeNunRatioNonFloats}{$(geomean $PLOTDIR/bigloo_time_nun_$host.csv 4 "$SCM_NONFLOAT_BENCHMARKS_NAMES")}
-\newcommand{\bigloo${latex_friendly_host}FltThreeNunRatioAll}{$(geomean $PLOTDIR/bigloo_time_nun_$host.csv 4 "$SCM_BENCHMARKS_NAMES")}
+\newcommand{\bigloo${latex_friendly_host}FltThreeNunRatioFloats}{$(geomean $PLOTDIR/bigloo_time_nun_$host.csv 8 "$SCM_FLOAT_BENCHMARKS_NAMES")}
+\newcommand{\bigloo${latex_friendly_host}FltThreeNunRatioNonFloats}{$(geomean $PLOTDIR/bigloo_time_nun_$host.csv 8 "$SCM_NONFLOAT_BENCHMARKS_NAMES")}
+\newcommand{\bigloo${latex_friendly_host}FltThreeNunRatioAll}{$(geomean $PLOTDIR/bigloo_time_nun_$host.csv 8 "$SCM_BENCHMARKS_NAMES")}
 
-\newcommand{\bigloo${latex_friendly_host}NanNunRatioFloats}{$(geomean $PLOTDIR/bigloo_time_nun_$host.csv 5 "$SCM_FLOAT_BENCHMARKS_NAMES")}
-\newcommand{\bigloo${latex_friendly_host}NanNunRatioNonFloats}{$(geomean $PLOTDIR/bigloo_time_nun_$host.csv 5 "$SCM_NONFLOAT_BENCHMARKS_NAMES")}
-\newcommand{\bigloo${latex_friendly_host}NanNunRatioAll}{$(geomean $PLOTDIR/bigloo_time_nun_$host.csv 5 "$SCM_BENCHMARKS_NAMES")}
+\newcommand{\bigloo${latex_friendly_host}NanNunRatioFloats}{$(geomean $PLOTDIR/bigloo_time_nun_$host.csv 11 "$SCM_FLOAT_BENCHMARKS_NAMES")}
+\newcommand{\bigloo${latex_friendly_host}NanNunRatioNonFloats}{$(geomean $PLOTDIR/bigloo_time_nun_$host.csv 11 "$SCM_NONFLOAT_BENCHMARKS_NAMES")}
+\newcommand{\bigloo${latex_friendly_host}NanNunRatioAll}{$(geomean $PLOTDIR/bigloo_time_nun_$host.csv 11 "$SCM_BENCHMARKS_NAMES")}
 
 %gambit vs nun
 \newcommand{\gambit${latex_friendly_host}FltOneNunRatioFloats}{$(geomean $PLOTDIR/gambit_time_nun_$host.csv 2 "$SCM_FLOAT_BENCHMARKS_NAMES")}
 \newcommand{\gambit${latex_friendly_host}FltOneNunRatioNonFloats}{$(geomean $PLOTDIR/gambit_time_nun_$host.csv 2 "$SCM_NONFLOAT_BENCHMARKS_NAMES")}
 \newcommand{\gambit${latex_friendly_host}FltOneNunRatioAll}{$(geomean $PLOTDIR/gambit_time_nun_$host.csv 2 "$SCM_BENCHMARKS_NAMES")}
 
-\newcommand{\gambit${latex_friendly_host}FltTwoNunRatioFloats}{$(geomean $PLOTDIR/gambit_time_nun_$host.csv 3 "$SCM_FLOAT_BENCHMARKS_NAMES")}
-\newcommand{\gambit${latex_friendly_host}FltTwoNunRatioNonFloats}{$(geomean $PLOTDIR/gambit_time_nun_$host.csv 3 "$SCM_NONFLOAT_BENCHMARKS_NAMES")}
-\newcommand{\gambit${latex_friendly_host}FltTwoNunRatioAll}{$(geomean $PLOTDIR/gambit_time_nun_$host.csv 3 "$SCM_BENCHMARKS_NAMES")}
+\newcommand{\gambit${latex_friendly_host}FltTwoNunRatioFloats}{$(geomean $PLOTDIR/gambit_time_nun_$host.csv 5 "$SCM_FLOAT_BENCHMARKS_NAMES")}
+\newcommand{\gambit${latex_friendly_host}FltTwoNunRatioNonFloats}{$(geomean $PLOTDIR/gambit_time_nun_$host.csv 5 "$SCM_NONFLOAT_BENCHMARKS_NAMES")}
+\newcommand{\gambit${latex_friendly_host}FltTwoNunRatioAll}{$(geomean $PLOTDIR/gambit_time_nun_$host.csv 5 "$SCM_BENCHMARKS_NAMES")}
 
-\newcommand{\gambit${latex_friendly_host}FltThreeNunRatioFloats}{$(geomean $PLOTDIR/gambit_time_nun_$host.csv 4 "$SCM_FLOAT_BENCHMARKS_NAMES")}
-\newcommand{\gambit${latex_friendly_host}FltThreeNunRatioNonFloats}{$(geomean $PLOTDIR/gambit_time_nun_$host.csv 4 "$SCM_NONFLOAT_BENCHMARKS_NAMES")}
-\newcommand{\gambit${latex_friendly_host}FltThreeNunRatioAll}{$(geomean $PLOTDIR/gambit_time_nun_$host.csv 4 "$SCM_BENCHMARKS_NAMES")}
+\newcommand{\gambit${latex_friendly_host}FltThreeNunRatioFloats}{$(geomean $PLOTDIR/gambit_time_nun_$host.csv 8 "$SCM_FLOAT_BENCHMARKS_NAMES")}
+\newcommand{\gambit${latex_friendly_host}FltThreeNunRatioNonFloats}{$(geomean $PLOTDIR/gambit_time_nun_$host.csv 8 "$SCM_NONFLOAT_BENCHMARKS_NAMES")}
+\newcommand{\gambit${latex_friendly_host}FltThreeNunRatioAll}{$(geomean $PLOTDIR/gambit_time_nun_$host.csv 8 "$SCM_BENCHMARKS_NAMES")}
 
-\newcommand{\gambit${latex_friendly_host}FltFourNunRatioFloats}{$(geomean $PLOTDIR/gambit_time_nun_$host.csv 5 "$SCM_FLOAT_BENCHMARKS_NAMES")}
-\newcommand{\gambit${latex_friendly_host}FltFourNunRatioNonFloats}{$(geomean $PLOTDIR/gambit_time_nun_$host.csv 5 "$SCM_NONFLOAT_BENCHMARKS_NAMES")}
-\newcommand{\gambit${latex_friendly_host}FltFourNunRatioAll}{$(geomean $PLOTDIR/gambit_time_nun_$host.csv 5 "$SCM_BENCHMARKS_NAMES")}
+\newcommand{\gambit${latex_friendly_host}FltFourNunRatioFloats}{$(geomean $PLOTDIR/gambit_time_nun_$host.csv 11 "$SCM_FLOAT_BENCHMARKS_NAMES")}
+\newcommand{\gambit${latex_friendly_host}FltFourNunRatioNonFloats}{$(geomean $PLOTDIR/gambit_time_nun_$host.csv 11 "$SCM_NONFLOAT_BENCHMARKS_NAMES")}
+\newcommand{\gambit${latex_friendly_host}FltFourNunRatioAll}{$(geomean $PLOTDIR/gambit_time_nun_$host.csv 11 "$SCM_BENCHMARKS_NAMES")}
 EOF
 #*---------------------------------------------------------------------*/
 #*    COMP_time_alloc_ARCH.pdf                                         */
