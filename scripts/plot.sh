@@ -107,6 +107,13 @@ echo > $repetitionsfile
 
 cat >> $legendfile <<EOF
 % used to highlight cells in interval table
+\newcommand{\htmlColorOneTag}{$COLORFLTONE}
+\newcommand{\htmlColorTwoTag}{$COLORFLT2}
+\newcommand{\htmlColorThreeTag}{$COLORFLT}
+\newcommand{\htmlColorFourTag}{$COLORFLTFOUR}
+\newcommand{\htmlColorTwoTagNZ}{$COLORFLTNZ}
+\newcommand{\htmlColorNan}{$COLORNAN}
+
 \definecolor{tag0}{HTML}{$COLORFLT}
 \definecolor{tag3}{HTML}{$COLORFLTNZ}
 \definecolor{tag4}{HTML}{$COLORFLTNZ_LIGHT}
