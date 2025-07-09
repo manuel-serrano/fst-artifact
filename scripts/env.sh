@@ -58,6 +58,17 @@ COLORALLOC="a705d9"
 COLORFLT2="495917" # gambit 2-tag
 COLORFLTLB="ac2db7"
 
+COLORFLTONE="FF6BE6"
+COLORFLT="61D836"
+COLORFLTNZ="00A2FF"
+COLORFLTFOUR="aaaaaa"
+COLORLB="d83812"
+COLORNUN="cf0034"
+COLORNAN="edd20b"
+COLORALLOC="000000"
+COLORFLT2="FFD5F8" # gambit 2-tag
+COLORFLTLB="ac2db7"
+
 # benchmarks
 BENCH=r7rs
 SCM_BENCHMARKS="r7rs-compiler r7rs-dynamic r7rs-earley r7rs-graphs r7rs-matrix r7rs-maze r7rs-nboyer r7rs-parsing r7rs-peval r7rs-sboyer r7rs-scheme r7rs-slatex r7rs-fibfp r7rs-fft r7rs-mbrot r7rs-nucleic r7rs-pnpoly r7rs-ray r7rs-simplex r7rs-sum1 r7rs-sumfp"
