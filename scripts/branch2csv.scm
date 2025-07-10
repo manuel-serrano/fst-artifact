@@ -46,6 +46,7 @@
 (define *template* "set terminal pdf font 'Verdana,12' size @RATIO@
 
 #set title 'Branch prediction'
+set tmargin 0.2
 set ylabel 'missed branch prediction' offset 0,0
 
 set auto x

@@ -51,6 +51,8 @@ plot() {
   shift
   key=$1
   shift
+  tmargin=$1
+  shift
   title=$1
   shift
   range=$1
@@ -58,7 +60,7 @@ plot() {
   stats=$*
 
   if [ ! -f $pdf ] || [ $pdf -ot $plot.plot ]; then
-    $downloaddir/bglstone/bin/gnuplothistogram -o $plotdir/$plot --size $size --relative-sans-left $stats --benchmarks "$SCM_BENCHMARKS" --logscale --separator 12 --rename "Bigloo.fltlb" "self-tagging (2-tag, mantissa low-bits)" --rename "Bigloo.fltnz" "self-tagging (2-tag)" --rename "Bigloo.flt" "self-tagging (3-tag)" --rename "Bigloo.flt1" "self-tagging (1-tag)" --rename "Bigloo.nan" "NaN-boxing" --rename "Bigloo.nun" "NuN-boxing" --rename "Bigloo.bigloo" "alloc" --rename "Bigloo" "alloc" --rename "Gambit.nun" "NuN-boxing" --rename "Gambit.0" "alloc" --rename "Gambit.1" "self-tagging (1-tag)" --rename "Gambit.2" "self-tagging (2-tag)" --rename "Gambit.3" "self-tagging (3-tag)" --rename "Gambit.4" "self-tagging (4-tag)" --values --colors "$colors" --bmargin $bmargin --key "$key" --title "$title" --v-fontsize 4 --errorbars --range $range \
+    $downloaddir/bglstone/bin/gnuplothistogram -o $plotdir/$plot --size $size --tmargin $tmargin --relative-sans-left $stats --benchmarks "$SCM_BENCHMARKS" --logscale --separator 12 --rename "Bigloo.fltlb" "self-tagging (2-tag, mantissa low-bits)" --rename "Bigloo.fltnz" "self-tagging (2-tag)" --rename "Bigloo.flt" "self-tagging (3-tag)" --rename "Bigloo.flt1" "self-tagging (1-tag)" --rename "Bigloo.nan" "NaN-boxing" --rename "Bigloo.nun" "NuN-boxing" --rename "Bigloo.bigloo" "alloc" --rename "Bigloo" "alloc" --rename "Gambit.nun" "NuN-boxing" --rename "Gambit.0" "alloc" --rename "Gambit.1" "self-tagging (1-tag)" --rename "Gambit.2" "self-tagging (2-tag)" --rename "Gambit.3" "self-tagging (3-tag)" --rename "Gambit.4" "self-tagging (4-tag)" --values --colors "$colors" --bmargin $bmargin --key "$key" --title "$title" --v-fontsize 4 --errorbars --range $range \
       && (cd $plotdir; unprefix $plot.csv) \
       && (cd $plotdir; gnuplot $plot.plot) 
   fi
@@ -161,8 +163,8 @@ cat >> $legendfile <<EOF
 }
 EOF
 
-plot $PLOTDIR/bigloo_time_nun_$host.pdf "#$COLORFLTONE,#$COLORFLTNZ,#$COLORFLT,#$COLORNAN" "8,2" "3" "off" "" "[0.25:2.9]" $STATS/bigloo_nun.stat $STATS/bigloo_flt1.stat $STATS/bigloo_fltnz.stat $STATS/bigloo_flt.stat $STATS/bigloo_nan.stat
-plot $PLOTDIR/gambit_time_nun_$host.pdf "#$COLORFLTONE,#$COLORFLT2,#$COLORFLT,#$COLORFLTFOUR" "8,2" "3" "off" "" "[0.25:2.9]" $STATS/gambit_nun.stat $STATS/gambit_1.stat $STATS/gambit_2.stat $STATS/gambit_3.stat $STATS/gambit_4.stat
+plot $PLOTDIR/bigloo_time_nun_$host.pdf "#$COLORFLTONE,#$COLORFLTNZ,#$COLORFLT,#$COLORNAN" "8,2" "3" "off" "0.2" "" "[0.25:2.9]" $STATS/bigloo_nun.stat $STATS/bigloo_flt1.stat $STATS/bigloo_fltnz.stat $STATS/bigloo_flt.stat $STATS/bigloo_nan.stat
+plot $PLOTDIR/gambit_time_nun_$host.pdf "#$COLORFLTONE,#$COLORFLT2,#$COLORFLT,#$COLORFLTFOUR" "8,2" "3" "off" "0.2" "" "[0.25:2.9]" $STATS/gambit_nun.stat $STATS/gambit_1.stat $STATS/gambit_2.stat $STATS/gambit_3.stat $STATS/gambit_4.stat
 
 latex_friendly_host=$(make_latexfriendly $host)
 
@@ -225,8 +227,8 @@ cat >> $legendfile <<EOF
 }
 EOF
 
-plot $PLOTDIR/gambit_time_alloc_$host.pdf "#$COLORFLTONE" "8,2" "3" "off" "" "[0.25:2.9]" $STATS/gambit_0.stat $STATS/gambit_1.stat
-plot $PLOTDIR/bigloo_time_alloc_$host.pdf "#$COLORFLTONE" "8,2" "3" "off" "" "[0.25:2.9]" $STATS/bigloo.stat $STATS/bigloo_flt1.stat
+plot $PLOTDIR/gambit_time_alloc_$host.pdf "#$COLORFLTONE" "8,2" "3" "off" "0.2" "" "[0.25:2.9]" $STATS/gambit_0.stat $STATS/gambit_1.stat
+plot $PLOTDIR/bigloo_time_alloc_$host.pdf "#$COLORFLTONE" "8,2" "3" "off" "0.2" "" "[0.25:2.9]" $STATS/bigloo.stat $STATS/bigloo_flt1.stat
 
 #*---------------------------------------------------------------------*/
 #*    COMP_time_mantissa_ARCH.pdf                                      */
@@ -239,7 +241,7 @@ cat >> $legendfile <<EOF
 }
 EOF
 
-plot $PLOTDIR/bigloo_time_mantissa_$host.pdf "#$COLORFLTLB" "8,2" "2.5" "off" "" "[0.125:2.5]" $STATS/bigloo.stat $STATS/bigloo_fltlb.stat
+plot $PLOTDIR/bigloo_time_mantissa_$host.pdf "#$COLORFLTLB" "8,2" "2.5" "off" "0.2" "" "[0.125:2.5]" $STATS/bigloo.stat $STATS/bigloo_fltlb.stat
 
 #*---------------------------------------------------------------------*/
 #*    COMP_mem_ARCH.pdf                                                */
