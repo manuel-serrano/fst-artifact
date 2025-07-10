@@ -161,8 +161,8 @@ cat >> $legendfile <<EOF
 }
 EOF
 
-plot $PLOTDIR/bigloo_time_nun_$host.pdf "#$COLORFLTONE,#$COLORFLTNZ,#$COLORFLT,#$COLORNAN" "6,2" "3" "off" "" "[0.25:2.5]" $STATS/bigloo_nun.stat $STATS/bigloo_flt1.stat $STATS/bigloo_fltnz.stat $STATS/bigloo_flt.stat $STATS/bigloo_nan.stat
-plot $PLOTDIR/gambit_time_nun_$host.pdf "#$COLORFLTONE,#$COLORFLT2,#$COLORFLT,#$COLORFLTFOUR" "6,2" "3" "off" "" "[0.25:2.5]" $STATS/gambit_nun.stat $STATS/gambit_1.stat $STATS/gambit_2.stat $STATS/gambit_3.stat $STATS/gambit_4.stat
+plot $PLOTDIR/bigloo_time_nun_$host.pdf "#$COLORFLTONE,#$COLORFLTNZ,#$COLORFLT,#$COLORNAN" "6,2" "3" "off" "" "[0.25:2.9]" $STATS/bigloo_nun.stat $STATS/bigloo_flt1.stat $STATS/bigloo_fltnz.stat $STATS/bigloo_flt.stat $STATS/bigloo_nan.stat
+plot $PLOTDIR/gambit_time_nun_$host.pdf "#$COLORFLTONE,#$COLORFLT2,#$COLORFLT,#$COLORFLTFOUR" "6,2" "3" "off" "" "[0.25:2.9]" $STATS/gambit_nun.stat $STATS/gambit_1.stat $STATS/gambit_2.stat $STATS/gambit_3.stat $STATS/gambit_4.stat
 
 latex_friendly_host=$(make_latexfriendly $host)
 
@@ -225,8 +225,8 @@ cat >> $legendfile <<EOF
 }
 EOF
 
-plot $PLOTDIR/gambit_time_alloc_$host.pdf "#$COLORFLTONE" "6,2" "3" "off" "" "[0.25:2.5]" $STATS/gambit_0.stat $STATS/gambit_1.stat
-plot $PLOTDIR/bigloo_time_alloc_$host.pdf "#$COLORFLTONE" "6,2" "3" "off" "" "[0.25:2.5]" $STATS/bigloo.stat $STATS/bigloo_flt1.stat
+plot $PLOTDIR/gambit_time_alloc_$host.pdf "#$COLORFLTONE" "6,2" "3" "off" "" "[0.25:2.9]" $STATS/gambit_0.stat $STATS/gambit_1.stat
+plot $PLOTDIR/bigloo_time_alloc_$host.pdf "#$COLORFLTONE" "6,2" "3" "off" "" "[0.25:2.9]" $STATS/bigloo.stat $STATS/bigloo_flt1.stat
 
 #*---------------------------------------------------------------------*/
 #*    COMP_time_mantissa_ARCH.pdf                                      */
