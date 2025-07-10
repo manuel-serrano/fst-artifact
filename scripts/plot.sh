@@ -163,8 +163,8 @@ cat >> $legendfile <<EOF
 }
 EOF
 
-plot $PLOTDIR/bigloo_time_nun_$host.pdf "#$COLORFLTONE,#$COLORFLTNZ,#$COLORFLT,#$COLORNAN" "8,2" "3" "off" "0.2" "" "[0.25:2.9]" $STATS/bigloo_nun.stat $STATS/bigloo_flt1.stat $STATS/bigloo_fltnz.stat $STATS/bigloo_flt.stat $STATS/bigloo_nan.stat
-plot $PLOTDIR/gambit_time_nun_$host.pdf "#$COLORFLTONE,#$COLORFLT2,#$COLORFLT,#$COLORFLTFOUR" "8,2" "3" "off" "0.2" "" "[0.25:2.9]" $STATS/gambit_nun.stat $STATS/gambit_1.stat $STATS/gambit_2.stat $STATS/gambit_3.stat $STATS/gambit_4.stat
+plot $PLOTDIR/bigloo_time_nun_$host.pdf "#$COLORFLTONE,#$COLORFLTNZ,#$COLORFLT,#$COLORNAN" "7,2" "3" "off" "0.2" "" "[0.25:2.9]" $STATS/bigloo_nun.stat $STATS/bigloo_flt1.stat $STATS/bigloo_fltnz.stat $STATS/bigloo_flt.stat $STATS/bigloo_nan.stat
+plot $PLOTDIR/gambit_time_nun_$host.pdf "#$COLORFLTONE,#$COLORFLT2,#$COLORFLT,#$COLORFLTFOUR" "7,2" "3" "off" "0.2" "" "[0.25:2.9]" $STATS/gambit_nun.stat $STATS/gambit_1.stat $STATS/gambit_2.stat $STATS/gambit_3.stat $STATS/gambit_4.stat
 
 latex_friendly_host=$(make_latexfriendly $host)
 
@@ -227,8 +227,8 @@ cat >> $legendfile <<EOF
 }
 EOF
 
-plot $PLOTDIR/gambit_time_alloc_$host.pdf "#$COLORFLTONE" "8,2" "3" "off" "0.2" "" "[0.25:2.9]" $STATS/gambit_0.stat $STATS/gambit_1.stat
-plot $PLOTDIR/bigloo_time_alloc_$host.pdf "#$COLORFLTONE" "8,2" "3" "off" "0.2" "" "[0.25:2.9]" $STATS/bigloo.stat $STATS/bigloo_flt1.stat
+plot $PLOTDIR/gambit_time_alloc_$host.pdf "#$COLORFLTONE" "7,2" "3" "off" "0.2" "" "[0.25:2.9]" $STATS/gambit_0.stat $STATS/gambit_1.stat
+plot $PLOTDIR/bigloo_time_alloc_$host.pdf "#$COLORFLTONE" "7,2" "3" "off" "0.2" "" "[0.25:2.9]" $STATS/bigloo.stat $STATS/bigloo_flt1.stat
 
 #*---------------------------------------------------------------------*/
 #*    COMP_time_mantissa_ARCH.pdf                                      */
@@ -280,7 +280,7 @@ cat >> $legendfile <<EOF
 EOF
 
 if [ -f $BRANCHS/r7rs-compiler/bigloo.branch ]; then
-  (cd $BRANCHS; $installdir/bigloo/bin/bigloo -i $dir/branch2csv.scm bigloo_branch_$host $SCM_BENCHMARKS --key "off" --separator 12 --colors "#ff0,#$COLORFLTLB,#$COLORFLTONE,#$COLORFLTNZ,#$COLORNAN,#$COLORNUN" -:- bigloo bigloo_fltlb bigloo_flt1 bigloo_fltnz bigloo_nan bigloo_nun 2> ../$PLOTDIR/bigloo_branch_$host.plot | sed -e 's/r7rs-//'  > ../$PLOTDIR/bigloo_branch_$host.csv) && (cd $PLOTDIR; gnuplot bigloo_branch_$host.plot)
+  (cd $BRANCHS; $installdir/bigloo/bin/bigloo -i $dir/branch2csv.scm bigloo_branch_$host $SCM_BENCHMARKS --ratio "8,2" --key "off" --separator 12 --colors "#ff0,#$COLORFLTLB,#$COLORFLTONE,#$COLORFLTNZ,#$COLORNAN,#$COLORNUN" -:- bigloo bigloo_fltlb bigloo_flt1 bigloo_fltnz bigloo_nan bigloo_nun 2> ../$PLOTDIR/bigloo_branch_$host.plot | sed -e 's/r7rs-//'  > ../$PLOTDIR/bigloo_branch_$host.csv) && (cd $PLOTDIR; gnuplot bigloo_branch_$host.plot)
 fi
 
 #*---------------------------------------------------------------------*/
