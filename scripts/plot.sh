@@ -18,6 +18,9 @@ dir=`dirname $path`
 
 . $dir/env.sh
 
+set -u
+
+ratiofile="$PLOTDIR/ratio.tex"
 legendfile="$PLOTDIR/legend.tex"
 repetitionsfile="$PLOTDIR/repetitions.tex"
 
@@ -61,8 +64,69 @@ plot() {
   fi
 }
 
+geomean() {
+  local csv=$1
+  shift
+  local colno=$1
+  shift
+  local names=$1
+
+  local pattern=$(echo "$names" | sed 's/ /|/g')
+
+  grep -E "$pattern" "$csv" | awk -F',' -v col="$colno" '
+    BEGIN { sum_log = 0; count = 0 }
+    {
+      val = $col + 0;
+      if (val > 0) {
+        sum_log += log(val);
+        count++;
+      }
+    }
+    END {
+      if (count > 0) {
+        printf "%.2f\n", exp(sum_log / count);
+      } else {
+        print "NaN";
+      }
+    }
+  '
+}
+
+make_latexfriendly() {
+  local input="$1"
+  if [ "$input" = "redrock2020" ]; then
+    echo "redrockTT"
+  else
+    echo "$input" | tr -cd 'a-zA-Z'
+  fi
+}
+
+echo > $ratiofile
 echo > $legendfile
 echo > $repetitionsfile
+
+cat >> $legendfile <<EOF
+% used to highlight cells in interval table
+\newcommand{\htmlColorOneTag}{$COLORFLTONE}
+\newcommand{\htmlColorTwoTag}{$COLORFLT2}
+\newcommand{\htmlColorThreeTag}{$COLORFLT}
+\newcommand{\htmlColorFourTag}{$COLORFLTFOUR}
+\newcommand{\htmlColorTwoTagNZ}{$COLORFLTNZ}
+\newcommand{\htmlColorNan}{$COLORNAN}
+
+\definecolor{tag0}{HTML}{$COLORFLT}
+\definecolor{tag3}{HTML}{$COLORFLTNZ}
+\definecolor{tag4}{HTML}{$COLORFLTNZ_LIGHT}
+\definecolor{tag7}{HTML}{$COLORFLTFOUR}
+\definecolor{1tag}{HTML}{$COLORFLTONE}
+\definecolor{2tag}{HTML}{$COLORFLT2}
+\newcommand{\tagzerocolorname}{$COLORFLT_NAME }
+\newcommand{\tagthreecolorname}{$COLORFLTNZ_NAME }
+\newcommand{\tagfourcolorname}{$COLORFLTNZ_LIGHT_NAME }
+\newcommand{\tagsevencolorname}{$COLORFLTFOUR_NAME }
+\newcommand{\onetagcolorname}{$COLORFLTONE_NAME }
+\newcommand{\twotagcolorname}{$COLORFLT2_NAME }
+EOF
 
 cat >> $repetitionsfile <<EOF
 \newcommand{\experimentsrepetitions}{$REPETITION}
@@ -97,9 +161,46 @@ cat >> $legendfile <<EOF
 }
 EOF
 
-plot $PLOTDIR/bigloo_time_nun_$host.pdf "#$COLORFLTONE,#$COLORFLTNZ,#$COLORFLT,#$COLORNAN" "6,2" "3" "off" "" "[0.25:2.5]" $STATS/bigloo_nun.stat $STATS/bigloo_flt1.stat $STATS/bigloo_fltnz.stat $STATS/bigloo_flt.stat $STATS/bigloo_nan.stat
-plot $PLOTDIR/gambit_time_nun_$host.pdf "#$COLORFLTONE,#$COLORFLT2,#$COLORFLT,#$COLORFLTFOUR" "6,2" "3" "off" "" "[0.25:2.5]" $STATS/gambit_nun.stat $STATS/gambit_1.stat $STATS/gambit_2.stat $STATS/gambit_3.stat $STATS/gambit_4.stat
+plot $PLOTDIR/bigloo_time_nun_$host.pdf "#$COLORFLTONE,#$COLORFLTNZ,#$COLORFLT,#$COLORNAN" "6,2" "3" "off" "" "[0.25:2.9]" $STATS/bigloo_nun.stat $STATS/bigloo_flt1.stat $STATS/bigloo_fltnz.stat $STATS/bigloo_flt.stat $STATS/bigloo_nan.stat
+plot $PLOTDIR/gambit_time_nun_$host.pdf "#$COLORFLTONE,#$COLORFLT2,#$COLORFLT,#$COLORFLTFOUR" "6,2" "3" "off" "" "[0.25:2.9]" $STATS/gambit_nun.stat $STATS/gambit_1.stat $STATS/gambit_2.stat $STATS/gambit_3.stat $STATS/gambit_4.stat
 
+latex_friendly_host=$(make_latexfriendly $host)
+
+cat >> $ratiofile <<EOF
+%bigloo vs nun
+\newcommand{\bigloo${latex_friendly_host}FltOneNunRatioFloats}{$(geomean $PLOTDIR/bigloo_time_nun_$host.csv 2 "$SCM_FLOAT_BENCHMARKS_NAMES")}
+\newcommand{\bigloo${latex_friendly_host}FltOneNunRatioNonFloats}{$(geomean $PLOTDIR/bigloo_time_nun_$host.csv 2 "$SCM_NONFLOAT_BENCHMARKS_NAMES")}
+\newcommand{\bigloo${latex_friendly_host}FltOneNunRatioAll}{$(geomean $PLOTDIR/bigloo_time_nun_$host.csv 2 "$SCM_BENCHMARKS_NAMES")}
+
+\newcommand{\bigloo${latex_friendly_host}FltnzNunRatioFloats}{$(geomean $PLOTDIR/bigloo_time_nun_$host.csv 5 "$SCM_FLOAT_BENCHMARKS_NAMES")}
+\newcommand{\bigloo${latex_friendly_host}FltnzNunRatioNonFloats}{$(geomean $PLOTDIR/bigloo_time_nun_$host.csv 5 "$SCM_NONFLOAT_BENCHMARKS_NAMES")}
+\newcommand{\bigloo${latex_friendly_host}FltnzNunRatioAll}{$(geomean $PLOTDIR/bigloo_time_nun_$host.csv 5 "$SCM_BENCHMARKS_NAMES")}
+
+\newcommand{\bigloo${latex_friendly_host}FltThreeNunRatioFloats}{$(geomean $PLOTDIR/bigloo_time_nun_$host.csv 8 "$SCM_FLOAT_BENCHMARKS_NAMES")}
+\newcommand{\bigloo${latex_friendly_host}FltThreeNunRatioNonFloats}{$(geomean $PLOTDIR/bigloo_time_nun_$host.csv 8 "$SCM_NONFLOAT_BENCHMARKS_NAMES")}
+\newcommand{\bigloo${latex_friendly_host}FltThreeNunRatioAll}{$(geomean $PLOTDIR/bigloo_time_nun_$host.csv 8 "$SCM_BENCHMARKS_NAMES")}
+
+\newcommand{\bigloo${latex_friendly_host}NanNunRatioFloats}{$(geomean $PLOTDIR/bigloo_time_nun_$host.csv 11 "$SCM_FLOAT_BENCHMARKS_NAMES")}
+\newcommand{\bigloo${latex_friendly_host}NanNunRatioNonFloats}{$(geomean $PLOTDIR/bigloo_time_nun_$host.csv 11 "$SCM_NONFLOAT_BENCHMARKS_NAMES")}
+\newcommand{\bigloo${latex_friendly_host}NanNunRatioAll}{$(geomean $PLOTDIR/bigloo_time_nun_$host.csv 11 "$SCM_BENCHMARKS_NAMES")}
+
+%gambit vs nun
+\newcommand{\gambit${latex_friendly_host}FltOneNunRatioFloats}{$(geomean $PLOTDIR/gambit_time_nun_$host.csv 2 "$SCM_FLOAT_BENCHMARKS_NAMES")}
+\newcommand{\gambit${latex_friendly_host}FltOneNunRatioNonFloats}{$(geomean $PLOTDIR/gambit_time_nun_$host.csv 2 "$SCM_NONFLOAT_BENCHMARKS_NAMES")}
+\newcommand{\gambit${latex_friendly_host}FltOneNunRatioAll}{$(geomean $PLOTDIR/gambit_time_nun_$host.csv 2 "$SCM_BENCHMARKS_NAMES")}
+
+\newcommand{\gambit${latex_friendly_host}FltTwoNunRatioFloats}{$(geomean $PLOTDIR/gambit_time_nun_$host.csv 5 "$SCM_FLOAT_BENCHMARKS_NAMES")}
+\newcommand{\gambit${latex_friendly_host}FltTwoNunRatioNonFloats}{$(geomean $PLOTDIR/gambit_time_nun_$host.csv 5 "$SCM_NONFLOAT_BENCHMARKS_NAMES")}
+\newcommand{\gambit${latex_friendly_host}FltTwoNunRatioAll}{$(geomean $PLOTDIR/gambit_time_nun_$host.csv 5 "$SCM_BENCHMARKS_NAMES")}
+
+\newcommand{\gambit${latex_friendly_host}FltThreeNunRatioFloats}{$(geomean $PLOTDIR/gambit_time_nun_$host.csv 8 "$SCM_FLOAT_BENCHMARKS_NAMES")}
+\newcommand{\gambit${latex_friendly_host}FltThreeNunRatioNonFloats}{$(geomean $PLOTDIR/gambit_time_nun_$host.csv 8 "$SCM_NONFLOAT_BENCHMARKS_NAMES")}
+\newcommand{\gambit${latex_friendly_host}FltThreeNunRatioAll}{$(geomean $PLOTDIR/gambit_time_nun_$host.csv 8 "$SCM_BENCHMARKS_NAMES")}
+
+\newcommand{\gambit${latex_friendly_host}FltFourNunRatioFloats}{$(geomean $PLOTDIR/gambit_time_nun_$host.csv 11 "$SCM_FLOAT_BENCHMARKS_NAMES")}
+\newcommand{\gambit${latex_friendly_host}FltFourNunRatioNonFloats}{$(geomean $PLOTDIR/gambit_time_nun_$host.csv 11 "$SCM_NONFLOAT_BENCHMARKS_NAMES")}
+\newcommand{\gambit${latex_friendly_host}FltFourNunRatioAll}{$(geomean $PLOTDIR/gambit_time_nun_$host.csv 11 "$SCM_BENCHMARKS_NAMES")}
+EOF
 #*---------------------------------------------------------------------*/
 #*    COMP_time_alloc_ARCH.pdf                                         */
 #*---------------------------------------------------------------------*/
@@ -124,8 +225,8 @@ cat >> $legendfile <<EOF
 }
 EOF
 
-plot $PLOTDIR/gambit_time_alloc_$host.pdf "#$COLORFLTONE" "6,2" "3" "off" "" "[0.25:2.5]" $STATS/gambit_0.stat $STATS/gambit_1.stat
-plot $PLOTDIR/bigloo_time_alloc_$host.pdf "#$COLORFLTONE" "6,2" "3" "off" "" "[0.25:2.5]" $STATS/bigloo.stat $STATS/bigloo_flt1.stat
+plot $PLOTDIR/gambit_time_alloc_$host.pdf "#$COLORFLTONE" "6,2" "3" "off" "" "[0.25:2.9]" $STATS/gambit_0.stat $STATS/gambit_1.stat
+plot $PLOTDIR/bigloo_time_alloc_$host.pdf "#$COLORFLTONE" "6,2" "3" "off" "" "[0.25:2.9]" $STATS/bigloo.stat $STATS/bigloo_flt1.stat
 
 #*---------------------------------------------------------------------*/
 #*    COMP_time_mantissa_ARCH.pdf                                      */

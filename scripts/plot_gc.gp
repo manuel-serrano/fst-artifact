@@ -26,7 +26,7 @@ if (exists("legend_only")) {
         NaN with linespoints title "Bigloo (self-tagging, 1-tag)" linecolor "dark-blue" ps 2 lw 3 pointtype 9, \
         NaN with linespoints title "Gambit (self-tagging, 1-tag)" linecolor "dark-red" ps 2 lw 3 pointtype 5, \
         NaN with linespoints title "Bigloo (alloc)" linecolor "dark-blue" dashtype (30,15,30,15) ps 2 lw 3 pointtype 8, \
-        NaN with linespoints title "Gambit (alloc)" linecolor "dark-red" dashtype (30,15,30,15) ps 2 lw 3 pointtype 4, \
+        NaN with linespoints title "Gambit (alloc)" linecolor "dark-red" dashtype (30,15,30,15) ps 2 lw 3 pointtype 4
 
     exit 0
 }
