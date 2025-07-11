@@ -3,7 +3,7 @@
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  manuel serrano                                    */
 ;*    Creation    :  Fri Nov  1 19:53:56 2024                          */
-;*    Last change :  Wed Jul  2 15:14:41 2025 (serrano)                */
+;*    Last change :  Fri Jul 11 15:32:23 2025 (serrano)                */
 ;*    Copyright   :  2024-25 manuel serrano                            */
 ;*    -------------------------------------------------------------    */
 ;*    Convert branch profiles into a CSV file.                         */
@@ -21,12 +21,13 @@
 (define *base-color* "red")
 
 (define (get-offsets n)
-	(let* ((max-numerator (quotient (+ n 1) 2))
-		   (abs-offsets (map (lambda (x) (/ x 6)) (iota max-numerator 1))))
-	(list->vector (append
-		(map (lambda (x) (- x)) (reverse abs-offsets))
-		(if (even? n) '(0) '())
-		abs-offsets))))
+   (let* ((max-numerator (quotient (+ n 1) 2))
+	  (abs-offsets (map (lambda (x) (/ x 6)) (iota max-numerator 1))))
+      (list->vector (append
+		       '(-)
+		       (map (lambda (x) (- x)) (reverse abs-offsets))
+		       (if (even? n) '(0) '())
+		       abs-offsets))))
 
 (define *separator* -1)
 (define *aliases* '())
@@ -202,7 +203,7 @@ set bmargin 3")
 	    (cdr compilers) (iota (length compilers) 2))
 	 (let ((table (get-offsets (length compilers))))
 	    (map (lambda (comp idx)
-		    (format "  '~a.csv' u ($0+~a):($2+1):(sprintf(\"%3.2f\",$~a)) with labels font 'Verdana,6' rotate by 90 notitle"
+		    (format "  '~a.csv' u ($0+~a):($~a*1.6):(sprintf(\"%3.2f\",$~a)) with labels font 'Verdana,6' rotate by 90 notitle"
 		       output (vector-ref table idx) idx idx idx))
 	       (cdr compilers) (iota (length compilers) 2)))))
    
