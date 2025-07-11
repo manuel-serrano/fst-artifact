@@ -122,12 +122,12 @@ cat >> $legendfile <<EOF
 \definecolor{tag7}{HTML}{$COLORFLTFOUR}
 \definecolor{1tag}{HTML}{$COLORFLTONE}
 \definecolor{2tag}{HTML}{$COLORFLT2}
-\newcommand{\tagzerocolorname}{$COLORFLT_NAME }
-\newcommand{\tagthreecolorname}{$COLORFLTNZ_NAME }
-\newcommand{\tagfourcolorname}{$COLORFLTNZ_LIGHT_NAME }
-\newcommand{\tagsevencolorname}{$COLORFLTFOUR_NAME }
-\newcommand{\onetagcolorname}{$COLORFLTONE_NAME }
-\newcommand{\twotagcolorname}{$COLORFLT2_NAME }
+\newcommand{\tagzerocolorname}{$COLORFLT_NAME}
+\newcommand{\tagthreecolorname}{$COLORFLTNZ_NAME}
+\newcommand{\tagfourcolorname}{$COLORFLTNZ_LIGHT_NAME}
+\newcommand{\tagsevencolorname}{$COLORFLTFOUR_NAME}
+\newcommand{\onetagcolorname}{$COLORFLTONE_NAME}
+\newcommand{\twotagcolorname}{$COLORFLT2_NAME}
 EOF
 
 cat >> $repetitionsfile <<EOF

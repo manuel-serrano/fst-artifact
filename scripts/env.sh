@@ -59,16 +59,16 @@ COLORALLOC="000000"
 COLORFLT2="ffb6f3" # gambit 2-tag
 COLORFLTLB="ac2db7"
 
-COLORFLTONE_NAME="magenta"
+COLORFLTONE_NAME="bold pink"
 COLORFLT_NAME="green"
-COLORFLTNZ_NAME="blue"
+COLORFLTNZ_NAME="dark blue"
 COLORFLTNZ_LIGHT_NAME="light blue"
-COLORFLTFOUR_NAME="grey"
+COLORFLTFOUR_NAME="gray"
 COLORLB_NAME="orange"
 COLORNUN_NAME="red"
 COLORNAN_NAME="yellow"
 COLORALLOC_NAME="black"
-COLORFLT2_NAME="pink" # gambit 2-tag
+COLORFLT2_NAME="light pink" # gambit 2-tag
 COLORFLTLB_NAME="purple"
 
 # benchmarks
