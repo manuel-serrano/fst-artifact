@@ -51,6 +51,8 @@ plot() {
   shift
   key=$1
   shift
+  tmargin=$1
+  shift
   title=$1
   shift
   range=$1
@@ -58,7 +60,7 @@ plot() {
   stats=$*
 
   if [ ! -f $pdf ] || [ $pdf -ot $plot.plot ]; then
-    $downloaddir/bglstone/bin/gnuplothistogram -o $plotdir/$plot --size $size --relative-sans-left $stats --benchmarks "$SCM_BENCHMARKS" --logscale --separator 12 --rename "Bigloo.fltlb" "self-tagging (2-tag, mantissa low-bits)" --rename "Bigloo.fltnz" "self-tagging (2-tag)" --rename "Bigloo.flt" "self-tagging (3-tag)" --rename "Bigloo.flt1" "self-tagging (1-tag)" --rename "Bigloo.nan" "NaN-boxing" --rename "Bigloo.nun" "NuN-boxing" --rename "Bigloo.bigloo" "alloc" --rename "Bigloo" "alloc" --rename "Gambit.nun" "NuN-boxing" --rename "Gambit.0" "alloc" --rename "Gambit.1" "self-tagging (1-tag)" --rename "Gambit.2" "self-tagging (2-tag)" --rename "Gambit.3" "self-tagging (3-tag)" --rename "Gambit.4" "self-tagging (4-tag)" --values --colors "$colors" --bmargin $bmargin --key "$key" --title "$title" --v-fontsize 4 --errorbars --range $range \
+    $downloaddir/bglstone/bin/gnuplothistogram -o $plotdir/$plot --size $size --tmargin $tmargin --relative-sans-left $stats --benchmarks "$SCM_BENCHMARKS" --logscale --separator 12 --rename "Bigloo.fltlb" "self-tagging (2-tag, mantissa low-bits)" --rename "Bigloo.fltnz" "self-tagging (2-tag)" --rename "Bigloo.flt" "self-tagging (3-tag)" --rename "Bigloo.flt1" "self-tagging (1-tag)" --rename "Bigloo.nan" "NaN-boxing" --rename "Bigloo.nun" "NuN-boxing" --rename "Bigloo.bigloo" "alloc" --rename "Bigloo" "alloc" --rename "Gambit.nun" "NuN-boxing" --rename "Gambit.0" "alloc" --rename "Gambit.1" "self-tagging (1-tag)" --rename "Gambit.2" "self-tagging (2-tag)" --rename "Gambit.3" "self-tagging (3-tag)" --rename "Gambit.4" "self-tagging (4-tag)" --values --colors "$colors" --bmargin $bmargin --key "$key" --title "$title" --v-fontsize 4 --errorbars --range $range \
       && (cd $plotdir; unprefix $plot.csv) \
       && (cd $plotdir; gnuplot $plot.plot) 
   fi
@@ -161,8 +163,8 @@ cat >> $legendfile <<EOF
 }
 EOF
 
-plot $PLOTDIR/bigloo_time_nun_$host.pdf "#$COLORFLTONE,#$COLORFLTNZ,#$COLORFLT,#$COLORNAN" "6,2" "3" "off" "" "[0.25:2.9]" $STATS/bigloo_nun.stat $STATS/bigloo_flt1.stat $STATS/bigloo_fltnz.stat $STATS/bigloo_flt.stat $STATS/bigloo_nan.stat
-plot $PLOTDIR/gambit_time_nun_$host.pdf "#$COLORFLTONE,#$COLORFLT2,#$COLORFLT,#$COLORFLTFOUR" "6,2" "3" "off" "" "[0.25:2.9]" $STATS/gambit_nun.stat $STATS/gambit_1.stat $STATS/gambit_2.stat $STATS/gambit_3.stat $STATS/gambit_4.stat
+plot $PLOTDIR/bigloo_time_nun_$host.pdf "#$COLORFLTONE,#$COLORFLTNZ,#$COLORFLT,#$COLORNAN" "7,2" "3" "off" "0.2" "" "[0.25:2.9]" $STATS/bigloo_nun.stat $STATS/bigloo_flt1.stat $STATS/bigloo_fltnz.stat $STATS/bigloo_flt.stat $STATS/bigloo_nan.stat
+plot $PLOTDIR/gambit_time_nun_$host.pdf "#$COLORFLTONE,#$COLORFLT2,#$COLORFLT,#$COLORFLTFOUR" "7,2" "3" "off" "0.2" "" "[0.25:2.9]" $STATS/gambit_nun.stat $STATS/gambit_1.stat $STATS/gambit_2.stat $STATS/gambit_3.stat $STATS/gambit_4.stat
 
 latex_friendly_host=$(make_latexfriendly $host)
 
@@ -225,8 +227,8 @@ cat >> $legendfile <<EOF
 }
 EOF
 
-plot $PLOTDIR/gambit_time_alloc_$host.pdf "#$COLORFLTONE" "6,2" "3" "off" "" "[0.25:2.9]" $STATS/gambit_0.stat $STATS/gambit_1.stat
-plot $PLOTDIR/bigloo_time_alloc_$host.pdf "#$COLORFLTONE" "6,2" "3" "off" "" "[0.25:2.9]" $STATS/bigloo.stat $STATS/bigloo_flt1.stat
+plot $PLOTDIR/gambit_time_alloc_$host.pdf "#$COLORFLTONE" "7,2" "3" "off" "0.2" "" "[0.25:2.9]" $STATS/gambit_0.stat $STATS/gambit_1.stat
+plot $PLOTDIR/bigloo_time_alloc_$host.pdf "#$COLORFLTONE" "7,2" "3" "off" "0.2" "" "[0.25:2.9]" $STATS/bigloo.stat $STATS/bigloo_flt1.stat
 
 #*---------------------------------------------------------------------*/
 #*    COMP_time_mantissa_ARCH.pdf                                      */
@@ -239,7 +241,7 @@ cat >> $legendfile <<EOF
 }
 EOF
 
-plot $PLOTDIR/bigloo_time_mantissa_$host.pdf "#$COLORFLTLB" "6,2" "2.5" "off" "" "[0.125:2.5]" $STATS/bigloo.stat $STATS/bigloo_fltlb.stat
+plot $PLOTDIR/bigloo_time_mantissa_$host.pdf "#$COLORFLTLB" "8,2" "2.5" "off" "0.2" "" "[0.125:2.5]" $STATS/bigloo.stat $STATS/bigloo_fltlb.stat
 
 #*---------------------------------------------------------------------*/
 #*    COMP_mem_ARCH.pdf                                                */
@@ -258,7 +260,7 @@ cat >> $legendfile <<EOF
 }
 EOF
 
-(cd $BMEMS; $installdir/bigloo/bin/bigloo -i $dir/bmem2csv.scm bigloo_mem_$host $SCM_BENCHMARKS --key "off" --separator 12 --colors "#ff0,#$COLORFLTONE,#$COLORFLTNZ,#$COLORFLT,#$COLORNAN,#$COLORNUN" -:- bigloo bigloo_flt1 bigloo_fltnz bigloo_flt bigloo_nan bigloo_nun 2> ../$PLOTDIR/bigloo_mem_$host.plot | sed -e 's/r7rs-//'  > ../$PLOTDIR/bigloo_mem_$host.csv) && (cd $PLOTDIR; gnuplot bigloo_mem_$host.plot)
+(cd $BMEMS; $installdir/bigloo/bin/bigloo -i $dir/bmem2csv.scm bigloo_mem_$host $SCM_BENCHMARKS --ratio "8,2" --key "off" --separator 12 --colors "#ff0,#$COLORFLTONE,#$COLORFLTNZ,#$COLORFLT,#$COLORNAN,#$COLORNUN" -:- bigloo bigloo_flt1 bigloo_fltnz bigloo_flt bigloo_nan bigloo_nun 2> ../$PLOTDIR/bigloo_mem_$host.plot | sed -e 's/r7rs-//'  > ../$PLOTDIR/bigloo_mem_$host.csv) && (cd $PLOTDIR; gnuplot bigloo_mem_$host.plot)
 
 #*---------------------------------------------------------------------*/
 #*    COMP_branch_ARCH.pdf                                             */
@@ -278,7 +280,7 @@ cat >> $legendfile <<EOF
 EOF
 
 if [ -f $BRANCHS/r7rs-compiler/bigloo.branch ]; then
-  (cd $BRANCHS; $installdir/bigloo/bin/bigloo -i $dir/branch2csv.scm bigloo_branch_$host $SCM_BENCHMARKS --key "off" --separator 12 --colors "#ff0,#$COLORFLTLB,#$COLORFLTONE,#$COLORFLTNZ,#$COLORNAN,#$COLORNUN" -:- bigloo bigloo_fltlb bigloo_flt1 bigloo_fltnz bigloo_nan bigloo_nun 2> ../$PLOTDIR/bigloo_branch_$host.plot | sed -e 's/r7rs-//'  > ../$PLOTDIR/bigloo_branch_$host.csv) && (cd $PLOTDIR; gnuplot bigloo_branch_$host.plot)
+  (cd $BRANCHS; $installdir/bigloo/bin/bigloo -i $dir/branch2csv.scm bigloo_branch_$host $SCM_BENCHMARKS --ratio "8,2" --key "off" --separator 12 --colors "#ff0,#$COLORFLTLB,#$COLORFLTONE,#$COLORFLTNZ,#$COLORNAN,#$COLORNUN" -:- bigloo bigloo_fltlb bigloo_flt1 bigloo_fltnz bigloo_nan bigloo_nun 2> ../$PLOTDIR/bigloo_branch_$host.plot | sed -e 's/r7rs-//'  > ../$PLOTDIR/bigloo_branch_$host.csv) && (cd $PLOTDIR; gnuplot bigloo_branch_$host.plot)
 fi
 
 #*---------------------------------------------------------------------*/
@@ -301,18 +303,18 @@ done
 #*    Scheme performance                                               */
 #*---------------------------------------------------------------------*/
 #* # figure 5.b                                                        */
-#* plot $PLOTDIR/bigloo_vs_fltlb.pdf "#$COLORLB" "6,2" "3" "off" "" "[0:*]" $STATS/bigloo.stat $STATS/bigloo_fltlb.stat */
+#* plot $PLOTDIR/bigloo_vs_fltlb.pdf "#$COLORLB" "8,2" "3" "off" "" "[0:*]" $STATS/bigloo.stat $STATS/bigloo_fltlb.stat */
 #*                                                                     */
 #* # figure 7                                                          */
-#* plot $PLOTDIR/bigloo_vs_flt1.pdf "#$COLORLB" "6,2" "3" "off" ""  "[0:*]" $STATS/bigloo.stat $STATS/bigloo_flt1.stat */
+#* plot $PLOTDIR/bigloo_vs_flt1.pdf "#$COLORLB" "8,2" "3" "off" ""  "[0:*]" $STATS/bigloo.stat $STATS/bigloo_flt1.stat */
 #*                                                                     */
 #* # figure 9                                                          */
-#* plot $PLOTDIR/bigloo_vs_flt.pdf "#$COLORFLTONE,#$COLORFLTNZ,#$COLORFLT,#$COLORNAN" "6,2" "5" "under nobox" "Relative time (@PROCESSOR@)" "[0.5:2.5]" $STATS/bigloo_nun.stat $STATS/bigloo_flt1.stat $STATS/bigloo_fltnz.stat $STATS/bigloo_flt.stat $STATS/bigloo_nan.stat */
+#* plot $PLOTDIR/bigloo_vs_flt.pdf "#$COLORFLTONE,#$COLORFLTNZ,#$COLORFLT,#$COLORNAN" "8,2" "5" "under nobox" "Relative time (@PROCESSOR@)" "[0.5:2.5]" $STATS/bigloo_nun.stat $STATS/bigloo_flt1.stat $STATS/bigloo_fltnz.stat $STATS/bigloo_flt.stat $STATS/bigloo_nan.stat */
 #*                                                                     */
-#* plot $PLOTDIR/gambit_vs_flt.pdf "#$COLORFLTONE,#$COLORFLTNZ,#$COLORFLT,#$COLORFLTFOUR" "6,2" "5" "under nobox" "Relative time (@PROCESSOR@)" "[0.5:2.5]" $STATS/gambit_nun.stat $STATS/gambit_1.stat $STATS/gambit_2.stat $STATS/gambit_3.stat $STATS/gambit_4.stat */
+#* plot $PLOTDIR/gambit_vs_flt.pdf "#$COLORFLTONE,#$COLORFLTNZ,#$COLORFLT,#$COLORFLTFOUR" "8,2" "5" "under nobox" "Relative time (@PROCESSOR@)" "[0.5:2.5]" $STATS/gambit_nun.stat $STATS/gambit_1.stat $STATS/gambit_2.stat $STATS/gambit_3.stat $STATS/gambit_4.stat */
 #*                                                                     */
 #* # figure 11                                                         */
-#* plot $PLOTDIR/bigloo_vs_nan.pdf "#$COLORNAN,#$COLORNUN,#$COLORFLTONE" "6,2" "5" "under nobox" "Relative time (@PROCESSOR@)" "[0:*]" $STATS/bigloo.stat $STATS/bigloo_nan.stat $STATS/bigloo_nun.stat $STATS/bigloo_flt1.stat */
+#* plot $PLOTDIR/bigloo_vs_nan.pdf "#$COLORNAN,#$COLORNUN,#$COLORFLTONE" "8,2" "5" "under nobox" "Relative time (@PROCESSOR@)" "[0:*]" $STATS/bigloo.stat $STATS/bigloo_nan.stat $STATS/bigloo_nun.stat $STATS/bigloo_flt1.stat */
 #*                                                                     */
 # figure 8 (gc)
 
@@ -352,7 +354,7 @@ gnuplot -e "legend_only=1" \
 #   logs="$logs $LOGS/$b.log.json"
 # done
 #
-# $installdir/hop/bin/hop --no-server -- $downloaddir/$jsbench/tools/logbench.js gnuplothistogram.js --nosort --relativesans  --logscale y --engine=$downloaddir/$jsbench/tools/engines -e hop -e hop_nan -e hop_nun -e hop_flt1 --xtics=rotater --target=hop.pdf --format=pdf --size "6,2" --alias "hop.nan=JavaScript NaN-boxing" --alias "hop.nun=JavaScript NuN-boxing" --alias "hop.flt1=JavaScript self-tagging (1-tag)" --alias "hop=orig" --yrange "[0:*]" --colors "red,#$COLORNAN,#$COLORNUN,#$COLORFLTONE" --values --separator 28 --bmargin 6 $logs
+# $installdir/hop/bin/hop --no-server -- $downloaddir/$jsbench/tools/logbench.js gnuplothistogram.js --nosort --relativesans  --logscale y --engine=$downloaddir/$jsbench/tools/engines -e hop -e hop_nan -e hop_nun -e hop_flt1 --xtics=rotater --target=hop.pdf --format=pdf --size "8,2" --alias "hop.nan=JavaScript NaN-boxing" --alias "hop.nun=JavaScript NuN-boxing" --alias "hop.flt1=JavaScript self-tagging (1-tag)" --alias "hop=orig" --yrange "[0:*]" --colors "red,#$COLORNAN,#$COLORNUN,#$COLORFLTONE" --values --separator 28 --bmargin 6 $logs
 # 
 # mv hop.plot $PLOTDIR/hop.plot
 # mv hop.csv $PLOTDIR/hop.csv

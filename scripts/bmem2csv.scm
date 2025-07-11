@@ -44,6 +44,7 @@
 (define *template* "set terminal pdf font 'Verdana,12' size @RATIO@
 
 #set title 'Memory allocation'
+set tmargin 0.2
 set ylabel 'relative allocation' offset 0,0
 
 set auto x
