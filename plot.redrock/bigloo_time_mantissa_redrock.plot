@@ -50,7 +50,7 @@ set bmargin 2.5
 set key off
 
 set arrow 1 from graph 0, first 1 to graph 1, first 1 nohead lc 'red' lw 2 dt '---' front
-set label 1 'alloc' font 'Verdana,10' at -1,1 offset 0.1,0.4 left tc 'red' front
+set label 1 '' font 'Verdana,10' at -1,1 offset 0.1,0.4 left tc 'red' front
 
 set logscale y
 

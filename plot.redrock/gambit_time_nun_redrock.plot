@@ -47,7 +47,7 @@ set grid ytics
 set xtics scale 0
 set datafile separator ","
 
-set yrange [0.25:2.9]
+set yrange [0.2:2.9]
 
 set lmargin 6
 set rmargin 1
@@ -56,7 +56,7 @@ set bmargin 3
 set key off
 
 set arrow 1 from graph 0, first 1 to graph 1, first 1 nohead lc 'red' lw 2 dt '---' front
-set label 1 'NuN-boxing' font 'Verdana,10' at -1,1 offset 0.1,0.4 left tc 'red' front
+set label 1 '' font 'Verdana,10' at -1,1 offset 0.1,0.4 left tc 'red' front
 
 set logscale y
 

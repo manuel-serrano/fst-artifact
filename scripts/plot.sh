@@ -4,7 +4,7 @@
 #*    -------------------------------------------------------------    */
 #*    Author      :  Manuel Serrano                                    */
 #*    Creation    :  Mon Mar 24 14:11:49 2025                          */
-#*    Last change :  Wed Jul  2 14:42:03 2025 (serrano)                */
+#*    Last change :  Tue Jul 15 12:31:53 2025 (serrano)                */
 #*    Copyright   :  2025 Manuel Serrano                               */
 #*    -------------------------------------------------------------    */
 #*    Generate the plots, invoked automatically by run.sh              */
@@ -228,8 +228,8 @@ cat >> $legendfile <<EOF
 }
 EOF
 
-plot $PLOTDIR/gambit_time_alloc_$host.pdf "#$COLORFLTONE" "7,2" "3" "off" "0.2" "" "[0.2:2.9]" $STATS/gambit_0.stat $STATS/gambit_1.stat
-plot $PLOTDIR/bigloo_time_alloc_$host.pdf "#$COLORFLTONE" "7,2" "3" "off" "0.2" "" "[0.2:2.9]" $STATS/bigloo.stat $STATS/bigloo_flt1.stat
+plot $PLOTDIR/gambit_time_alloc_$host.pdf "#$COLORFLTONE" "7,2" "3" "off" "0.2" "" "[0.2:2.9]" $STATS/gambit_0.stat $STATS/gambit_4.stat
+plot $PLOTDIR/bigloo_time_alloc_$host.pdf "#$COLORFLTONE" "7,2" "3" "off" "0.2" "" "[0.2:2.9]" $STATS/bigloo.stat $STATS/bigloo_flt.stat
 
 #*---------------------------------------------------------------------*/
 #*    COMP_time_mantissa_ARCH.pdf                                      */

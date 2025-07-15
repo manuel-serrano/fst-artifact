@@ -3,7 +3,7 @@
 ;*    -------------------------------------------------------------    */
 ;*    Author      :  manuel serrano                                    */
 ;*    Creation    :  Fri Nov  1 19:53:56 2024                          */
-;*    Last change :  Fri Jul 11 15:32:05 2025 (serrano)                */
+;*    Last change :  Tue Jul 15 13:46:18 2025 (serrano)                */
 ;*    Copyright   :  2024-25 manuel serrano                            */
 ;*    -------------------------------------------------------------    */
 ;*    Convert bmem profiles into a CSV file.                           */
@@ -21,6 +21,7 @@
 (define *base-color* "red")
 (define *offset-tables*
    `#(- #(0)
+	#(0 0)
 	#(,(- (/ 1 6)) ,(/ 1 6))
 	#(,(- (/ 1 6)) 0 ,(/ 1 6))
 	#(,(- (/ 2 7)) ,(- (/ 1 8)) ,(/ 1 8) ,(/ 2 7))
@@ -212,7 +213,7 @@ set bmargin 3")
 	    (cdr compilers) (iota (-fx (length compilers) 1) 2))
 	 (let ((table (vector-ref *offset-tables* (length compilers))))
 	    (map (lambda (comp idx)
-		    (format "  '~a.csv' u ($0+~a):($~a*1.6):(sprintf(\"%3.2f\",$~a)) with labels font 'Verdana,6' rotate by 90 notitle"
+		    (format "  '~a.csv' u ($0+~a):($~a*1.2):(sprintf(\"%3.2f\",$~a)) with labels font 'Verdana,6' rotate by 90 notitle"
 		       output (vector-ref table (-fx idx 2)) idx idx))
 	       (cdr compilers) (iota (-fx (length compilers) 1) 2)))))
 
